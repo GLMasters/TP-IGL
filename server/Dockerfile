@@ -2,13 +2,13 @@ FROM python:3.9-alpine
 
 RUN apk update && apk upgrade && apk add --update py3-pip
 
-COPY app /app
+COPY app/requirements.txt /app/requirements.txt
 
 WORKDIR /app
 
 RUN pip install -r requirements.txt
 
-RUN 
+COPY app /app
 
 RUN chmod +x launch.sh
 

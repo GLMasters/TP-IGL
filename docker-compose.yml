@@ -8,6 +8,19 @@ services:
     # volume only for dev
     # volumes:
     #   - ./server/app:/app
+  
+  databse:
+    image: mysql:latest
+    environment:
+      - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_DATABASE}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+    ports:
+      - ${MYSQL_PORT}:3306
+    volumes:
+      - mysql_data:/var/lib/mysql
+
   setup:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
     volumes:
@@ -224,6 +237,8 @@ services:
 volumes:
   certs:
     driver: local
+  mysql_data:
+    driver: local
   esdata01:
     driver: local
   esdata02:
@@ -232,3 +247,4 @@ volumes:
     driver: local
   kibanadata:
     driver: local
+  
