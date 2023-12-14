@@ -10,13 +10,16 @@ function HomeNavbar() {
       <img src={docLibLogo} className='w-[100%]' alt='docLibLogo' />
       </div>
 
-      {/* About */}
-      <Link className='font-semibold'>About</Link>
-
+      <div className=' flex gap-8 lg:gap-20 items-center '>
+          {/* About */}
+      <Link className='font-semibold'>FAQ</Link>
       {/* login/signUp */}
       <Link>
           <button className='loginBtn'>Login/Sign Up</button>
       </Link>
+      </div>
+
+      
       </navbar>
     </header>
   )
