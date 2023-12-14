@@ -1,3 +1,42 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,800;1,500&display=swap');
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+html{
+    font-size: calc(0.6vmin + 60%);
+}
+body{
+    font-family: 'Poppins', sans-serif;
+}
+h1{
+font-size: 4rem;
+}
+h2{
+font-size: 3rem;
+}
+h3{
+font-size: 2rem;
+}
+p{
+    font-size: 1.2rem;
+}
+
+
+@layer components {
+    .loginBtn{
+      @apply rounded-full px-6 py-3 bg-primaryColor shadow-md text-white;
+    }
+  }
+
+  .Btn2{
+border-radius: 0px 0px 40.7576px 0px;
+  }
+  .Btn1{
+
+border-radius: 0px 0px 100px 0px;
+
+
+
+
+  }
