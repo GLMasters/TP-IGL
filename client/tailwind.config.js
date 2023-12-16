@@ -13,9 +13,23 @@ export default {
       }
       ,flex:{
         fluid:"max(25rem,(100% - 3rem)/2)"
+<<<<<<< HEAD
       }
     },
   },
   plugins: [require("daisyui")],
+=======
+      },
+      fontFamily: {
+        Lora: ['Lora', 'sans-serif'],
+        Poppins: ['Poppins']
+      },
+      boxShadow: {
+        'custom2': '17.13px 25.6px 85.64px rgba(0, 0, 0, 0.25)',
+      }
+    },
+  },
+
+>>>>>>> origin/LoginPage
 }
 
