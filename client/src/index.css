@@ -1,5 +1,4 @@
 @import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,800;1,500&display=swap');
-<<<<<<< HEAD
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -7,16 +6,6 @@
 html{
     font-size: calc(0.6vmin + 60%);
 }
-=======
-@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,700;1,500&display=swap');
-@import 'tailwindcss/base';
-@import 'tailwindcss/components';
-@import 'tailwindcss/utilities';
-html{
-    font-size: calc(0.6vmin + 60%);
-}
-
->>>>>>> origin/LoginPage
 body{
     font-family: 'Poppins', sans-serif;
 }
@@ -29,37 +18,28 @@ font-size: 2.6rem;
 h3{
 font-size: 2rem;
 }
-<<<<<<< HEAD
-=======
 h4{
   font-size: 1rem;
   }
 
->>>>>>> origin/LoginPage
 p{
     font-size: 1.2rem;
 }
 
-<<<<<<< HEAD
-=======
 @layer pages {
   .shadow-custom {
     box-shadow: 3.07px 6.14px 15.35px rgba(0, 0, 0, 0.19);
   }
 }
 
->>>>>>> origin/LoginPage
 
 @layer components {
     .loginBtn{
       @apply rounded-full px-6 py-3 bg-primaryColor shadow-md text-white;
     }
-<<<<<<< HEAD
-=======
     .Inputsign{
       @apply focus:border-primaryColor focus:outline-none font-Poppins block w-full h-[52px] text-black  placeholder-black px-7 border-black border-[0.5px];
     }
->>>>>>> origin/LoginPage
   }
 
   .Btn2{
@@ -67,13 +47,5 @@ border-radius: 0px 0px 40.7576px 0px;
   }
   .Btn1{
 
-<<<<<<< HEAD
 border-radius: 0px 0px 100px 0px;
-
-
-=======
-border-radius: 0px 30.71px 30.71px 0px;
->>>>>>> origin/LoginPage
-
-
   }
