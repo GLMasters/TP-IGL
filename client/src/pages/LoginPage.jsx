@@ -15,14 +15,14 @@ function HomeScreen() {
          <img src={docLibLogo} alt="docLibLogo" className="h-[80px] mt-5" />
        </div>
       
-       <div className="flex flex-col justify-center items-center ">
+       <div className="flex flex-col justify-center items-center py-10">
        <div className="flex flex-col justify-center items-center w-[300px] rounded-3xl md:w-[400px] md:shadow-custom2 mt-[-20px]">
            <div className="relative text-center items-center  rounded-ss-none rounded-se-[30.71px] rounded-es-[30.71px] rounded-ee-none mt-10 w-[198px] h-[43px] shadow-custom">
               <h5 className="absolute mt-4 inset-0 flex justify-center items-center font-bold font-Lora pb-4 text-base">Se connecter</h5>
            </div>
            <div className=" text-center ml-9 mt-14">
               <h5 className="font-medium italic font-Lora pr-9 text-3xl">Ravis de vous revoir</h5>
-           </div >
+           </div>
            <div className="flex flex-col justify-center items-center mt-[55px] ">
                <form className="w-[290px] h-[330px]">
                  <input type="text" placeholder="Adresse e-mail" className="Inputsign"/>
