@@ -23,7 +23,7 @@ h4{
   }
 
 p{
-    font-size: 1.2rem;
+    font-size: 1rem;
 }
 
 @layer pages {
@@ -49,3 +49,7 @@ border-radius: 0px 0px 40.7576px 0px;
 
 border-radius: 0px 0px 100px 0px;
   }
+
+
+
+

@@ -18,6 +18,9 @@ export default {
         Lora: ['Lora', 'sans-serif'],
         Poppins: ['Poppins']
       },
+      borderRadius:{
+        "customRaduis1":"0px 30.4328px"
+      },
       boxShadow: {
         'custom2': '17.13px 25.6px 85.64px rgba(0, 0, 0, 0.25)',
       }
