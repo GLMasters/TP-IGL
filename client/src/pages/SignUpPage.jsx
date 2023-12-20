@@ -25,9 +25,19 @@ function SignUpPage() {
                         
                   {/* inputs */}
                   <div className='w-full mx-auto flex flex-col items-center px-4'>
-                  <input type='email' className='Inputsign my-6' placeholder='Adress e-mail' />
+                  <input type='email' className='Inputsign my-3' placeholder='Adress e-mail' />
                     <div className='relative w-full mx-auto'>
-                  <input type={passwordVisible ? "text" :"password"} className='Inputsign my-6' placeholder='mot de passe' />
+                  <input type={passwordVisible ? "text" :"password"} className='Inputsign my-3' placeholder='Mot de passe' />
+                  <button onClick={handlePasswordToggle} className="absolute inset-y-0 right-0 flex items-center justify-center px-3 py-2 focus:outline-none"> 
+                  <img src={hidePass} alt="Show/Hide Password" className="h-7 w-7"/>
+                </button>
+
+                  </div>
+
+                  {/* confirmPassword */}
+
+                  <div className='relative w-full mx-auto'>
+                  <input type={passwordVisible ? "text" :"password"} className='Inputsign my-3' placeholder='Confirmer votre mot de passe' />
                   <button onClick={handlePasswordToggle} className="absolute inset-y-0 right-0 flex items-center justify-center px-3 py-2 focus:outline-none"> 
                   <img src={hidePass} alt="Show/Hide Password" className="h-7 w-7"/>
                 </button>
