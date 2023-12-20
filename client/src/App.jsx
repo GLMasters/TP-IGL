@@ -3,6 +3,7 @@ import HomeScreen from "./pages/HomeScreen"
 import AppLayout from "./AppLayout"
 import LoginPage from "./pages/LoginPage"
 import SignUpPage from "./pages/SignUpPage"
+import VerifyEmailScreen from "./pages/VerifyEmailScreen"
 function App() {
   
   return (
@@ -14,6 +15,7 @@ function App() {
                 </Route>
                 <Route path="/login" element={<LoginPage />}  />
                 <Route path="/register" element={<SignUpPage />} />
+                <Route path="/verifyEmail" element={<VerifyEmailScreen />} />
            </Routes>
       </Router>
     </div>
