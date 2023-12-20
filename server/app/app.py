@@ -15,6 +15,8 @@ def test():
 
     return jsonify(obj)
 
+port = os.getenv("FLASK_PORT")
+
 
 if __name__ == '__main__':
-    app.run(host='0.0.0.0', port=os.getenv("FLASK_PORT"))
+    app.run(host='0.0.0.0', port=8000)
