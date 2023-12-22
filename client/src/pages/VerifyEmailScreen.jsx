@@ -1,7 +1,9 @@
 import docLibLogo from "../assets/docLibLogo.svg"
 import { Link } from "react-router-dom"
-function VerifyEmailScreen() {
 
+
+
+function VerifyEmailScreen() {
   return (
     <div className="contanier w-full mx-auto px-4">
         <header>

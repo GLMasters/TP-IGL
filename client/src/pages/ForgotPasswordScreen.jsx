@@ -1,7 +1,10 @@
 import docLibLogo from "../assets/docLibLogo.svg"
 import { Link } from "react-router-dom"
+import {resetPasswordContext} from "../context/resetPassContext"
+import { useContext } from "react"
 function ForgotPasswordScreen() {
-
+  //use resetPassContext
+  const {state,checkEmail} = useContext(resetPasswordContext)
   return (
     <div className="contanier w-full mx-auto px-4">
         <header>
