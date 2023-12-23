@@ -2,13 +2,13 @@ from app import session
 from Controllers.baseController import *
 from flask import request
 
-def registerFunction (db, request, Utilisateur):
+def registerFunction (db, request, User):
     try: 
         in_email = request.json['email']
         #user = Utilisateur.query.filter_by(email=in_email).first()
         print("connexion done to db")
         #if (user"" == None):
-        new_user = Utilisateur(
+        new_user = User(
             email=in_email,
             password = "1234", 
             role_id = 1,
@@ -19,7 +19,7 @@ def registerFunction (db, request, Utilisateur):
         session.permanent = True
         return sendResponse(
             data=new_user.toJSON(),
-                essage='Account created successfully'
+            message='Account created successfully'
         )
         #else :
             #return sendErrorMessage(
