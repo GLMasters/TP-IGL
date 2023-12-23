@@ -1,3 +1,6 @@
 Flask==3.0.0
 python-dotenv
-flask-jwt-extended
+Flask-SQLAlchemy
+mysqlclient
+requests
+flask-cors
