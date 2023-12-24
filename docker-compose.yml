@@ -13,6 +13,15 @@ services:
       - SECRET_KEY=${SECRET_KEY}
       - MYSQL_CONTAINER_NAME=${MYSQL_CONTAINER_NAME}
     
+    #just for dev
+    volumes:
+      - ./server/app/app.py:/app/app.py
+      - ./server/app/Models/models.py:/app/Models/models.py
+      - ./server/app/Controllers/baseController.py:/app/Controllers/baseController.py
+      - ./server/app/Controllers/connexionController.py:/app/Controllers/connexionController.py
+      - ./server/app/Controllers/__init__.py:/app/Controllers/__init__.py
+
+
     networks:
       - mysql_network
     depends_on:
