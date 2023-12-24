@@ -6,3 +6,4 @@ requests
 flask-cors
 flask-login
 flask_bcrypt
+pyjwt
