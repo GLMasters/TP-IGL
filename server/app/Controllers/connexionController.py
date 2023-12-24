@@ -20,6 +20,7 @@ def registerFunction (db, request, User):
         #if (user == None):
         new_user = User(
             email=in_email,
+            password=in_passwd,
             role_id = 1,
         )
         new_user.set_password(in_passwd)
@@ -29,7 +30,7 @@ def registerFunction (db, request, User):
             #session['logged_in'] = True
         return sendResponse(
             data=new_user.toJSON(),
-                essage='Account created successfull, you can login now'
+            message='Account created successfull, you can login now'
         )
         #else :
             #return sendErrorMessage(
