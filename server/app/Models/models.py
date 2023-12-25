@@ -3,7 +3,6 @@ from sqlalchemy.orm import relationship
 from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash , Bcrypt
-#from app import db
 
 
 Base = declarative_base()
@@ -29,7 +28,6 @@ class User(Base , UserMixin ):
             'id': self.id,
             'email' : self.email,
             'role_id' : self.role_id, 
-            'password' : self.password
         }
     def get_id(self):
         return str(self.id)
@@ -58,5 +56,4 @@ class Favorite(Base):
             'id': self.id,
             'user_id' : self.user_id,
             'article_id' : self.article_id_id, 
-        }   
- 
+        }

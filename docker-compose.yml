@@ -18,7 +18,7 @@ services:
       - ./server/app/app.py:/app/app.py
       - ./server/app/Models/models.py:/app/Models/models.py
       - ./server/app/Controllers/baseController.py:/app/Controllers/baseController.py
-      - ./server/app/Controllers/connexionController.py:/app/Controllers/connexionController.py
+      - ./server/app/Controllers/connectionController.py:/app/Controllers/connectionController.py
       - ./server/app/Controllers/__init__.py:/app/Controllers/__init__.py
 
 
@@ -26,6 +26,8 @@ services:
       - mysql_network
     depends_on:
       - databse
+    
+    restart: unless-stopped
 
   
   databse:

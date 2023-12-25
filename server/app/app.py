@@ -8,10 +8,11 @@ from flask_login import LoginManager
 from flask_bcrypt import Bcrypt
 
 from Models.models import *
-from Controllers.connexionController import *
+from Controllers.connectionController import *
 
-#app configuration 
+
 app = Flask(__name__)
+
 
 CORS(app, support_credentials=True)
 
@@ -68,34 +69,7 @@ def register():
 @app.route('/api/auth/login', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def login():
-    return loginFunction(db , request , User)
-
-
-
-#to be deleted from here
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
-
-        if not token:
-            return jsonify({'Alert!': 'Token is missing!'}), 401
-
-        # Check if the token starts with 'Bearer ' and extract the token
-        if 'Bearer ' in token:
-            token = token.split('Bearer ')[1]
-
-        try:
-            data = jwt.decode(token, app.config['SECRET_KEY'] , algorithms="HS256")
-        except jwt.ExpiredSignatureError:
-            return jsonify({'Message': 'Token has expired'}), 403
-        except jwt.InvalidTokenError:
-            return jsonify({'Message': 'Invalid token'}), 403
-
-        return f(*args, **kwargs)
-
-    return decorated
-
+    return loginFunction(db , app,request , User)
 
 @app.route('/home' )
 @token_required

@@ -1,32 +1,29 @@
 from functools import wraps
 
-from app import session
+from flask import session
 from Controllers.baseController import *
 from flask import jsonify, request
 import jwt
 from datetime import datetime, timedelta
-from app import app
 from validate_email_address import validate_email
-import re
 
 def is_valid_email(email):
-    # Validation du format de l'adresse e-mail
-    if re.match(r"[^@]+@[^@]+\.[^@]+", email):
-        # Validation du domaine via la bibliothèque validate_email_address
-        is_valid_domain = validate_email(email, verify=True)
-        return is_valid_domain
-    return False
+    
+    is_valid_domain = validate_email(email, verify=True)
+    
+    return is_valid_domain
+    
 
 
-def registerFunction (db, request, User):
+def registerFunction (db ,request, User):
     try: 
         in_email = request.json['email']
         in_passwd = request.json['password']
         if (not in_email or not in_passwd):
             return empty
-        #if (not is_valid_email(in_email)):
-         #   return invalid_email
-           # )
+        if (not is_valid_email(in_email)):
+           return invalid_email
+
         user = db.session.query(User).filter_by(email=in_email).first()
         if (user == None):
             new_user = User(
@@ -36,8 +33,7 @@ def registerFunction (db, request, User):
             new_user.set_password(in_passwd)
             db.session.add(new_user)
             db.session.commit()
-                #session['user'] = new_user.id #use cookies
-                #session['logged_in'] = True
+                
             return sendResponse(
                 data=new_user.toJSON(),
                 message='Account created successfull, you can login now'
@@ -50,7 +46,7 @@ def registerFunction (db, request, User):
         )
 
 
-def loginFunction (db, request, User):
+def loginFunction (db, app,request, User):
     try: 
         in_email = request.json['email']
         in_passwd = request.json['password']
@@ -66,8 +62,10 @@ def loginFunction (db, request, User):
             }, app.config['SECRET_KEY'], algorithm='HS256')
             session['logged_in'] = True
             return sendResponse(
-                data=token,
-                message='Login successfully'
+                data={
+                    "token": token
+                },
+                message='Logged in successfully'
             )
         else :
             return failed_auth
@@ -81,12 +79,12 @@ def loginFunction (db, request, User):
 # Login decorator
 
 def token_required(f):
-    @wraps(f)
+    # @wraps(f)
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
 
         if not token:
-            return token_missing
+            return jsonify({'Alert!': 'Token is missing!'}), 401
 
         # Check if the token starts with 'Bearer ' and extract the token
         if 'Bearer ' in token:

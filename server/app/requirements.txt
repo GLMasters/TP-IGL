@@ -2,10 +2,9 @@ Flask==3.0.0
 python-dotenv
 Flask-SQLAlchemy
 mysqlclient
-requests
 flask-cors
 flask-login
 flask_bcrypt
 pyjwt
-validate_email
 validate_email_address
+py3dns
