@@ -7,3 +7,5 @@ flask-cors
 flask-login
 flask_bcrypt
 pyjwt
+validate_email
+validate_email_address

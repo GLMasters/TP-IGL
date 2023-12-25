@@ -5,6 +5,7 @@ from flask_cors import CORS, cross_origin
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import DeclarativeBase
 from flask_login import LoginManager
+from flask_bcrypt import Bcrypt
 
 from Models.models import *
 from Controllers.connexionController import *
@@ -38,6 +39,8 @@ db.init_app(app)
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+bcrypt = Bcrypt(app)
+
 
 
 #Routes and api
@@ -56,19 +59,46 @@ def test():
     return "hello world"
 
    
-@app.route('/api/auth/register', methods=['GET', 'POST'])
+@app.route('/api/auth/register', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def register():
     return registerFunction(db , request , User)
 
 
-@app.route('/api/auth/login', methods=['GET', 'POST'])
+@app.route('/api/auth/login', methods=['POST'])
 @cross_origin(supports_credentials=True)
 def login():
     return loginFunction(db , request , User)
 
-@app.route('/home' , methods=['POST'])
-#@token_required
+
+
+#to be deleted from here
+def token_required(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = request.headers.get('Authorization')
+
+        if not token:
+            return jsonify({'Alert!': 'Token is missing!'}), 401
+
+        # Check if the token starts with 'Bearer ' and extract the token
+        if 'Bearer ' in token:
+            token = token.split('Bearer ')[1]
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'] , algorithms="HS256")
+        except jwt.ExpiredSignatureError:
+            return jsonify({'Message': 'Token has expired'}), 403
+        except jwt.InvalidTokenError:
+            return jsonify({'Message': 'Invalid token'}), 403
+
+        return f(*args, **kwargs)
+
+    return decorated
+
+
+@app.route('/home' )
+@token_required
 def home():
     return 'JWT is verified. Welcome to your dashboard !  '
     
@@ -76,3 +106,5 @@ def home():
    
 if (__name__=="__main__"):
     app.run(debug=True, host="0.0.0.0", port=8000)
+
+

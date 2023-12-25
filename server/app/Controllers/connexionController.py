@@ -1,11 +1,21 @@
 from functools import wraps
+
 from app import session
 from Controllers.baseController import *
 from flask import jsonify, request
-from flask_login import login_user, login_required, current_user, logout_user
 import jwt
 from datetime import datetime, timedelta
 from app import app
+from validate_email_address import validate_email
+import re
+
+def is_valid_email(email):
+    # Validation du format de l'adresse e-mail
+    if re.match(r"[^@]+@[^@]+\.[^@]+", email):
+        # Validation du domaine via la bibliothèque validate_email_address
+        is_valid_domain = validate_email(email, verify=True)
+        return is_valid_domain
+    return False
 
 
 def registerFunction (db, request, User):
@@ -13,28 +23,27 @@ def registerFunction (db, request, User):
         in_email = request.json['email']
         in_passwd = request.json['password']
         if (not in_email or not in_passwd):
-            return sendErrorMessage(
-                message="Email or password is empty"
+            return empty
+        #if (not is_valid_email(in_email)):
+         #   return invalid_email
+           # )
+        user = db.session.query(User).filter_by(email=in_email).first()
+        if (user == None):
+            new_user = User(
+                email=in_email,
+                role_id = 1,
             )
-        #user = User.query.filter_by(email=in_email).first()
-        #if (user == None):
-        new_user = User(
-            email=in_email,
-            password=in_passwd,
-            role_id = 1,
-        )
-        new_user.set_password(in_passwd)
-        db.session.add(new_user)
-        db.session.commit()
-            #session['user'] = new_user.id #use cookies
-            #session['logged_in'] = True
-        return sendResponse(
-            data=new_user.toJSON(),
-            message='Account created successfull, you can login now'
-        )
-        #else :
-            #return sendErrorMessage(
-            #message="Email has already exist")
+            new_user.set_password(in_passwd)
+            db.session.add(new_user)
+            db.session.commit()
+                #session['user'] = new_user.id #use cookies
+                #session['logged_in'] = True
+            return sendResponse(
+                data=new_user.toJSON(),
+                message='Account created successfull, you can login now'
+            )
+        else :
+            return user_exists
     except Exception as e:
         return sendErrorMessage(
             message=str(e)
@@ -49,23 +58,19 @@ def loginFunction (db, request, User):
             return sendErrorMessage(
                 message="Email or password is empty"
             )
-        user = User.query.filter_by(email=in_email).first()
+        user =  db.session.query(User).filter_by(email=in_email).first()
         if (user and user.check_password(in_passwd)):
-            token = str(jwt.encode({
-            'user': request.form['username'],
-            # don't foget to wrap it in str function, otherwise it won't work [ i struggled with this one! ]
-            'expiration': str(datetime.utcnow() + timedelta(seconds=60))
-             },
-            app.config['SECRET_KEY']))
+            token = jwt.encode({
+                'user': user.toJSON(),
+                'exp': datetime.utcnow() + timedelta(days=7)  # Expiration en une heure, ajustez selon vos besoins
+            }, app.config['SECRET_KEY'], algorithm='HS256')
             session['logged_in'] = True
             return sendResponse(
-                data=token.decode('utf-8'),
+                data=token,
                 message='Login successfully'
             )
         else :
-            return sendErrorMessage(
-             message="Unable to verify, WWW-Authenticate: Basic realm: Authentication Failed"
-             )
+            return failed_auth
     except Exception as e:
         return sendErrorMessage(
             message=str(e)
@@ -74,32 +79,26 @@ def loginFunction (db, request, User):
 
 
 # Login decorator
-def login_required(f):
-    @wraps(f)
-    def decorated_function(*args, **kwargs):
-        try:
-            if (request.headers['Authorization']):
-                return f(*args, **kwargs)
-        except Exception as e:
-            return sendErrorMessage(
-                message=str(e)
-            )
-    return decorated_function
-
 
 def token_required(f):
-    # decorator factory which invoks update_wrapper() method and passes decorated function as an argument
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = request.args.get('token')
-        if not token:
-            return jsonify({'Alert!': 'Token is missing!'}), 401
-        try:
+        token = request.headers.get('Authorization')
 
-            data = jwt.decode(token, app.config['SECRET_KEY'])
-        # except jwt.InvalidTokenError:
-        #     return 'Invalid token. Please log in again.'
-        except:
+        if not token:
+            return token_missing
+
+        # Check if the token starts with 'Bearer ' and extract the token
+        if 'Bearer ' in token:
+            token = token.split('Bearer ')[1]
+
+        try:
+            data = jwt.decode(token, app.config['SECRET_KEY'] , algorithms="HS256")
+        except jwt.ExpiredSignatureError:
+            return jsonify({'Message': 'Token has expired'}), 403
+        except jwt.InvalidTokenError:
             return jsonify({'Message': 'Invalid token'}), 403
+
         return f(*args, **kwargs)
+
     return decorated
