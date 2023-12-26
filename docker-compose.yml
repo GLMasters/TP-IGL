@@ -20,6 +20,8 @@ services:
       - ./server/app/Controllers/baseController.py:/app/Controllers/baseController.py
       - ./server/app/Controllers/connectionController.py:/app/Controllers/connectionController.py
       - ./server/app/Controllers/__init__.py:/app/Controllers/__init__.py
+      - ./server/app/Utils/__init__.py:/app/Utils/__init__.py
+      - ./server/app/config.py:/app/config.py
 
 
     networks:

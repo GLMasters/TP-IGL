@@ -1,11 +1,17 @@
 from sqlalchemy import Column, Integer, String, ForeignKey
-from sqlalchemy.orm import relationship
+from flask_sqlalchemy import SQLAlchemy
+from sqlalchemy.orm import relationship, DeclarativeBase
 from sqlalchemy.ext.declarative import declarative_base
 from flask_login import UserMixin
-from flask_bcrypt import generate_password_hash, check_password_hash , Bcrypt
+from flask_bcrypt import generate_password_hash, check_password_hash
 
 
 Base = declarative_base()
+
+class dbBase(DeclarativeBase):
+    pass
+
+db = SQLAlchemy(model_class=dbBase)
 
 class User(Base , UserMixin ):
     __tablename__ = 'users'
@@ -55,5 +61,19 @@ class Favorite(Base):
         return {
             'id': self.id,
             'user_id' : self.user_id,
-            'article_id' : self.article_id_id, 
+            'article_id' : self.article_id, 
+        }
+
+class Token(Base):
+    __tablename__ = "tokens_blacklist"
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    token = Column(String(512), nullable=False)
+
+    def __repr__(self):
+        return f"{self.token}"
+    
+    def toJSON(self):
+        return {
+            'token': self.token
         }

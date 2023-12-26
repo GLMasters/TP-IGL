@@ -15,3 +15,8 @@ CREATE TABLE IF NOT EXISTS favorites(
     article_id VARCHAR(255) NOT NULL,
     FOREIGN KEY (user_id) REFERENCES users(id)
 ) ;
+
+CREATE TABLE IF NOT EXISTS tokens_blacklist(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    token VARCHAR(512) NOT NULL
+) ;

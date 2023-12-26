@@ -1,11 +1,20 @@
 from functools import wraps
 
-from flask import session
 from Controllers.baseController import *
 from flask import jsonify, request
 import jwt
 from datetime import datetime, timedelta
 from validate_email_address import validate_email
+
+from Utils import *
+from Models.models import *
+
+import os
+
+SECRET_KEY = os.getenv('SECRET_KEY')
+
+
+# tokens_blacklist = set()
 
 def is_valid_email(email):
     
@@ -13,9 +22,24 @@ def is_valid_email(email):
     
     return is_valid_domain
     
+# def send_mail(dest):
+#     port = 587  # For starttls
+#     smtp_server = "smtp.gmail.com"
+#     sender_email = ""
+#     sender_email_password = ""
+#     receiver_email = dest
+#     message =""
+
+#     context = ssl.create_default_context()
+#     with smtplib.SMTP(smtp_server, port) as server:
+#         server.ehlo()  # Can be omitted
+#         server.starttls(context=context)
+#         server.ehlo()  # Can be omitted
+#         server.login(sender_email, sender_email_password)
+#         server.sendmail(sender_email, receiver_email, message)
 
 
-def registerFunction (db ,request, User):
+def registerFunction (request):
     try: 
         in_email = request.json['email']
         in_passwd = request.json['password']
@@ -46,21 +70,21 @@ def registerFunction (db ,request, User):
         )
 
 
-def loginFunction (db, app,request, User):
+def loginFunction (request):
     try: 
         in_email = request.json['email']
         in_passwd = request.json['password']
         if (not in_email or not in_passwd):
             return sendErrorMessage(
-                message="Email or password is empty"
+                message="Empty email or password"
             )
         user =  db.session.query(User).filter_by(email=in_email).first()
         if (user and user.check_password(in_passwd)):
             token = jwt.encode({
                 'user': user.toJSON(),
-                'exp': datetime.utcnow() + timedelta(days=7)  # Expiration en une heure, ajustez selon vos besoins
-            }, app.config['SECRET_KEY'], algorithm='HS256')
-            session['logged_in'] = True
+                'exp': datetime.utcnow() + timedelta(seconds=60)  # Expiration en une heure, ajustez selon vos besoins
+            }, SECRET_KEY, algorithm='HS256')
+            
             return sendResponse(
                 data={
                     "token": token
@@ -74,12 +98,21 @@ def loginFunction (db, app,request, User):
             message=str(e)
         )
     
+def logoutFunction(request):
+    token = request.headers.get('Authorization').split('Bearer ')[1]
+
+    blacklistToken(token)
+
+    return {
+        "result": True,
+        "message": "Logged Out successfully" 
+    }
 
 
 # Login decorator
 
 def token_required(f):
-    # @wraps(f)
+    @wraps(f)
     def decorated(*args, **kwargs):
         token = request.headers.get('Authorization')
 
@@ -89,9 +122,13 @@ def token_required(f):
         # Check if the token starts with 'Bearer ' and extract the token
         if 'Bearer ' in token:
             token = token.split('Bearer ')[1]
+        
+        if isBlacklisted(token):
+            print("token blacklisted")
+            return jsonify({'Message': 'Token has expired'}), 403
 
         try:
-            data = jwt.decode(token, app.config['SECRET_KEY'] , algorithms="HS256")
+            data = jwt.decode(token, SECRET_KEY , algorithms="HS256")
         except jwt.ExpiredSignatureError:
             return jsonify({'Message': 'Token has expired'}), 403
         except jwt.InvalidTokenError:
