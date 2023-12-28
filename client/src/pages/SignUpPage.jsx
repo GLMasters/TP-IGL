@@ -1,12 +1,10 @@
 import React , {useState} from 'react'
 import docLibLogo from "../assets/docLibLogo.svg"
 import googleLogo from "../assets/googlelogo.svg"
-import hidePass from "../assets/hidepass.png"
 import { Link } from 'react-router-dom';
 import {validate} from 'react-email-validator' ;
-
+import PasswordInput from '../components/PasswordInput';
 function SignUpPage() {
-    const [passwordVisible, setPasswordVisible] = useState(false);
     const [Email , setEmail] = useState("");
     const [Password , setPassword] = useState("");
     const [confirmPassword , setconfirmPassword] = useState("");
@@ -24,10 +22,7 @@ function SignUpPage() {
     
     };
   
-   
-    const handlePasswordToggle=()=>{
-        setPasswordVisible(!passwordVisible)
-    };
+
   return (
     <div className='container w-full mx-auto px-4'>
 
@@ -48,23 +43,12 @@ function SignUpPage() {
                  
                      
                   <input value={Email} type='email' className= {`Inputsign my-3 ${!ValidSubmition && "border-red-600 placeholder-red-600" }`} placeholder='Adress e-mail' onChange={(e) => setEmail(e.target.value)}/>
-                    <div className='relative w-full mx-auto'>
-                  <input value={Password} onChange={(e) => setPassword(e.target.value)} type={passwordVisible ? "text" :"password"} className={`Inputsign my-3 ${!ValidSubmition && "border-red-600 placeholder-red-600" }`} placeholder='Mot de passe' />
-                  <button onClick={handlePasswordToggle} className="absolute inset-y-0 right-0 flex items-center justify-center px-3 py-2 focus:outline-none"> 
-                  <img src={hidePass} alt="Show/Hide Password" className="h-7 w-7"/>
-                </button>
-
-                  </div>
+                  {/* Password */}  
+                  <PasswordInput value={Password} setValue={setPassword} label="password" isValid={ValidSubmition} />
 
                   {/* confirmPassword */}
-
-                  <div className='relative w-full mx-auto'>
-                  <input onChange={(e) => setconfirmPassword(e.target.value)} type={passwordVisible ? "text" :"password"} value={confirmPassword} className={`Inputsign my-3 ${!ValidSubmition && "border-red-600 placeholder-red-600" }`} placeholder='Confirmer votre mot de passe' />
-                  <button onClick={handlePasswordToggle} className="absolute inset-y-0 right-0 flex items-center justify-center px-3 py-2 focus:outline-none"> 
-                  <img src={hidePass} alt="Show/Hide Password" className="h-7 w-7"/>
-                </button>
-                  
-                  </div>
+                  <PasswordInput value={confirmPassword} setValue={setconfirmPassword} label="confirm password" isValid={ValidSubmition} />
+                
                   {!ValidSubmition && <span className='text-red-600 text-xs ml-5 text-center'>Saisissez une adresse de courriel ou un mot de passe valide.</span>}
                  
 
