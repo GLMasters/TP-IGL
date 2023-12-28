@@ -1,25 +1,41 @@
 services:
   server:
     build: ./server/
-    container_name: app_server
+    container_name: ${SERVER_CONTAINER_NAME}
     ports:
       - "8000:8000"
     
-    # volume only for dev
-    # volumes:
-    #   - ./server/app:/app
+    environment:
+      - MYSQL_USER=${MYSQL_USER}
+      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
+      - MYSQL_DATABASE=${MYSQL_DATABASE}
+      - MYSQL_PORT=${MYSQL_PORT}
+      - SECRET_KEY=${SECRET_KEY}
+      - MYSQL_CONTAINER_NAME=${MYSQL_CONTAINER_NAME}
+    
+    networks:
+      - mysql_network
+    depends_on:
+      - databse
+
   
   databse:
     image: mysql:latest
+    container_name: ${MYSQL_CONTAINER_NAME}
     environment:
       - MYSQL_ROOT_PASSWORD=${MYSQL_ROOT_PASSWORD}
       - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_USER=${MYSQL_DATABASE}
+      - MYSQL_USER=${MYSQL_USER}
       - MYSQL_PASSWORD=${MYSQL_PASSWORD}
     ports:
       - ${MYSQL_PORT}:3306
+    
     volumes:
-      - mysql_data:/var/lib/mysql
+      - ./db/scripts/:/docker-entrypoint-initdb.d
+      - ./db/mysql_data:/var/lib/mysql
+    
+    networks:
+      - mysql_network
 
   setup:
     image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
@@ -247,4 +263,5 @@ volumes:
     driver: local
   kibanadata:
     driver: local
-  
+networks:
+  mysql_network:

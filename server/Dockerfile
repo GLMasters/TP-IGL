@@ -1,6 +1,7 @@
-FROM python:3.9-alpine
+FROM python:latest
 
-RUN apk update && apk upgrade && apk add --update py3-pip
+RUN apt update -y && apt upgrade -y
+
 
 COPY app/requirements.txt /app/requirements.txt
 
