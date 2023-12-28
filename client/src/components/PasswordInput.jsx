@@ -6,7 +6,8 @@ function PasswordInput({
     label,
     setValue,
     value,
-    isValid
+    isValid,
+    setIsValid
 }) {
 
     const [visible,setVisible]=useState(false)
@@ -16,7 +17,7 @@ function PasswordInput({
     }
   return (
     <div className='relative w-full mx-auto'>
-    <input value={value} onChange={(e) => setValue(e.target.value)} type={visible ? "text" :"password"} className={`Inputsign my-3 ${!isValid && "border-red-600 placeholder-red-600" }`} placeholder={label} />
+    <input value={value} onChange={(e) => setValue(e.target.value)} type={visible ? "text" :"password"} onFocus={(e)=>setIsValid(true)}  className={`Inputsign my-3 ${!isValid && "border-red-600 placeholder-red-600" }`} placeholder={label} />
     <button onClick={handleVisible} className="absolute inset-y-0 right-0 flex items-center justify-center px-3 py-2 focus:outline-none"> 
     {
         visible ? <IoEyeOffOutline /> : <IoEyeOutline />

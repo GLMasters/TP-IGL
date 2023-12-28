@@ -1,29 +1,25 @@
 import docLibLogo from "../assets/docLibLogo.svg";
-import hidepass from "../assets/hidepass.png";
 import googlelogo from "../assets/googlelogo.svg";
 import React, { useState } from 'react';
 import {validate} from 'react-email-validator' ;
+import PasswordInput from "../components/PasswordInput";
+import { Link } from "react-router-dom";
 function HomeScreen() {
-  const [passwordVisible, setPasswordVisible] = useState(false);
   const [Email , setEmail] = useState("");
   const [Password , setPassword] = useState();
 
-  const [ValidSubmition , setValidSubmition] = useState(true);
+  const [validSubmission , setValidSubmission] = useState(true);
 
-  const handlePasswordToggle = (e) => {
-    e.preventDefault();
-    setPasswordVisible((prevVisible) => !prevVisible);
-  };
 
   const HanldeSubmit = (e) =>{
      
     e.preventDefault();
    if(!validate(Email) || (Password.trim().length < 8 === true)){
     
-    setValidSubmition(false);
+    setValidSubmission(false);
     return;
    }
-  setValidSubmition(true);
+  setValidSubmission(true);
   
   };
   return (
@@ -44,25 +40,21 @@ function HomeScreen() {
                <form className="w-[290px] h-[330px]" onSubmit={HanldeSubmit}>
                 
                 
-                 <input onChange={(e) => setEmail(e.target.value)} value={Email} type="email" placeholder="Adresse e-mail"  className= {`Inputsign my-3 ${!ValidSubmition && "border-red-600 placeholder-red-600" }`}/>
-                 <div className="relative mt-[50px]">
-                 <input onChange={(e) => setPassword(e.target.value)} value={Password} type={passwordVisible ? 'text' : 'password'} placeholder="Mot de passe" className= {`Inputsign my-3 ${!ValidSubmition && "border-red-600 placeholder-red-600" }`}/>
-                   <button onClick={handlePasswordToggle} className="absolute inset-y-0 right-0 flex items-center justify-center px-3 py-2 focus:outline-none"> 
-                     <img src={hidepass} alt="Show/Hide Password" className="h-7 w-7"/>
-                   </button>
-                 </div>
-                 {!ValidSubmition && <span className='text-red-600 text-xs ml-5 text-center'>Saisissez une adresse de courriel ou un mot de passe valide.</span>}
+                 <input onChange={(e) => setEmail(e.target.value)} onFocus={(e)=>setValidSubmission(true)} value={Email} type="email" placeholder="Adresse e-mail"  className= {`Inputsign my-3 mb-8 ${!validSubmission && "border-red-600 placeholder-red-600" }`}/>
+                 {/* password */}
+                 <PasswordInput label={"mot de passe"} value={Password} setValue={setPassword} isValid={validSubmission} setIsValid={setValidSubmission} />
+                 {!validSubmission && <span className='text-red-600 text-xs ml-5 text-center'>Saisissez une adresse de courriel ou un mot de passe valide.</span>}
                 
 
                  <div className="mt-4">
-                 <a href="/#" className=" text-seconadryColor font-Poppins"><u>Mot de passe oublié ?</u></a> 
+                 <Link to="/forgotPass" className=" text-seconadryColor font-Poppins"><u>Mot de passe oublié ?</u></Link> 
                  </div>
                  <button type="submit" className="w-full h-[52px] bg-seconadryColor mt-[35px] ">
                  <span className=" font-Poppins">Continuer</span> 
                  </button>
                  <div className="mt-4">
                   <span className=" font-Poppins">Vous n'avez pas de compte ? </span>
-                 <a href="/#" className=" text-seconadryColor font-Poppins"><u>Inscription</u></a> 
+                 <Link to="/register" className=" text-seconadryColor font-Poppins"><u>Inscription</u></Link> 
                  </div>
                </form>
                <div class="w-[290px] flex items-center mt-[35px]">
