@@ -9,6 +9,7 @@ html{
 }
 body{
     font-family: 'Poppins', sans-serif;
+    background-color: white;
 }
 h1{
 font-size: 4rem;
@@ -51,6 +52,6 @@ border-radius: 0px 0px 40.7576px 0px;
 border-radius: 0px 0px 100px 0px;
   }
 
-
-
-
+  .bgGradient{
+    background: rgba(0, 0, 0, 0.3);
+  }

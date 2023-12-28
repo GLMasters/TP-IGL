@@ -1,30 +1,38 @@
 import { createContext, useReducer } from "react";
-
+import {validate} from "react-email-validator"
 const reducer=(state,action)=>{
     switch (action.type) {
         case "OP_LOADING":
             return {
                 ...state,loading:true
             }
+        case "CLEAR_ERROR":
+            return {
+                ...state,
+                errorMessage:""
+            }
         case "OP_SUCCEED":
             return {
                 ...state,success:true
             }
-        case "EMAIL_NON_VALID":
+        case "EMAIL_NON_EXIST":
             return {
                 ...state,
                 success:false,
-                error:action.payload
+                errorMessage:action.payload
             }
         case "OP_FAILED":
             return {
                 ...state,
-                error:action.payload
+                errorMessage:action.payload
             }
-
-    
+        case "ENTER_EMAIL":
+            return {
+                ...state,
+                email:action.payload
+            }
         default:
-            break;
+            return state
     }
 }
 
@@ -40,11 +48,20 @@ export const ResetPassProvider=({children})=>{
     }
 
     const [state,dispatch]=useReducer(reducer,initialState)
-    const checkEmail=(email)=>{
+    const checkEmail=()=>{
             try {
+                //check if the email spelled correctly
+                if(!validate(state.email)){
+                    dispatch({
+                        type:"OP_FAILED",
+                        payload:"email format invalid"
+                    })
+                    return;
+                }
                 dispatch({
                     type:"OP_LOADING"
                 })
+                //use state.email    
                 //call the api to check if email exist
                 //if (success)
                 dispatch({
@@ -53,8 +70,8 @@ export const ResetPassProvider=({children})=>{
                 })
                 //if(false)
                 dispatch({
-                    type:"EMAIL_NON_VALID",
-                    payload:"Address e-mail non valide"
+                    type:"EMAIL_NON_EXIST",
+                    payload:"Adress e-mail does not exist"
                 })
             } catch (error) {
                 dispatch({
@@ -62,6 +79,19 @@ export const ResetPassProvider=({children})=>{
                     payload:error.message
                 })
             }
+    }
+
+    const enterEmail=(e)=>{
+            dispatch({
+                type:"ENTER_EMAIL",
+                payload:e.target.value
+            })
+    }
+
+    const clearError=()=>{
+        dispatch({
+            type:"CLEAR_ERROR"
+        })
     }
 
     const changePassword=()=>{
@@ -86,6 +116,14 @@ export const ResetPassProvider=({children})=>{
 
     const checkConfirmationCode=(code)=>{
             try {
+
+                if(!code){ dispatch({
+                    type:"OP_FAILED",
+                    payload:"type your code !"
+                })
+                return;
+                }
+                
                 dispatch({
                     type:"OP_LOADING"
                 })
@@ -114,7 +152,9 @@ export const ResetPassProvider=({children})=>{
             state,
             checkEmail,
             changePassword,
-            checkConfirmationCode
+            checkConfirmationCode,
+            enterEmail,
+            clearError
         }}>
                 {children}
         </resetPasswordContext.Provider>
