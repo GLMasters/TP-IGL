@@ -4,6 +4,9 @@ import React, { useState } from 'react';
 import {validate} from 'react-email-validator' ;
 import PasswordInput from "../components/PasswordInput";
 import { Link } from "react-router-dom";
+
+import {login} from "../api/auth" ;
+
 function HomeScreen() {
   const [Email , setEmail] = useState("");
   const [Password , setPassword] = useState();
@@ -11,7 +14,7 @@ function HomeScreen() {
   const [validSubmission , setValidSubmission] = useState(true);
 
 
-  const HanldeSubmit = (e) =>{
+  const HanldeSubmit = async (e) =>{
      
     e.preventDefault();
    if(!validate(Email) || (Password.trim().length < 8 === true)){
@@ -19,7 +22,16 @@ function HomeScreen() {
     setValidSubmission(false);
     return;
    }
-  setValidSubmission(true);
+    setValidSubmission(true);
+    
+    var data = {
+      email: Email,
+      password: Password
+    } ;
+    
+    var response = await login(data) ;
+
+    
   
   };
   return (

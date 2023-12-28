@@ -4,12 +4,15 @@ import googleLogo from '../assets/googlelogo.svg';
 import { Link } from 'react-router-dom';
 import { validate } from 'react-email-validator';
 import PasswordInput from '../components/PasswordInput';
+
+import {signup} from "../api/auth"
+
 function SignUpPage() {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [ValidSubmission, setValidSubmission] = useState(true);
-  const HanldeSubmit = (e) => {
+  const HanldeSubmit = async (e) => {
     e.preventDefault();
     if (
       !validate(Email) ||
@@ -20,6 +23,25 @@ function SignUpPage() {
       return;
     }
     setValidSubmission(true);
+
+    console.log("hello");
+
+    var data = {
+      email: Email,
+      password: Password
+    } ;
+
+
+    var response = await signup(data)
+
+    if (response.message){
+
+
+
+    }else {
+      
+    }
+
   };
 
   return (
