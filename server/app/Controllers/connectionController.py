@@ -9,6 +9,7 @@ from validate_email_address import validate_email
 from Utils import *
 from Models.models import *
 
+from config import *
 import os
 
 SECRET_KEY = os.getenv('SECRET_KEY')
@@ -16,29 +17,13 @@ SECRET_KEY = os.getenv('SECRET_KEY')
 
 # tokens_blacklist = set()
 
+#check if the email exist
 def is_valid_email(email):
     
     is_valid_domain = validate_email(email, verify=True)
     
     return is_valid_domain
     
-# def send_mail(dest):
-#     port = 587  # For starttls
-#     smtp_server = "smtp.gmail.com"
-#     sender_email = ""
-#     sender_email_password = ""
-#     receiver_email = dest
-#     message =""
-
-#     context = ssl.create_default_context()
-#     with smtplib.SMTP(smtp_server, port) as server:
-#         server.ehlo()  # Can be omitted
-#         server.starttls(context=context)
-#         server.ehlo()  # Can be omitted
-#         server.login(sender_email, sender_email_password)
-#         server.sendmail(sender_email, receiver_email, message)
-
-
 def registerFunction (request):
     try: 
         in_email = request.json['email']
@@ -82,7 +67,7 @@ def loginFunction (request):
         if (user and user.check_password(in_passwd)):
             token = jwt.encode({
                 'user': user.toJSON(),
-                'exp': datetime.utcnow() + timedelta(seconds=60)  # Expiration en une heure, ajustez selon vos besoins
+                'exp': datetime.utcnow() + timedelta(hours=TOKEN_EXPIRATION_TIME)  # Expiration en une heure, ajustez selon vos besoins
             }, SECRET_KEY, algorithm='HS256')
             
             return sendResponse(
@@ -108,9 +93,6 @@ def logoutFunction(request):
         "message": "Logged Out successfully" 
     }
 
-
-# Login decorator
-
 def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
@@ -124,8 +106,7 @@ def token_required(f):
             token = token.split('Bearer ')[1]
         
         if isBlacklisted(token):
-            print("token blacklisted")
-            return jsonify({'Message': 'Token has expired'}), 403
+            return jsonify({'Message': 'Token has expired (blacklist)'}), 403
 
         try:
             data = jwt.decode(token, SECRET_KEY , algorithms="HS256")

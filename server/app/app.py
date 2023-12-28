@@ -2,7 +2,6 @@ from flask import Flask, request
 from dotenv import load_dotenv
 from os import getenv
 from flask_cors import CORS, cross_origin
-from sqlalchemy.orm import DeclarativeBase
 
 from Models.models import *
 from Controllers.connectionController import *
@@ -10,26 +9,18 @@ from Utils import *
 from flask_apscheduler import APScheduler
 from config import *
 
+from apscheduler.schedulers.background import BackgroundScheduler
 
+
+
+#init flask app
 app = Flask(__name__)
 
-
+#cross origin policy
 CORS(app, support_credentials=True)
 
-#environment setup
-load_dotenv()
-MYSQL_USER = getenv("MYSQL_USER")
-MYSQL_PASSWORD= getenv("MYSQL_PASSWORD")
-MYSQL_DATABASE= getenv("MYSQL_DATABASE")
-MYSQL_PORT= getenv("MYSQL_PORT")
-SECRET_KEY = getenv("SECRET_KEY")
-MYSQL_CONTAINER_NAME = getenv("MYSQL_CONTAINER_NAME")
-MYSQL_PORT=getenv("MYSQL_PORT")
 
-
-# db initialisation and config
-class Base(DeclarativeBase):
-    pass
+# db initialisation and app config
 
 app.config['SQLALCHEMY_DATABASE_URI'] = f"mysql://{MYSQL_USER}:{MYSQL_PASSWORD}@{MYSQL_CONTAINER_NAME}:3306/{MYSQL_DATABASE}"
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -39,13 +30,6 @@ app.secret_key =SECRET_KEY
 db.init_app(app)
 
 
-# Set up Flask-APScheduler
-scheduler = APScheduler()
-scheduler.init_app(app)
-scheduler.start()
-
-#remove expired tokens from Blacklist each 10mns
-scheduler.add_job('remove_expired_tokens',removeExpiredTokens,minutes=10)
 
 #Routes and api
 @app.after_request
@@ -62,7 +46,7 @@ def after_request(response):
 def test():
     tks = isBlacklisted("a")
 
-    return tks
+    return str(type(tks[0]))
 
    
 @app.route('/api/auth/register', methods=['POST'])
@@ -87,8 +71,25 @@ def home():
     return 'JWT is verified. Welcome to your dashboard !  '
 
 
-   
+
+def removeExpiredTokens():
+    with app.app_context():
+        tokens = db.session.query(Token).all()
+        for token in tokens:
+            try:
+                jwt.decode(str(token), SECRET_KEY , algorithms="HS256")
+            except jwt.ExpiredSignatureError:
+                    db.session.delete(token)
+                    db.session.commit()
+
+# Create the background scheduler
+scheduler = BackgroundScheduler()
+# Create the job
+scheduler.add_job(func=removeExpiredTokens, trigger="interval", minutes=REMOVE_TOKENS_INTERVAL)
+# Start the scheduler
+
 if (__name__=="__main__"):
+    scheduler.start()
     app.run(debug=True, host="0.0.0.0", port=8000)
 
 

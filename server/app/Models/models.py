@@ -71,7 +71,7 @@ class Token(Base):
     token = Column(String(512), nullable=False)
 
     def __repr__(self):
-        return f"{self.token}"
+        return self.token
     
     def toJSON(self):
         return {
