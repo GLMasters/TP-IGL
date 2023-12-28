@@ -1,7 +1,7 @@
 import homeImage from "../assets/home-image.svg"
 function HomeScreen() {
   return (
-    <div className="container mx-auto w-full px-3 pt-20 lg:pt-6 max-h-screen flex flex-wrap items-center">
+    <div className="container mx-auto w-full px-3 pt-20 lg:pt-6 max-h-screen flex flex-wrap items-center bg-white min-h-screen">
     {/* left side */}
     <div className="flex-fluid ml-4 mb-10">
         <h3 className="font-bold">Trouvez Vos Articles en Un Clin d'OEil!</h3>

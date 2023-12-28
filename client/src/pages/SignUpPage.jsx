@@ -19,18 +19,11 @@ function SignUpPage() {
       setValidSubmission(false);
       return;
     }
-<<<<<<< HEAD
-  return (
-    <div className='container w-full mx-auto px-4'>
-    <header>
-            <img src={docLibLogo} alt='docLibLogo' className='w-[9rem] object-cover' />
-    </header>
-=======
     setValidSubmission(true);
   };
 
   return (
-    <div className="container w-full mx-auto px-4">
+    <div className="container w-full mx-auto px-4 bg-white lg:h-[1024px] md:h-[900px] h-[800px]">
       <header>
         <img
           src={docLibLogo}
@@ -38,7 +31,6 @@ function SignUpPage() {
           className="w-[9rem] object-cover"
         />
       </header>
->>>>>>> lahcen_AddContext
       {
         /* signUpForm container */
         <div className="absolute top-[8rem] right-[50%] translate-x-[50%] max-w-lg w-full md:shadow-2xl rounded-3xl h-fit ">
@@ -47,10 +39,10 @@ function SignUpPage() {
             onSubmit={HanldeSubmit}
           >
             {/* s'inscrire */}
-            <div className="rounded-customRaduis1 bg-[#F8F9FA] px-16 py-3 font-bold font-Lora text-base my-10 shadow-xl">
+            <div className="rounded-customRaduis1 bg-[#F8F9FA] px-16 py-3 font-bold font-Lora text-base my-10 shadow-xl text-black">
               S'inscrire
             </div>
-            <h5 className="font-medium italic font-Lora pr-9 text-3xl text-center my-6 w-full mx-auto mb-10">
+            <h5 className="font-medium italic font-Lora pr-9 text-3xl text-center my-6 w-full mx-auto mb-10 text-black">
               Créez votre compte
             </h5>
 
@@ -84,19 +76,19 @@ function SignUpPage() {
               />
 
               {!ValidSubmission && (
-                <span className="text-red-600 text-xs ml-5 text-center">
+                <span className="text-red-600 text-xs ml-5 text-center ">
                   Saisissez une adresse de courriel ou un mot de passe valide.
                 </span>
               )}
 
               {/* continuer button */}
               <button
-                className="w-full mt-6 bg-seconadryColor outline-none rounded-sm py-4"
+                className="w-full mt-6 bg-seconadryColor outline-none rounded-sm py-4 text-black"
                 type="submit"
               >
                 Continuer
               </button>
-              <p className="w-full text-md my-4">
+              <p className="w-full text-md my-4 text-black">
                 Vous avez déjà un compte DocLib ? Utilisez votre nom
                 d'utilisateur et votre mot de passe DocLib.{' '}
                 <Link to={'/login'} className="text-seconadryColor underline">
@@ -107,13 +99,13 @@ function SignUpPage() {
 
               <div className="flex items-center my-14 justify-center gap-2 w-full">
                 <div className=" w-5/12 border-b border-black rounded-sm" />
-                <span>ou</span>
+                <span className='text-black' >ou</span>
                 <div className="w-5/12 border-b border-black rounded-sm" />
               </div>
               {/* continuer avec google */}
               <button className="flex justify-left items-center w-full h-[52px] focus:border-primaryColor focus:outline-none border-black border-[0.5px] mb-10">
                 <img src={googleLogo} className="h-10 w-10 mr-3 ml-5" />
-                <span className="font-Poppins"> Continuer avec Google</span>
+                <span className="font-Poppins text-black"> Continuer avec Google</span>
               </button>
             </div>
           </form>
