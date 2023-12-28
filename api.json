@@ -1,0 +1,36 @@
+{
+    "json_1": {
+        "email": "email@email.com",
+        "password": "password"
+    },
+
+    "json_2_success":{
+        "result": true,
+        "data": {
+            "token": "jwt token"
+        },
+        "message": "Logged in successfully"
+    },
+
+    "json_2_error": {
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_3_success":{
+        "result": true,
+        "data": {
+            "id": 1 ,
+            "email"  : "email@email.com",
+            "role_id": 1
+        } ,
+            
+        "message": "Account created successfull, you can login now"
+    } ,
+
+    "json_3_error": {
+        "result": false,
+        "message": "some error message"
+    }
+
+}
