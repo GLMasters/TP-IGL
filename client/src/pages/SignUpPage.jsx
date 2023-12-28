@@ -10,7 +10,6 @@ function SignUpPage() {
     }
   return (
     <div className='container w-full mx-auto px-4'>
-
     <header>
             <img src={docLibLogo} alt='docLibLogo' className='w-[9rem] object-cover' />
     </header>

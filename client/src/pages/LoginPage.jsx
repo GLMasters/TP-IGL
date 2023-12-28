@@ -10,7 +10,7 @@ function HomeScreen() {
     setPasswordVisible((prevVisible) => !prevVisible);
   };
   return (
-    <div>
+    <div >
        <div className="flex">
          <img src={docLibLogo} alt="docLibLogo" className="h-[80px] mt-5" />
        </div>
