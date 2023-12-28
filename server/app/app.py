@@ -54,6 +54,11 @@ def test():
 def register():
     return registerFunction(request)
 
+@app.route('/api/auth/confirm', methods=['POST'])
+@cross_origin(supports_credentials=True)
+def confirm():
+    return confirmEmail(request)
+
 
 @app.route('/api/auth/login', methods=['POST'])
 @cross_origin(supports_credentials=True)

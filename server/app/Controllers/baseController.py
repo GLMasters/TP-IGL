@@ -20,3 +20,4 @@ user_exists = sendErrorMessage ("Email already exists")
 failed_auth = sendErrorMessage ("Wrong crendentials")
 # token_missing = jsonify({'Alert!': 'Token is missing!'})
 invalid_email = sendErrorMessage(message= "Invalid email")
+

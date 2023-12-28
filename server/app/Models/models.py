@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String, ForeignKey
+from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase
 from sqlalchemy.ext.declarative import declarative_base
@@ -39,10 +39,36 @@ class User(Base , UserMixin ):
         return str(self.id)
     
     def set_password(self, password):
-        self.password = generate_password_hash(password).decode('utf-8')
+        self.password = password
 
     def check_password(self, password):
         return check_password_hash(self.password, password)
+
+class TempUser(Base):
+    __tablename__ = 'temp_users'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    email = Column(String(255), unique=True, nullable=False)
+    password = Column(String(255), nullable=False)
+    code = Column(Integer, nullable=False)
+    creation_timestamp = Column(TIMESTAMP, server_default="CURRENT_TIMESTAMP", nullable=False)
+
+    def set_password(self, password):
+        self.password = generate_password_hash(password).decode('utf-8')
+    
+    def __repr__(self):
+        return f'User#{self.id} - Email: {self.email} - code: {self.code}'
+
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'email' : self.email,
+        }
+    def get_id(self):
+        return str(self.id)
+
+    
+
 
 class Favorite(Base):
     __tablename__ = 'favorites'

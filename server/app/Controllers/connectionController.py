@@ -12,10 +12,11 @@ from Models.models import *
 from config import *
 import os
 
+from random import randint
+
 SECRET_KEY = os.getenv('SECRET_KEY')
 
 
-# tokens_blacklist = set()
 
 #check if the email exist
 def is_valid_email(email):
@@ -23,8 +24,8 @@ def is_valid_email(email):
     is_valid_domain = validate_email(email, verify=True)
     
     return is_valid_domain
-    
-def registerFunction (request):
+
+def registerFunction(request):
     try: 
         in_email = request.json['email']
         in_passwd = request.json['password']
@@ -34,26 +35,77 @@ def registerFunction (request):
            return invalid_email
 
         user = db.session.query(User).filter_by(email=in_email).first()
-        if (user == None):
-            new_user = User(
-                email=in_email,
-                role_id = 1,
-            )
-            new_user.set_password(in_passwd)
-            db.session.add(new_user)
-            db.session.commit()
-                
-            return sendResponse(
-                data=new_user.toJSON(),
-                message='Account created successfull, you can login now'
-            )
-        else :
+        if (not user == None):
             return user_exists
+        
+        code = randint(10000,99999)
+        
+        user = db.session.query(TempUser).filter_by(email=in_email).first()
+        
+        if user:
+            user.code = code
+            user.set_password(in_passwd)
+            db.session.commit()
+        else:        
+            tmp_user = TempUser(
+                email=in_email,
+                code=code
+            )
+            tmp_user.set_password(in_passwd)
+            db.session.add(tmp_user)
+            db.session.commit()
+
+        send_verif_code(in_email,code)
+
+            
+        return sendResponse(
+            data=tmp_user.toJSON(),
+            message='Password sent to email'
+        )
     except Exception as e:
         return sendErrorMessage(
             message=str(e)
         )
 
+def confirmEmail(request):
+    try:
+        id = request.json['id']
+        code = request.json['code']
+
+        if (not id or not code):
+            return sendErrorMessage("id or code not set")
+        
+
+        tmp_user = db.session.query(TempUser).filter_by(id=id).one()
+
+        if (not tmp_user):
+            return sendErrorMessage("id doesn't exist")
+        
+        if (tmp_user.code != code):
+            return sendErrorMessage("Invalid code")
+        
+        new_user = User(
+            email=tmp_user.email,
+            role_id = 1
+        )
+
+        new_user.set_password(tmp_user.password)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        db.session.delete(tmp_user)
+        db.session.commit()
+
+        return sendResponse(
+            data=new_user.toJSON(),
+            message='Account created successfull, you can login now'
+        )
+    
+    except Exception as e:
+        return sendErrorMessage(
+            message=str(e)
+        )
 
 def loginFunction (request):
     try: 
