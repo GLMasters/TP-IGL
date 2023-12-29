@@ -1,7 +1,10 @@
 import ssl
 import smtplib
-from Models.models import Token, db
-from config import SECRET_KEY, EMAIL, EMAIL_PASSWORD
+import jwt
+from Models.models import Token, db, TempUser
+from time import time
+from datetime import timedelta
+from config import *
 
 def isBlacklisted(token):
     tokens = [str(i) for i in db.session.query(Token).all()]
@@ -14,7 +17,21 @@ def blacklistToken(token):
         db.session.add(token)
         db.session.commit()
 
+def delete_expired_tokens():
+    tokens = db.session.query(Token).all()
+    for token in tokens:
+        try:
+            jwt.decode(str(token), SECRET_KEY , algorithms="HS256")
+        except jwt.ExpiredSignatureError:
+                db.session.delete(token)
+                db.session.commit()
 
+def delete_old_verif_codes():
+    tmp_users = db.session.query(TempUser).all()
+    for tmp_user in tmp_users:
+        if (time() - tmp_user.creation_timestamp.timestamp() > timedelta(minutes=CODE_EXPIRATION_TIME).total_seconds()):
+            db.session.delete(tmp_user)
+            db.session.commit()
 
 def send_verif_code(mail,code):
     port = 587  # For starttls
@@ -23,7 +40,7 @@ def send_verif_code(mail,code):
     receiver_email = mail
     email_password = EMAIL_PASSWORD
 
-    message = f"Subject: Hello there\n\nyour verif code: {code}"
+    message = EMAIL_TEMPLATE.format(code)
 
     context = ssl.create_default_context()
     with smtplib.SMTP(smtp_server, port) as server:

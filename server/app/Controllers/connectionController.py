@@ -30,7 +30,7 @@ def registerFunction(request):
         in_email = request.json['email']
         in_passwd = request.json['password']
         if (not in_email or not in_passwd):
-            return empty
+            return empty_creds
         if (not is_valid_email(in_email)):
            return invalid_email
 
@@ -54,12 +54,13 @@ def registerFunction(request):
             tmp_user.set_password(in_passwd)
             db.session.add(tmp_user)
             db.session.commit()
+            user = tmp_user
 
         send_verif_code(in_email,code)
 
             
         return sendResponse(
-            data=tmp_user.toJSON(),
+            data=user.toJSON(),
             message='Password sent to email'
         )
     except Exception as e:
@@ -73,16 +74,16 @@ def confirmEmail(request):
         code = request.json['code']
 
         if (not id or not code):
-            return sendErrorMessage("id or code not set")
+            return empty_code_id
         
 
         tmp_user = db.session.query(TempUser).filter_by(id=id).one()
 
         if (not tmp_user):
-            return sendErrorMessage("id doesn't exist")
+            return wrong_id
         
         if (tmp_user.code != code):
-            return sendErrorMessage("Invalid code")
+            return invalid_code
         
         new_user = User(
             email=tmp_user.email,
