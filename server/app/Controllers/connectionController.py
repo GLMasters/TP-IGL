@@ -113,9 +113,7 @@ def loginFunction (request):
         in_email = request.json['email']
         in_passwd = request.json['password']
         if (not in_email or not in_passwd):
-            return sendErrorMessage(
-                message="Empty email or password"
-            )
+            return empty_creds
         user =  db.session.query(User).filter_by(email=in_email).first()
         if (user and user.check_password(in_passwd)):
             token = jwt.encode({
