@@ -36,7 +36,7 @@ function Profile() {
     <div className='flex gap-3 items-center absolute top-[15%] left-6'>
     {/* return Back svg */}
     <img src={returnBackSvg} className=' object-cover' />
-    <p className='font-bold'>Page précédente</p>
+    <p className='font-bold text-black'>Page précédente</p>
     </div>
     
                 <header className=' self-start'>
@@ -87,11 +87,11 @@ function Profile() {
                             {/* edit Btn */}
                             {
                                 isEdit ? <div className="w-full flex items-center justify-between">
-                                    <button className='bg-seconadryColor px-5 py-4 rounded-md outline-none text-lg' onClick={handleSubmit}>Enregistrer</button>
-                                    <button className='bg-white px-5 py-4 text-lg outline-none rounded-md border border-slate-500' onClick={handleEdit}>Annuler</button>
+                                    <button className='bg-seconadryColor px-5 py-4 rounded-md outline-none text-lg text-black' onClick={handleSubmit}>Enregistrer</button>
+                                    <button className='bg-white px-5 py-4 text-lg outline-none rounded-md border border-slate-500 text-black' onClick={handleEdit}>Annuler</button>
                                 </div> :
                             
-                            <button className='bg-seconadryColor px-5 py-4 rounded-md outline-none text-lg' onClick={handleEdit}>
+                            <button className='bg-seconadryColor px-5 py-4 rounded-md outline-none text-lg text-black' onClick={handleEdit}>
                                 modifier
                             </button>
 
