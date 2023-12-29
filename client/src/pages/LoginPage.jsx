@@ -3,17 +3,15 @@ import googlelogo from "../assets/googlelogo.svg";
 import React, { useState } from 'react';
 import {validate} from 'react-email-validator' ;
 import PasswordInput from "../components/PasswordInput";
-import { Link } from "react-router-dom";
-
+import { Link, useNavigate } from "react-router-dom";
 import {login} from "../api/auth" ;
 
 function HomeScreen() {
   const [Email , setEmail] = useState("");
   const [Password , setPassword] = useState();
-
   const [validSubmission , setValidSubmission] = useState(true);
-
-
+  const [errorMessage,setErrorMessage]=useState("")
+  const navigate=useNavigate()
   const HanldeSubmit = async (e) =>{
      
     e.preventDefault();
@@ -30,8 +28,11 @@ function HomeScreen() {
     } ;
     
     var response = await login(data) ;
-
-    
+    if(response.message){
+      setErrorMessage(response.message)
+      return;
+    }
+    navigate("/Home")
   
   };
   return (
@@ -56,7 +57,7 @@ function HomeScreen() {
                  {/* password */}
                  <PasswordInput label={"mot de passe"} value={Password} setValue={setPassword} isValid={validSubmission} setIsValid={setValidSubmission} />
                  {!validSubmission && <span className='text-red-600 text-xs ml-5 text-center'>Saisissez une adresse de courriel ou un mot de passe valide.</span>}
-                
+                  {errorMessage && <span className='text-red-600 text-xs ml-5 text-center'>{errorMessage}</span>}
 
                  <div className="mt-4">
                  <Link to="/forgotPass" className=" text-seconadryColor font-Poppins"><u>Mot de passe oublié ?</u></Link> 

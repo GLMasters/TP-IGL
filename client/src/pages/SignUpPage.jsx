@@ -1,17 +1,20 @@
-import React, { useEffect, useState } from 'react';
+import React, { useContext, useEffect, useState } from 'react';
 import docLibLogo from '../assets/docLibLogo.svg';
 import googleLogo from '../assets/googlelogo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { validate } from 'react-email-validator';
 import PasswordInput from '../components/PasswordInput';
 
 import {signup} from "../api/auth"
+import { resetPasswordContext } from '../context/resetPassContext';
 
 function SignUpPage() {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [ValidSubmission, setValidSubmission] = useState(true);
+  const {saveUserInfo}=useContext(resetPasswordContext)
+  const navigate = useNavigate()
   const HanldeSubmit = async (e) => {
     e.preventDefault();
     if (
@@ -24,8 +27,6 @@ function SignUpPage() {
     }
     setValidSubmission(true);
 
-    console.log("hello");
-
     var data = {
       email: Email,
       password: Password
@@ -34,14 +35,13 @@ function SignUpPage() {
 
     var response = await signup(data)
 
-    if (response.message){
-
-
-
-    }else {
-      
+    if (response?.message){
+      setErrorMessage(response.message);
+      return;
     }
-
+    saveUserInfo(response);
+    //navigate to confirm mail page
+    navigate("/verifyEmail");
   };
 
   return (

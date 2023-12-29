@@ -8,6 +8,7 @@ import ForgotPasswordScreen from "./pages/ForgotPasswordScreen"
 import ChangerPasswordPage from "./pages/ChangerPasswordPage"
 //import resetPassProvider
 import { ResetPassProvider } from "./context/resetPassContext"
+import Profile from "./pages/Profile"
 function App() {
   
   return (
@@ -23,6 +24,8 @@ function App() {
                 <Route path="/verifyEmail" element={<VerifyEmailScreen />} />
                 <Route path="/forgotPass" element={<ForgotPasswordScreen />} />
                 <Route path="/changePassword" element={<ChangerPasswordPage />} />
+                <Route path="/myProfile" element={<Profile />} />
+                <Route path="*" element={<p>Not Found oops</p>} />
                 
            </Routes>
       </Router>

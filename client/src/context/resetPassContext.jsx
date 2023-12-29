@@ -1,5 +1,6 @@
 import { createContext, useReducer } from "react";
 import {validate} from "react-email-validator"
+import { confirmRegistration } from "../api/auth";
 const reducer=(state,action)=>{
     switch (action.type) {
         case "OP_LOADING":
@@ -31,6 +32,12 @@ const reducer=(state,action)=>{
                 ...state,
                 email:action.payload
             }
+        case "SAVE_USER_INFO":
+            return {
+                ...state,
+                email:action.payload.email,
+                userId:action.payload.id
+            }
         default:
             return state
     }
@@ -41,6 +48,7 @@ export const resetPasswordContext=createContext()
 export const ResetPassProvider=({children})=>{
     const initialState={
         email:"",
+        userId:"",
         newPassword:"",
         errorMessage:"",
         loading:false,
@@ -114,7 +122,15 @@ export const ResetPassProvider=({children})=>{
         }
     }
 
-    const checkConfirmationCode=(code)=>{
+
+    const saveUserInfo=(userInfo)=>{
+        dispatch({
+            type:"SAVE_USER_INFO",
+            payload:userInfo
+        })
+    }
+
+    const checkConfirmationCode=async()=>{
             try {
 
                 if(!code){ dispatch({
@@ -127,6 +143,8 @@ export const ResetPassProvider=({children})=>{
                 dispatch({
                     type:"OP_LOADING"
                 })
+                //call confirmRegistration method
+                const res =await confirmRegistration(state.code,state.userId)
                 //check the code (call api)
                 //if(code entered is true)
                 dispatch({
@@ -154,7 +172,8 @@ export const ResetPassProvider=({children})=>{
             changePassword,
             checkConfirmationCode,
             enterEmail,
-            clearError
+            clearError,
+            saveUserInfo
         }}>
                 {children}
         </resetPasswordContext.Provider>
