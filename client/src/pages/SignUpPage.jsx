@@ -19,13 +19,6 @@ function SignUpPage() {
       setValidSubmission(false);
       return;
     }
-<<<<<<< HEAD
-  return (
-    <div className='container w-full mx-auto px-4'>
-    <header>
-            <img src={docLibLogo} alt='docLibLogo' className='w-[9rem] object-cover' />
-    </header>
-=======
     setValidSubmission(true);
   };
 
@@ -38,7 +31,6 @@ function SignUpPage() {
           className="w-[9rem] object-cover"
         />
       </header>
->>>>>>> lahcen_AddContext
       {
         /* signUpForm container */
         <div className="absolute top-[8rem] right-[50%] translate-x-[50%] max-w-lg w-full md:shadow-2xl rounded-3xl h-fit ">

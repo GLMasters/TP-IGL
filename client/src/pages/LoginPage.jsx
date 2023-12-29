@@ -4,15 +4,16 @@ import React, { useState } from 'react';
 import {validate} from 'react-email-validator' ;
 import PasswordInput from "../components/PasswordInput";
 import { Link } from "react-router-dom";
+import path from "path"
 function HomeScreen() {
   const [Email , setEmail] = useState("");
   const [Password , setPassword] = useState();
 
+  console.log(path.dirname())
   const [validSubmission , setValidSubmission] = useState(true);
-
-
   const HanldeSubmit = (e) =>{
      
+
     e.preventDefault();
    if(!validate(Email) || (Password.trim().length < 8 === true)){
     
