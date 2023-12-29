@@ -54,6 +54,11 @@ def test():
 def register():
     return registerFunction(request)
 
+@app.route('/api/auth/confirm', methods=['POST'])
+@cross_origin(supports_credentials=True)
+def confirm():
+    return confirmEmail(request)
+
 
 @app.route('/api/auth/login', methods=['POST'])
 @cross_origin(supports_credentials=True)
@@ -71,21 +76,21 @@ def home():
     return 'JWT is verified. Welcome to your dashboard !  '
 
 
-
+#repeating tasks
 def removeExpiredTokens():
     with app.app_context():
-        tokens = db.session.query(Token).all()
-        for token in tokens:
-            try:
-                jwt.decode(str(token), SECRET_KEY , algorithms="HS256")
-            except jwt.ExpiredSignatureError:
-                    db.session.delete(token)
-                    db.session.commit()
+        delete_expired_tokens()
+
+def removeVerifCodes():
+    with app.app_context():
+        delete_old_verif_codes()
 
 # Create the background scheduler
 scheduler = BackgroundScheduler()
 # Create the job
 scheduler.add_job(func=removeExpiredTokens, trigger="interval", minutes=REMOVE_TOKENS_INTERVAL)
+scheduler.add_job(func=removeVerifCodes, trigger="interval", minutes=CODE_REMOVAL_INTERVAL)
+
 # Start the scheduler
 
 if (__name__=="__main__"):

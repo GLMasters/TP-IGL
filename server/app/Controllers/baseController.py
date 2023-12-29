@@ -15,8 +15,11 @@ def sendErrorMessage(message): #add error status
         'message': message
     }
 
-empty = sendErrorMessage("Email or password empty")
-user_exists = sendErrorMessage ("Email already exists")
-failed_auth = sendErrorMessage ("Wrong crendentials")
-# token_missing = jsonify({'Alert!': 'Token is missing!'})
-invalid_email = sendErrorMessage(message= "Invalid email")
+empty_creds = sendErrorMessage("Email ou Mot de passe Vide")
+user_exists = sendErrorMessage ("Compte déja existant")
+failed_auth = sendErrorMessage ("Email ou Mot de Passe Incorrect")
+invalid_email = sendErrorMessage(message= "Email invalid")
+empty_code_id=sendErrorMessage("id or code not set")
+wrong_id=sendErrorMessage("id doesn't exist")
+invalid_code=sendErrorMessage("Invalid code")
+
