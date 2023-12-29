@@ -61,7 +61,7 @@ def registerFunction(request):
             
         return sendResponse(
             data=user.toJSON(),
-            message='Password sent to email'
+            message='Code sent to email'
         )
     except Exception as e:
         return sendErrorMessage(
