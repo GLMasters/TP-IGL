@@ -40,7 +40,7 @@ p{
       @apply rounded-full px-6 py-3 bg-primaryColor shadow-md text-white;
     }
     .Inputsign{
-      @apply focus:border-primaryColor focus:outline-none font-Poppins block w-full h-[52px] text-black  placeholder-black px-7 border-black border-[0.5px];
+      @apply focus:border-primaryColor bg-white focus:outline-none font-Poppins block w-full h-[52px] text-black  placeholder-black px-7 border-black border-[0.5px];
     }
   }
 

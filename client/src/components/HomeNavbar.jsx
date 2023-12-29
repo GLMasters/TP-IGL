@@ -12,9 +12,9 @@ function HomeNavbar() {
 
       <div className=' flex gap-8 lg:gap-20 items-center '>
       {/* a propos */}
-      <Link className='font-semibold'>A PROPOS</Link>
+      <Link className='font-semibold text-black'>A PROPOS</Link>
           {/* About */}
-      <Link className='font-semibold'>FAQ</Link>
+      <Link className='font-semibold text-black'>FAQ</Link>
       {/* login/signUp */}
       <Link>
           <button className='loginBtn'>Login/Sign Up</button>

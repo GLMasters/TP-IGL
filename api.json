@@ -1,0 +1,67 @@
+{
+    "json_1": {
+        "email": "email@email.com",
+        "password": "password"
+    },
+
+    "json_2_success":{
+        "result": true,
+        "data": {
+            "token": "jwt token"
+        },
+        "message": "Logged in successfully"
+    },
+
+    "json_2_error": {
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_3_success":{
+        "data": {
+            "email": "ls_djerrai@esi.dz",
+            "id": 1
+        },
+        "message": "Password sent to email",
+        "result": true
+    },
+
+    "json_3_error": {
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_13":{
+            "id": 1,
+            "code": 69240
+    },
+
+    "json_14_success": {
+        "result": true,
+        "data": {
+            "email": "ls_djerrai@esi.dz",
+            "id": 1,
+            "role_id": 1
+        },
+        "message": "Account created successfull, you can login now"
+    },
+
+    "json_14_error":{
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_10_success": {
+        "result": true,
+        "message": "Logged Out successfully" 
+    },
+
+    "json_10_error": {
+        "result": false,
+        "message": "some error message"
+    }
+
+
+
+
+}

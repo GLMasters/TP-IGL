@@ -1,2 +1,11 @@
 Flask==3.0.0
 python-dotenv
+Flask-SQLAlchemy
+mysqlclient
+flask-cors
+flask-login
+flask_bcrypt
+pyjwt
+validate_email_address
+py3dns
+Flask-APScheduler

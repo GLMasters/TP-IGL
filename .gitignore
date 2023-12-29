@@ -1,3 +1,5 @@
 .env
-db/mysql_data/*
-certs/*
+db/mysql_data/
+certs/
+__pycache__/
+node_modules
