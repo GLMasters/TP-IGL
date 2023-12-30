@@ -123,7 +123,8 @@ def loginFunction (request):
             
             return sendResponse(
                 data={
-                    "token": token
+                    "token": token,
+                    "role_id": user.role_id
                 },
                 message='Logged in successfully'
             )
