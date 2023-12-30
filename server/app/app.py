@@ -79,7 +79,7 @@ def home():
 #repeating tasks
 def removeExpiredTokens():
     with app.app_context():
-        delete_expired_tokens()
+        delete_blacklist_tokens()
 
 def removeVerifCodes():
     with app.app_context():

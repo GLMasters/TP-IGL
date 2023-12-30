@@ -17,14 +17,11 @@ def blacklistToken(token):
         db.session.add(token)
         db.session.commit()
 
-def delete_expired_tokens():
+def delete_blacklist_tokens():
     tokens = db.session.query(Token).all()
     for token in tokens:
-        try:
-            jwt.decode(str(token), SECRET_KEY , algorithms="HS256")
-        except jwt.ExpiredSignatureError:
-                db.session.delete(token)
-                db.session.commit()
+        db.session.delete(token)
+        db.session.commit()
 
 def delete_old_verif_codes():
     tmp_users = db.session.query(TempUser).all()
