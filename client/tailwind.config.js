@@ -12,7 +12,11 @@ export default {
         "thirdColor":"#F8F9FA"
       }
       ,flex:{
-        fluid:"max(25rem,(100% - 3rem)/2)"
+        fluid:"max(25rem,(100% - 3rem)/2)",
+        fluid1:"max(2rem,(100% -4rem)/2)"
+      },
+      gridTemplateColumns:{
+        fluid:"repeat(auto-fit,minmax(20rem,1fr))"
       },
       fontFamily: {
         Lora:"Lora, serif",
