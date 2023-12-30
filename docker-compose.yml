@@ -5,13 +5,8 @@ services:
     ports:
       - "8000:8000"
     
-    environment:
-      - MYSQL_USER=${MYSQL_USER}
-      - MYSQL_PASSWORD=${MYSQL_PASSWORD}
-      - MYSQL_DATABASE=${MYSQL_DATABASE}
-      - MYSQL_PORT=${MYSQL_PORT}
-      - SECRET_KEY=${SECRET_KEY}
-      - MYSQL_CONTAINER_NAME=${MYSQL_CONTAINER_NAME}
+    env_file:
+      - .env
     
     #just for dev
     volumes:

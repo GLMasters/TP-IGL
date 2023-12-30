@@ -27,4 +27,4 @@ CREATE TABLE IF NOT EXISTS temp_users(
     password VARCHAR(255) NOT NULL,
     code INT NOT NULL, 
     creation_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
-)
+) ;

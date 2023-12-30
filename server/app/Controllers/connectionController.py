@@ -1,5 +1,3 @@
-from functools import wraps
-
 from Controllers.baseController import *
 from flask import jsonify, request
 import jwt
@@ -45,6 +43,7 @@ def registerFunction(request):
         if user:
             user.code = code
             user.set_password(in_passwd)
+            user.creation_timestamp = datetime.timestamp()
             db.session.commit()
         else:        
             tmp_user = TempUser(
@@ -116,10 +115,7 @@ def loginFunction (request):
             return empty_creds
         user =  db.session.query(User).filter_by(email=in_email).first()
         if (user and user.check_password(in_passwd)):
-            token = jwt.encode({
-                'user': user.toJSON(),
-                'exp': datetime.utcnow() + timedelta(hours=TOKEN_EXPIRATION_TIME)  # Expiration en une heure, ajustez selon vos besoins
-            }, SECRET_KEY, algorithm='HS256')
+            token = generate_normal_token(user)
             
             return sendResponse(
                 data={
@@ -145,28 +141,82 @@ def logoutFunction(request):
         "message": "Logged Out successfully" 
     }
 
-def token_required(f):
-    @wraps(f)
-    def decorated(*args, **kwargs):
-        token = request.headers.get('Authorization')
+def resetToken(request):
+    try:
+        in_email= request.json['email']
 
-        if not token:
-            return jsonify({'Alert!': 'Token is missing!'}), 401
-
-        # Check if the token starts with 'Bearer ' and extract the token
-        if 'Bearer ' in token:
-            token = token.split('Bearer ')[1]
+        if (not validate_email(in_email)):
+            return invalid_email
         
-        if isBlacklisted(token):
-            return jsonify({'Message': 'Token has expired (blacklist)'}), 403
+        user = db.session.query(User).filter_by(email=in_email).first()
 
-        try:
-            data = jwt.decode(token, SECRET_KEY , algorithms="HS256")
-        except jwt.ExpiredSignatureError:
-            return jsonify({'Message': 'Token has expired'}), 403
-        except jwt.InvalidTokenError:
-            return jsonify({'Message': 'Invalid token'}), 403
+        if (not user):
+            return user_inexistant
+        
+        token = generate_reset_token(user)
+        send_reset_token(user.email,token)
 
-        return f(*args, **kwargs)
+        return sendResponse(data=None,message="Token sent to email")
+    except Exception as e:
+        return sendErrorMessage(
+            message=str(e)
+        )
 
-    return decorated
+def verifyResetToken(token):
+
+    if isBlacklisted(token):
+        return jsonify({'Message': 'Token has expired (blacklist)'}), 403
+
+    try:
+        data = decode_token(token)
+    except jwt.ExpiredSignatureError:
+        return jsonify({'Message': 'Token has expired'}), 403
+    except jwt.InvalidTokenError:
+        return jsonify({'Message': 'Invalid token'}), 403
+    
+    if (not data['reset']):
+        return jsonify({'Message': 'Invalid Reset token'}), 403
+    
+    return sendResponse(
+        
+        data={
+            "token": token,
+            "role_id": data['user']['role_id']
+        },
+        message='Token Verified Successfully'
+    )
+    
+def reset_password(request):
+    #needs to be decorated with token_required
+    
+    try:
+        password = request.json['password']
+        token = extract_token(request)
+        user_id = decode_token(token)['user']['id']
+
+        if (not password or not user_id):
+            return empty_password_id
+
+        user = db.session.query(User).filter_by(id=user_id).first()
+
+        if (not user):
+            return user_inexistant
+        
+        user.set_hashed_password(password)
+
+        db.session.commit()
+
+        return sendResponse(
+            data={
+                "token": token,
+                "role_id": user.role_id
+            },
+            message='Password Changed successfully'
+        )
+
+    except Exception as e:
+        return sendErrorMessage(
+            message=str(e)
+        )
+
+

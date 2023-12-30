@@ -70,6 +70,19 @@ def login():
 def logout():
     return logoutFunction(request)
 
+@app.route("/api/auth/forgotpassword",methods=['POST'])
+def forgot():
+    return resetToken(request)
+
+@app.route("/api/auth/reset/<token>", methods=['GET'])
+def reset(token):
+    return verifyResetToken(token)
+
+@app.route("/api/auth/reset",methods=['POST'])
+@token_required
+def resetPassword():
+    return reset_password(request)
+
 @app.route('/home' )
 @token_required
 def home():
