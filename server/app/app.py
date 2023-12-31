@@ -5,6 +5,7 @@ from flask_cors import CORS, cross_origin
 
 from Models.models import *
 from Controllers.connectionController import *
+from Controllers.profileController import *
 from Utils import *
 from flask_apscheduler import APScheduler
 from config import *
@@ -82,6 +83,11 @@ def reset(token):
 @token_required
 def resetPassword():
     return reset_password(request)
+
+@app.route("/api/profile", methods=['GET'])
+@token_required
+def profile():
+    return getProfileInfo(request)
 
 @app.route('/home' )
 @token_required
