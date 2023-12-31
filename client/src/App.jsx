@@ -8,7 +8,8 @@ import ForgotPasswordScreen from "./pages/ForgotPasswordScreen"
 import ChangerPasswordPage from "./pages/ChangerPasswordPage"
 //import resetPassProvider
 import { ResetPassProvider } from "./context/resetPassContext"
-import Profile from "./pages/Profile"
+import EditUserPassword from "./pages/EditUserPassword"
+import About from "./pages/About"
 function App() {
   
   return (
@@ -18,13 +19,14 @@ function App() {
           <Routes>
                 <Route path="/" element={<AppLayout />}>
                     <Route path="/" element={<HomeScreen />} />
+                    <Route path="/editUserPassword" element={<EditUserPassword />} />
+                    <Route path="/about" element={<About />} />
                 </Route>
                 <Route path="/login" element={<LoginPage />}  />
                 <Route path="/register" element={<SignUpPage />} />
                 <Route path="/verifyEmail" element={<VerifyEmailScreen />} />
                 <Route path="/forgotPass" element={<ForgotPasswordScreen />} />
                 <Route path="/changePassword" element={<ChangerPasswordPage />} />
-                <Route path="/myProfile" element={<Profile />} />
                 <Route path="*" element={<p>Not Found oops</p>} />
                 
            </Routes>
