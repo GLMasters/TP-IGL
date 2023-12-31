@@ -70,7 +70,7 @@ def login():
 def logout():
     return logoutFunction(request)
 
-@app.route("/api/auth/forgotpassword",methods=['POST'])
+@app.route("/api/auth/forgot",methods=['POST'])
 def forgot():
     return resetToken(request)
 

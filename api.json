@@ -60,9 +60,49 @@
     "json_10_error": {
         "result": false,
         "message": "some error message"
+    },
+
+    "json_19":{
+        "email": "validemail@gmail.com"
+    },
+
+    "json_20_success":{
+        "result": true,
+        "message": "Token sent to email"
+    },
+    "json_20_error":{
+        "result": false,
+        "message": "some error"
+    },
+    "json_21_success":{
+        "result": true,
+        "data":{
+            "token": "token here",
+            "role_id": 1
+        },
+        "message":"Token Verified Successfully"
+    },
+    "json_21_error":{
+        "result": false,
+        "message": "some error msg"
+    },
+    "json_22": {
+        "user_id":1 ,
+        "password": "passwordhere"
+    },
+
+    "json_23_success":{
+        "result": true,
+        "dat":{
+            "token": "token",
+            "role_id": 2
+        },
+        "message":"Password Changed successfully"
+    },
+
+    "json_23_error":{
+        "result": false,
+        "message": "some error message"
     }
-
-
-
 
 }

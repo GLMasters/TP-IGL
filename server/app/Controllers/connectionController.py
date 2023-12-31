@@ -194,8 +194,13 @@ def reset_password(request):
         token = extract_token(request)
         user_id = decode_token(token)['user']['id']
 
+        
         if (not password or not user_id):
             return empty_password_id
+
+        if (not token['reset']):
+            return jsonify({'Message': 'Invalid token'}), 403
+        
 
         user = db.session.query(User).filter_by(id=user_id).first()
 
@@ -204,8 +209,11 @@ def reset_password(request):
         
         user.set_hashed_password(password)
 
+        
         db.session.commit()
 
+        token = generate_normal_token(user)
+        
         return sendResponse(
             data={
                 "token": token,
