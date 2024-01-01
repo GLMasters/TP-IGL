@@ -103,6 +103,44 @@
     "json_23_error":{
         "result": false,
         "message": "some error message"
-    }
+    },
 
+    "json_5_success":{
+        "result": true,
+        "data": {
+            "id": 1,
+            "role_id": 1,
+            "email": "email@email.com"
+        },
+
+        "message":"User info fetched succesfully"
+    },
+
+    "json_5_error":{
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_8":{
+        "old_password": "password",
+        "new_password": "123456789",
+        "id": 2
+    },
+
+    "json_9_success":{
+        "data": {
+            "email": "ls_djerrai@esi.dz",
+            "id": 2,
+            "role_id": 1
+        },
+        "message": "Password changed succesfuly",
+        "result": true
+    },
+
+    "json_9_error":{
+        "result": false,
+        "message": "some error message"
+    }
+    
+    
 }
