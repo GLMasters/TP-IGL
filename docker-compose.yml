@@ -17,6 +17,7 @@ services:
       - ./server/app/Controllers/__init__.py:/app/Controllers/__init__.py
       - ./server/app/Utils/__init__.py:/app/Utils/__init__.py
       - ./server/app/config.py:/app/config.py
+      - ./server/app/Controllers/profileController.py:/app/Controllers/profileController.py
 
 
     networks:

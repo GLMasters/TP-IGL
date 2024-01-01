@@ -37,19 +37,16 @@ def changePasswordFunction(request):
         newPassword = request.json['new_password']
         
         if (not id or not oldPassword or not newPassword):
-            pass
+            return "a"
 
         user = db.session.query(User).filter_by(id=id).first()
 
         if (not user):
             return user_inexistant
 
-        tmp = User()
-        tmp.set_hashed_password(newPassword)
 
-        if (tmp.password != user.password):
+        if ( not user.check_password(oldPassword)):
             return wrong_pw
-            
 
         user.set_hashed_password(newPassword)
 
