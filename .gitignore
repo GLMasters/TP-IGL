@@ -3,3 +3,4 @@ db/mysql_data/
 certs/
 __pycache__/
 node_modules
+esdata/

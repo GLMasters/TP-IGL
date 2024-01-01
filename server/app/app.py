@@ -89,6 +89,11 @@ def resetPassword():
 def profile():
     return getProfileInfo(request)
 
+@app.route("/api/profile/changepassword", methods=['PUT'])
+@token_required
+def changePassword():
+    return changePasswordFunction(request)
+
 @app.route('/home' )
 @token_required
 def home():

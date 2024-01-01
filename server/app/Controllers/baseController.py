@@ -32,4 +32,5 @@ empty_code_id=sendErrorMessage("id or code not set")
 empty_password_id=sendErrorMessage("id or password not set")
 wrong_id=sendErrorMessage("id doesn't exist")
 invalid_code=sendErrorMessage("Invalid code")
+wrong_pw = sendErrorMessage("Wrong password")
 
