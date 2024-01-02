@@ -6,9 +6,10 @@ import SignUpPage from "./pages/SignUpPage"
 import VerifyEmailScreen from "./pages/VerifyEmailScreen"
 import ForgotPasswordScreen from "./pages/ForgotPasswordScreen"
 import ChangerPasswordPage from "./pages/ChangerPasswordPage"
-//import resetPassProvider
+//import resetPassProviderq
 import { ResetPassProvider } from "./context/resetPassContext"
 import EditUserPassword from "./pages/EditUserPassword"
+import Favoris from "./pages/Favoris"
 import About from "./pages/About"
 function App() {
   
@@ -21,6 +22,7 @@ function App() {
                     <Route path="/" element={<HomeScreen />} />
                     <Route path="/editUserPassword" element={<EditUserPassword />} />
                     <Route path="/about" element={<About />} />
+                    <Route path="/favoris" element={<Favoris />} />
                 </Route>
                 <Route path="/login" element={<LoginPage />}  />
                 <Route path="/register" element={<SignUpPage />} />

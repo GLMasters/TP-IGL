@@ -4,6 +4,7 @@ import googleLogo from '../assets/googlelogo.svg';
 import { Link, useNavigate } from 'react-router-dom';
 import { validate } from 'react-email-validator';
 import PasswordInput from '../components/PasswordInput';
+import Footer from '../components/Footer';
 
 import {signup} from "../api/auth"
 import { resetPasswordContext } from '../context/resetPassContext';
@@ -45,6 +46,7 @@ function SignUpPage() {
   };
 
   return (
+    <>
     <div className="container w-full mx-auto px-4 bg-white lg:h-[1024px] md:h-[900px] h-[800px]">
       <header>
         <img
@@ -133,7 +135,10 @@ function SignUpPage() {
           </form>
         </div>
       }
+      
     </div>
+    <Footer/>
+    </>
   );
 }
 
