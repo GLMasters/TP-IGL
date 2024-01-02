@@ -4,7 +4,7 @@ import ArticleItem from "../components/ArticleItem"
 import { useState } from "react"
 import { AiOutlineMenu } from "react-icons/ai";
 export default function LandingPage() {
-  const [visible,setVisible]=useState(false)
+  const [visible,setVisible]=useState(true)
   return (
     <div className="bg-thirdColor lg:grid lg:grid-cols-fluid2 gap-4 py-4 relative">
     {
