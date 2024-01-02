@@ -16,7 +16,9 @@ export default {
         fluid1:"max(2rem,(100% -4rem)/2)"
       },
       gridTemplateColumns:{
-        fluid:"repeat(auto-fit,minmax(20rem,1fr))"
+        fluid:"repeat(auto-fit,minmax(20rem,1fr))",
+        cols2:"auto 1fr",
+        fluid2:"minmax(25%,20rem) 1fr"
       },
       fontFamily: {
         Lora:"Lora, serif",

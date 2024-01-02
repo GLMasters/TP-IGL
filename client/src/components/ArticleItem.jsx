@@ -1,0 +1,39 @@
+import emptyHeart1 from "../assets/emptyHeart1.svg"
+import heart1 from "../assets/heart1.svg"
+import emptyHeart2 from "../assets/emptyHeart2.svg"
+import heart2 from "../assets/heart2.svg"
+import { useState } from "react"
+
+function ArticleItem({
+    titre,auteurs,institutions,isFavorit,index
+}) {
+    const [favorit,setIsFavorit]=useState(isFavorit)
+    const changeFavorit=()=>{
+            setIsFavorit(!favorit)
+    }
+  return (
+    <div className={`w-full grid grid-cols-cols2 gap-5 ${index % 2 == 0 ? "bg-seconadryColor text-white" : "bg-white text-black" } rounded-2xl shadow-lg px-6 py-9 my-6 relative`}>
+        {/* favoris Icon */}
+          
+            <div className="h-10 w-10 absolute top-6 right-6" onClick={changeFavorit}>
+                {(index % 2 == 0 && favorit) ? <img src={heart1} className="w-full object-cover" /> : (index % 2 !=0 && favorit ? <img src={heart2} className="w-full object-cover" /> : (index % 2 == 0 && !favorit) ? <img src={emptyHeart1} className="w-full object-cover" /> : <img src={emptyHeart2} className="w-full object-cover" />) }
+            </div>
+          
+        <h3 className='col-span-2 w-4/5'>{titre}</h3>
+        <h3>Auteurs : </h3>
+        <ul>
+        {
+            auteurs.map(a => (<li>{a}</li>))
+        }
+        </ul>
+        <h3>Institutions : </h3>
+        <ul>
+        {
+            institutions.map(i => (<li>{i}</li>))
+        }
+        </ul>
+    </div>
+  )
+}
+
+export default ArticleItem

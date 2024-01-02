@@ -58,3 +58,15 @@ border-radius: 0px 0px 100px 0px;
   .bgGradient{
     background: rgba(0, 0, 0, 0.3);
   }
+.bgGradient1{
+  background: rgba(0, 0, 0, 0.7);
+}
+
+
+.disable-scrolling{
+  height: 100%;
+  overflow: hidden;
+}
+
+
+

@@ -7,19 +7,19 @@ import { FaFacebookF } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="p-[70px] flex  flex-col justify-between bg-primaryColor xl:flex-row mt-32">
+    <div className="p-[70px] flex  flex-col justify-center items-center xl:justify-between bg-primaryColor xl:flex-row mt-32">
       <div className="flex-initial">
         <div className="max-w-[260px] ">
           <img src={docLibLogo} alt="" />
         </div>
-        <div className="md:mt-10 text-4xl ml-20 flex flex-row text-white  gap-5">
+        <div className="md:mt-10 text-4xl ml-16 lg:ml-20 flex flex-row text-white  gap-5">
           <BsTwitter />
           <SiLinkedin />
           <BsYoutube />
           <FaFacebookF />
         </div>
       </div>
-      <div className="flex justify-end flex-initial mt-16 xl:mt-32 ml-40 md:ml-0">
+      <div className="flex justify-end flex-initial mt-16  xl:mt-32  md:ml-0">
         <div className="flex flex-col mr-16">
           <span className="FooterWord" >Articles</span>
           <span className="FooterWord">Help</span>
