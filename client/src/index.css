@@ -43,7 +43,7 @@ p{
       @apply focus:border-primaryColor bg-white focus:outline-none font-Poppins block w-full h-[52px] text-black  placeholder-black px-7 border-black border-[0.5px];
     }
     .FooterWord{
-      @apply my-1 mx-0 font-semibold text-white cursor-pointer font-Lora antialiased tracking-wider;
+      @apply my-1 mx-0 font-semibold text-white cursor-pointer font-Lora antialiased tracking-wider text-lg;
     }
   }
 
