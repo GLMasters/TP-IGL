@@ -42,6 +42,10 @@ p{
     .Inputsign{
       @apply focus:border-primaryColor bg-white focus:outline-none font-Poppins block w-full h-[52px] text-black  placeholder-black px-7 border-black border-[0.5px];
     }
+    .btn1{
+      @apply bg-primaryColor shadow-xl text-white font-bold px-5 py-3 pr-8 mt-4;
+      border-radius: 0px 0px 40.7576px 0px;
+    }
   }
 
   .Btn2{
@@ -55,3 +59,15 @@ border-radius: 0px 0px 100px 0px;
   .bgGradient{
     background: rgba(0, 0, 0, 0.3);
   }
+.bgGradient1{
+  background: rgba(0, 0, 0, 0.7);
+}
+
+
+.disable-scrolling{
+  height: 100%;
+  overflow: hidden;
+}
+
+
+

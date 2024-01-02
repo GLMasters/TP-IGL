@@ -29,7 +29,7 @@ function ForgotPasswordScreen() {
                     <button className="my-4 py-4 bg-seconadryColor w-5/6 text-black mb-5" onClick={checkEmail}>Continuer</button>
 
                     {/* retour */}
-                    <Link className="underline text-seconadryColor mb-5">retour</Link>
+                    <Link to={""} className="underline text-seconadryColor mb-5">retour</Link>
         </div>
     </div>
   )
