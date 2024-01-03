@@ -12,6 +12,7 @@ import EditUserPassword from "./pages/EditUserPassword"
 import Favoris from "./pages/Favoris"
 import About from "./pages/About"
 import LandingPage from "./pages/LandingPage"
+import ArticlesScreen from "./pages/ArticlesScreen"
 function App() {
   
   return (
@@ -24,6 +25,7 @@ function App() {
                     <Route path="/editUserPassword" element={<EditUserPassword />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/favoris" element={<Favoris />} />
+                    <Route path="/article/:articleId" element={<ArticlesScreen />} />
                 </Route>
                 <Route path="/login" element={<LoginPage />}  />
                 <Route path="/register" element={<SignUpPage />} />

@@ -9,7 +9,8 @@ export default {
       colors:{
         "primaryColor":"#7209B7",
         "seconadryColor":"#C77DFA",
-        "thirdColor":"#F8F9FA"
+        "thirdColor":"#F8F9FA",
+        "gray":"#ECECEC"
       }
       ,flex:{
         fluid:"max(25rem,(100% - 3rem)/2)",
