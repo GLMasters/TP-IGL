@@ -13,6 +13,8 @@ if [ "$(id -u)" -eq 0 ]; then
     # building the image
     docker-compose up --build $1
 
+    chmod -R 755 certs
+
     echo "You can connect to kibana using your credentials here: http://0.0.0.0:5601/"
     echo "You might need to wait a little bit for the containers to start .."
 

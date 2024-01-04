@@ -4,7 +4,7 @@ import jwt
 from flask import jsonify,request
 from functools import wraps
 
-from Models.models import Token, db, TempUser
+from Models.models import Token, db, TempUser, User
 from time import time
 from datetime import timedelta, datetime
 from config import *
@@ -51,6 +51,15 @@ def extract_token(request):
         return token
     
     return None
+
+def verify_user(token):
+    user = db.session.query(User).filter_by(id=token['user']['id'])
+    
+    if not user:
+        blacklistToken(token)
+        return False
+    
+    return True
 
 def token_required(f):
     @wraps(f)

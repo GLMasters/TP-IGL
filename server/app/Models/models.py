@@ -13,7 +13,7 @@ class dbBase(DeclarativeBase):
 
 db = SQLAlchemy(model_class=dbBase)
 
-class User(Base , UserMixin ):
+class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -73,7 +73,7 @@ class TempUser(Base):
     
 
 
-class Favorite(Base):
+class Favorit(Base):
     __tablename__ = 'favorites'
 
     id = Column(Integer, primary_key=True, autoincrement=True)

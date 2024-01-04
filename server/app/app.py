@@ -6,6 +6,7 @@ from flask_cors import CORS, cross_origin
 from Models.models import *
 from Controllers.connectionController import *
 from Controllers.profileController import *
+from Controllers.favoritsController import *
 from Utils import *
 from flask_apscheduler import APScheduler
 from config import *
@@ -93,6 +94,16 @@ def profile():
 @token_required
 def changePassword():
     return changePasswordFunction(request)
+
+@app.route("/api/favorits", methods=['GET', 'POST', 'DELETE'])
+@token_required
+def favorits():
+    if request.method=="GET":
+        return getFavorits(request)
+    elif request.method=="POST":
+        return addFavorit(request)
+    else:
+        return removeFavorit(request)
 
 @app.route('/home' )
 @token_required
