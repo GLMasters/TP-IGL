@@ -1,70 +1,57 @@
 from Utils import extract_token, decode_token
 from Controllers.baseController import *
-from Models.models import User, db
+from Models.models import db
+from Utils import verify_user
 
 def getProfileInfo(request):
     try:
         token = decode_token(extract_token(request))
 
-        id = token['user']['id']
-        
-        user = db.session.query(User).filter_by(id=id).first()
-
+        user= verify_user(token)
         if (not user):
-            pass
-
-        return sendResponse(
+            return error(RESSOURCE_DOESNT_EXIST)
+        
+        return response(
+            OK,
             data= {
                 "id": user.id,
                 "role_id": user.role_id,
                 "email": user.email
             },
-
-            message="User info fetched succesfully"
         )
-    except Exception as e:
 
-        return sendErrorMessage(
-            message=str(e)
-        )
+    except :
+        error(INTERNAL_ERROR)
 
 def changePasswordFunction(request):
 
     try:
-    
-        id = request.json['id']
+
+        token = decode_token(extract_token(request))
+
         oldPassword = request.json['old_password']
         newPassword = request.json['new_password']
         
-        if (not id or not oldPassword or not newPassword):
-            return "a"
+        if (not oldPassword or not newPassword):
+            return error(EMPTY_FIELD)
 
-        user = db.session.query(User).filter_by(id=id).first()
-
+        user = verify_user(token)
+        
         if (not user):
-            return user_inexistant
+            return error(RESSOURCE_DOESNT_EXIST)
 
 
         if ( not user.check_password(oldPassword)):
-            return wrong_pw
+            return error(INVALID_CREDS)
 
         user.set_hashed_password(newPassword)
 
         db.session.commit()
 
-        return sendResponse(
-            data=user.toJSON(),
-            message="Password changed succesfuly"
+        return response(
+            OK,
+            data=user.toJSON()
         )
     
-    except Exception as e:
-
-        return sendErrorMessage(
-            message=str(e)
-        )
-
-
-
-
-
-    
+    except:
+        return error(INTERNAL_ERROR)

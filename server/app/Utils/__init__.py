@@ -9,7 +9,7 @@ from time import time
 from datetime import timedelta, datetime
 from config import *
 
-
+# token functions
 def generate_normal_token(user):
     token = jwt.encode(
         {
@@ -57,9 +57,8 @@ def verify_user(token):
     
     if not user:
         blacklistToken(token)
-        return False
     
-    return True
+    return user
 
 def token_required(f):
     @wraps(f)
@@ -99,6 +98,9 @@ def delete_blacklist_tokens():
     for token in tokens:
         db.session.delete(token)
         db.session.commit()
+
+
+# verif codes functions
 
 def delete_old_verif_codes():
     tmp_users = db.session.query(TempUser).all()
