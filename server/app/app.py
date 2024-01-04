@@ -6,6 +6,7 @@ from flask_cors import CORS, cross_origin
 
 from Models.models import *
 from Controllers.connectionController import *
+from Controllers.profileController import *
 from Controllers.uploadController import *
 from Utils import *
 from flask_apscheduler import APScheduler
@@ -73,7 +74,7 @@ def login():
 def logout():
     return logoutFunction(request)
 
-@app.route("/api/auth/forgotpassword",methods=['POST'])
+@app.route("/api/auth/forgot",methods=['POST'])
 def forgot():
     return resetToken(request)
 
@@ -85,6 +86,16 @@ def reset(token):
 @token_required
 def resetPassword():
     return reset_password(request)
+
+@app.route("/api/profile", methods=['GET'])
+@token_required
+def profile():
+    return getProfileInfo(request)
+
+@app.route("/api/profile/changepassword", methods=['PUT'])
+@token_required
+def changePassword():
+    return changePasswordFunction(request)
 
 @app.route("/api/auth/addmoderator",methods=['POST'])
 def addMod():

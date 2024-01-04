@@ -1,34 +1,30 @@
-from flask import jsonify
-
-
-def sendResponse(data, message):
-    if data:
+def response(status,data=None):
+    if not data:
+        return {
+            'result': True ,
+            'status': status
+        }
+    else:
         return {
             'result': True,
-            'data': data,
-            'message': message
+            'status': status,
+            'data': data
         }
-    
-    else: 
-        return {
-            'result': True,
-            'message': message
-        }
-    
 
-def sendErrorMessage(message): #add error status
+def error(status):
     return {
         'result': False,
-        'message': message
+        'status': status
     }
 
-empty_creds = sendErrorMessage("Email ou Mot de passe Vide")
-user_exists = sendErrorMessage ("Compte déja existant")
-user_inexistant = sendErrorMessage ("Compte inexistant")
-failed_auth = sendErrorMessage ("Email ou Mot de Passe Incorrect")
-invalid_email = sendErrorMessage(message= "Email invalid")
-empty_code_id=sendErrorMessage("id or code not set")
-empty_password_id=sendErrorMessage("id or password not set")
-wrong_id=sendErrorMessage("id doesn't exist")
-invalid_code=sendErrorMessage("Invalid code")
-empty_url = sendErrorMessage ("url not set")
+OK=1
+EMPTY_FIELD=100
+RESSOURCE_EXISTS=101
+RESSOURCE_DOESNT_EXIST=102
+INVALID_INPUT=103
+INVALID_CREDS=104
+
+INVALID_TOKEN=200
+EXPIRED_TOKEN=201
+
+INTERNAL_ERROR=500

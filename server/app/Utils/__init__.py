@@ -4,12 +4,12 @@ import jwt
 from flask import jsonify,request
 from functools import wraps
 
-from Models.models import Token, db, TempUser
+from Models.models import Token, db, TempUser, User
 from time import time
 from datetime import timedelta, datetime
 from config import *
 
-
+# token functions
 def generate_normal_token(user):
     token = jwt.encode(
         {
@@ -51,6 +51,14 @@ def extract_token(request):
         return token
     
     return None
+
+def verify_user(token):
+    user = db.session.query(User).filter_by(id=token['user']['id'])
+    
+    if not user:
+        blacklistToken(token)
+    
+    return user
 
 def token_required(f):
     @wraps(f)
@@ -117,6 +125,9 @@ def delete_blacklist_tokens():
     for token in tokens:
         db.session.delete(token)
         db.session.commit()
+
+
+# verif codes functions
 
 def delete_old_verif_codes():
     tmp_users = db.session.query(TempUser).all()
