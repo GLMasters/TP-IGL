@@ -1,9 +1,7 @@
 import re
-from flask import jsonify, request
 from config import *
 import requests
 from Controllers.baseController import *  
-from urllib.parse import urlparse, parse_qs
 from PyPDF2  import PdfReader
 import os
 from pdftitle import get_title_from_file
@@ -105,25 +103,24 @@ def devideText(extracted_text , filePath , url):
     # return Sections(header=header, body=body , title=title , references=references  , authors=authors , institutions=institutions , keywords=keywords_section.split(','))
     return Article(summary=resume , title= title , authors=authors , institutions=institutions, keywords=keywords_section.split(',') , references=references, content=body , url =url )
             
-
-    
-
 def uploadFileFromUrl(request) :
     in_url = request.json['url']
     if (not in_url):
-        return empty_url
+        return error(EMPTY_FIELD)
     local_file_path = UPLOADS_FOLDER+"file.pdf"
-    response = requests.get(in_url)
-    if response.status_code == 200:
+    res = requests.get(in_url)
+    if res.status_code == 200:
         with open(local_file_path, "wb") as fichier_local:
-            fichier_local.write(response.content)
+            fichier_local.write(res.content)
         try:
             link = UPLOADS_FOLDER+"file.pdf"
             extracted_text = extract_text_from_pdf(link)
             article = devideText (extracted_text , link , in_url )
-            return article.toJSON()
-        except Exception as e:
-            return (str(e))
+            return response(
+                OK,
+                data=article.toJSON()
+            ) 
+        except:
+            return error(INTERNAL_ERROR)
     else:
-        return "Échec du téléchargement du fichier PDF depuis le serveur", 500
-    
+        return error(INVALID_URL)

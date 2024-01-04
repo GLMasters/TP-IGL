@@ -13,6 +13,7 @@
     "200": "Invalid Token",
     "201": "Expired Token",
     
+    "300": "Couldn't fetch ressource from url",
 
     "500": "Internal Server Error"
 }

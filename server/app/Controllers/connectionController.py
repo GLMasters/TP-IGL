@@ -205,24 +205,21 @@ def reset_password(request):
             }
         )
 
-    except Exception as e:
-        return sendErrorMessage(
-            message=str(e)
-        )
+    except :
+        return error(INTERNAL_ERROR)
     
-
 def addmoderator(request):
     try: 
         in_email = request.json['email']
         in_passwd = request.json['password']
         if (not in_email or not in_passwd):
-            return empty_creds
+            return error(EMPTY_FIELD)
         if (not is_valid_email(in_email)):
-           return invalid_email
+           return error(INVALID_INPUT)
 
         user = db.session.query(User).filter_by(email=in_email).first()
         if (not user == None):
-            return user_exists
+            return error(RESSOURCE_EXISTS)
         
         new_user = User(
             email=in_email,
@@ -233,15 +230,10 @@ def addmoderator(request):
         db.session.add(new_user)
         db.session.commit()
 
-        return sendResponse(
-            data=new_user.toJSON(),
-            message='Moderator\'s account created successfull, he can login now tho his account'
+        return response(
+            OK,
+            data=new_user.toJSON()
         )
             
-    except Exception as e:
-        return sendErrorMessage(
-            message=str(e)
-        )
-
-
-
+    except :
+        return error(INTERNAL_ERROR)
