@@ -218,5 +218,39 @@ def reset_password(request):
         return sendErrorMessage(
             message=str(e)
         )
+    
+
+def addmoderator(request):
+    try: 
+        in_email = request.json['email']
+        in_passwd = request.json['password']
+        if (not in_email or not in_passwd):
+            return empty_creds
+        if (not is_valid_email(in_email)):
+           return invalid_email
+
+        user = db.session.query(User).filter_by(email=in_email).first()
+        if (not user == None):
+            return user_exists
+        
+        new_user = User(
+            email=in_email,
+            role_id = 3 #the third role is for a moderator
+        )
+        new_user.set_hashed_password(in_passwd)
+
+        db.session.add(new_user)
+        db.session.commit()
+
+        return sendResponse(
+            data=new_user.toJSON(),
+            message='Moderator\'s account created successfull, he can login now tho his account'
+        )
+            
+    except Exception as e:
+        return sendErrorMessage(
+            message=str(e)
+        )
+
 
 

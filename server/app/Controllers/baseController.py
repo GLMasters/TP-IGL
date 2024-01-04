@@ -3,7 +3,6 @@ from flask import jsonify
 
 def sendResponse(data, message):
     if data:
-
         return {
             'result': True,
             'data': data,
@@ -32,4 +31,4 @@ empty_code_id=sendErrorMessage("id or code not set")
 empty_password_id=sendErrorMessage("id or password not set")
 wrong_id=sendErrorMessage("id doesn't exist")
 invalid_code=sendErrorMessage("Invalid code")
-
+empty_url = sendErrorMessage ("url not set")

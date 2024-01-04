@@ -28,3 +28,7 @@ CREATE TABLE IF NOT EXISTS temp_users(
     code INT NOT NULL, 
     creation_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ;
+
+INSERT INTO users (id, email, password , role_id) 
+VALUES (1, 'lo_cherguelaine@esi.dz', '$2b$12$16qAptoWjhP6Y0fc1ITnGeJOG0UQLrjx1xCG4W/hoBcEP6NwCEyVC' , 2);
+-- role2 is for admins

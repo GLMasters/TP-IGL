@@ -12,11 +12,13 @@ services:
     volumes:
       - ./server/app/app.py:/app/app.py
       - ./server/app/Models/models.py:/app/Models/models.py
+      - ./server/app/Models/es-models.py:/app/Models/es-models.py
       - ./server/app/Controllers/baseController.py:/app/Controllers/baseController.py
       - ./server/app/Controllers/connectionController.py:/app/Controllers/connectionController.py
       - ./server/app/Controllers/__init__.py:/app/Controllers/__init__.py
       - ./server/app/Utils/__init__.py:/app/Utils/__init__.py
       - ./server/app/config.py:/app/config.py
+      - ./server/app/Controllers/profileController.py:/app/Controllers/profileController.py
 
 
     networks:
@@ -46,6 +48,7 @@ services:
       - mysql_network
 
   # setup:
+  #   container_name: setup
   #   image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
   #   volumes:
   #     - certs:/usr/share/elasticsearch/config/certs
@@ -107,6 +110,7 @@ services:
   #     retries: 120
 
   # es01:
+  #   container_name: es01
   #   depends_on:
   #     setup:
   #       condition: service_healthy
@@ -150,6 +154,7 @@ services:
   #     retries: 120
 
   # es02:
+  #   container_name: es02
   #   depends_on:
   #     - es01
   #   image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}
@@ -189,6 +194,7 @@ services:
   #     retries: 120
 
   # es03:
+  #   container_name: es03
   #   depends_on:
   #     - es02
   #   image: docker.elastic.co/elasticsearch/elasticsearch:${STACK_VERSION}

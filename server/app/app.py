@@ -1,15 +1,18 @@
-from flask import Flask, request
+from PyPDF2  import PdfReader
+from flask import Flask, request , send_file , send_from_directory
 from dotenv import load_dotenv
 from os import getenv
 from flask_cors import CORS, cross_origin
 
 from Models.models import *
 from Controllers.connectionController import *
+from Controllers.uploadController import *
 from Utils import *
 from flask_apscheduler import APScheduler
 from config import *
-
+import tempfile
 from apscheduler.schedulers.background import BackgroundScheduler
+import gdown
 
 
 
@@ -82,6 +85,17 @@ def reset(token):
 @token_required
 def resetPassword():
     return reset_password(request)
+
+@app.route("/api/auth/addmoderator",methods=['POST'])
+def addMod():
+    return addmoderator(request)
+
+
+@app.route("/api/article/upload" , methods = ['GET'] )
+#token required admin 
+# @token_required_forAdmin
+def uploadPdf(): 
+   return uploadFileFromUrl(request)
 
 @app.route('/home' )
 @token_required
