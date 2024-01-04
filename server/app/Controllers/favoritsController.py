@@ -9,23 +9,21 @@ def getFavorits(request):
         token = decode_token( extract_token(request) )
 
         if (not verify_user(token) ):
-            return user_inexistant
+            return error(RESSOURCE_DOESNT_EXIST)
         
         id = token['user']['id']
         favorits = db.session.query(Favorit).filter_by(user_id=id).all()
 
-        return sendResponse(
-            data= {
+        return response(
+            OK,
+            data={
                 "id": id,
                 "favorits": favorits
             },
-            message="favorits fetched successfully"
         )
     
-    except Exception as e :
-        return sendErrorMessage(
-            message=str(e)
-        )
+    except:
+        return error(INTERNAL_ERROR)
 
 def addFavorit(request):
     try:
@@ -33,13 +31,13 @@ def addFavorit(request):
         article_id = request.json['article_id']
 
         if not article_id:
-            pass
+            return error(EMPTY_FIELD)
 
         token = decode_token( extract_token(request) )
-        user = db.session.query(User).filter_by(id=token['user']['id'])
+        user = verify_user(token)
 
-        if not user:
-            pass
+        if (not user):
+            return error(RESSOURCE_DOESNT_EXIST)
 
         new_fav = Favorit(
             user_id=user.id,
@@ -49,19 +47,39 @@ def addFavorit(request):
         db.session.add(new_fav)
         db.session.commit()
 
-        return sendResponse(
+        return response(
+            OK,
             data={
                 "user_id": user.id,
                 "article_id":  article_id
-            },
-            message="Article added to fav list"
+            }
         )
 
     
-    except Exception as e :
-        return sendErrorMessage(
-            message=str(e)
-        )
+    except:
+        return error(INTERNAL_ERROR)
 
 def removeFavorit(request):
-    pass
+    try:
+
+        article_id = request.json['article_id']
+
+        if not article_id:
+            return error(EMPTY_FIELD)
+
+        token = decode_token( extract_token(request) )
+        user = verify_user(token)
+
+        if (not user):
+            return error(RESSOURCE_DOESNT_EXIST)
+        
+        fav = db.session.query(Favorit).filter_by(id=article_id).first()
+
+        if (not fav):
+            return error(RESSOURCE_DOESNT_EXIST)
+        
+        db.session.delete(fav)
+        db.session.commit()
+    
+    except:
+        return error(INTERNAL_ERROR)
