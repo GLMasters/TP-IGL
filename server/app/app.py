@@ -102,7 +102,7 @@ def addMod():
     return addmoderator(request)
 
 
-@app.route("/api/article/upload" , methods = ['GET'] )
+@app.route("/api/article/upload" , methods = ['POST'] )
 #token required admin 
 # @token_required_forAdmin
 def uploadPdf(): 
