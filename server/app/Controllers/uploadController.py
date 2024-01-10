@@ -1,4 +1,6 @@
 import re
+
+from bs4 import BeautifulSoup
 from config import *
 import requests
 from Controllers.baseController import *  
@@ -103,7 +105,17 @@ def devideText(extracted_text , filePath , url):
     # return Sections(header=header, body=body , title=title , references=references  , authors=authors , institutions=institutions , keywords=keywords_section.split(','))
     return Article(summary=resume , title= title , authors=authors , institutions=institutions, keywords=keywords_section.split(',') , references=references, content=body , url =url )
             
-def uploadFileFromUrl(request) :
+def get_direct_download_url(gdrive_url):
+    # Extrait l'ID du fichier Google Drive à partir du lien
+    file_id_match = re.search(r'/d/([a-zA-Z0-9_-]+)', gdrive_url)
+    if file_id_match:
+        file_id = file_id_match.group(1)
+        direct_download_url = f'https://drive.google.com/uc?id={file_id}'
+        return direct_download_url
+    else:
+        return None
+
+def uploadFileFromUrl(request):
     in_url = request.json['url']
     if (not in_url):
         return error(EMPTY_FIELD)

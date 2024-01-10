@@ -160,3 +160,5 @@ def send_reset_token(mail,token):
     print(SECRET_KEY)
     message = TOKEN_EMAIL_TEMPLATE.format(APP_URL+"/api/auth/reset/"+token)
     send_mail(mail,message)
+
+#extraction function 
