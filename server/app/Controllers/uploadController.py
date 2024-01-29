@@ -9,20 +9,26 @@ from Utils import *
 def test():
     pass
 
+def uploadFileFromUser(request):
+    pass
 
 def uploadFileFromUrl(request) :
     in_url = request.json['url']
     if (not in_url):
         return error(EMPTY_FIELD)
-    local_file_path = UPLOADS_FOLDER+"file.pdf"
+    
+    tmp_file_path = TEMP_FOLDER+ gen_random_file_name(20) +".pdf"
     res = requests.get(in_url)
+    
     if res.status_code == 200:
-        with open(local_file_path, "wb") as fichier_local:
-            fichier_local.write(res.content)
+        
+        save_file(tmp_file_path,res.content)
+        
         try:
-            link = UPLOADS_FOLDER+"file.pdf"
-            extracted_text = extract_text_from_pdf(link)
-            article = devideText (extracted_text , link , in_url )
+            extracted_text = extract_text_from_pdf(tmp_file_path)
+
+            article = organize(extracted_text)
+
             return response(
                 OK,
                 data=article.toJSON()
