@@ -198,7 +198,7 @@ def organize(text):
     
     dict = json.loads(part1)
     content = getContent(abstract=dict['abstract'] , text=text)
-    result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=content, references=references,url="")
+    result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=content, references=references)
 
     return result
 def get_first_infos(text):
@@ -231,7 +231,7 @@ def getContent(abstract , text):
 
     lastWodAbstract = abstract[-1]
     lastwordAbstractIndex = text.find(lastWodAbstract)
-    print(lastWodAbstract, file=sys.stderr)
+    
     if lastwordAbstractIndex != -1:
         content = content[lastwordAbstractIndex +len(lastWodAbstract) :].strip()
 

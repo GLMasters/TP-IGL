@@ -33,7 +33,6 @@ def uploadFileFromUrl(request) :
             
             res = addDoc(article.toJSON(), "articles")
             
-            print(res, file=sys.stderr)
             # add check
             final_file_path = UPLOADS_FOLDER + res['_id'] + ".pdf"
             
@@ -47,7 +46,9 @@ def uploadFileFromUrl(request) :
             if result.returncode == 0:
                 return response(
                     OK,
-                    data=article.toJSON()
+                    data={
+                        "article_id": res['_id']
+                    }
                 )
             else:
                 raise Exception("couldn't copy file to dest")

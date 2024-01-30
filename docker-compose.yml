@@ -149,6 +149,8 @@ services:
       - ./data/kibanadata:/usr/share/kibana/data
     ports:
       - ${KIBANA_PORT}:5601
+    networks:
+      - es
     environment:
       - SERVERNAME=kibana
       - ELASTICSEARCH_HOSTS=https://es01:9200
