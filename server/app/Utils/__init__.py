@@ -14,6 +14,7 @@ from Models.models import *
 from openai import OpenAI
 from string import ascii_letters, digits
 import random
+import sys
 
 
 client = OpenAI(api_key="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")
@@ -193,11 +194,11 @@ def extract_text_from_pdf(pdf_path):
 
 def organize(text):
     part1 = get_first_infos(text[:4000])
-    references = get_references(text)
+    references  = get_references(text)
     
     dict = json.loads(part1)
-    
-    result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=text, references=references)
+    content = getContent(abstract=dict['abstract'] , text=text)
+    result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=content, references=references,url="")
 
     return result
 def get_first_infos(text):
@@ -215,6 +216,27 @@ Extract these information from this text in json format: title as a string, auth
     
     return response.choices[0].message.content
 
+def getContent(abstract , text):
+
+    # refernces
+    references_pattern = re.compile(r'References\s*', re.IGNORECASE)
+    references_match = references_pattern.search(text)
+    references_index = 0
+    if references_match:
+        references_index = references_match.end()
+    content = text[:references_index-len("refernces  ")]
+
+    # abstract
+    abstract = abstract.split()
+
+    lastWodAbstract = abstract[-1]
+    lastwordAbstractIndex = text.find(lastWodAbstract)
+    print(lastWodAbstract, file=sys.stderr)
+    if lastwordAbstractIndex != -1:
+        content = content[lastwordAbstractIndex +len(lastWodAbstract) :].strip()
+
+    return content
+
 def get_references(text):
     
     references_pattern = re.compile(r'References\s*', re.IGNORECASE)
@@ -222,7 +244,9 @@ def get_references(text):
     references_index = 0
     if references_match:
         references_index = references_match.end()
-    
-    references = text[references_index:]
+
+    ref = text[references_index:]
+    pattern = re.compile(r'\[[^\]]+\]\s*(.*?)(?=\[\d+\]|\Z)', re.DOTALL)
+    references = pattern.findall(ref)
     
     return references  
