@@ -12,4 +12,4 @@ Flask-APScheduler
 requests
 gdown
 PyPDF2==3.0.0
-pdftitle
+openai

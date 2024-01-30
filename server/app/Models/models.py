@@ -107,10 +107,6 @@ class Token(Base):
             'token': self.token
         }
     
-
-
-
-
 class Article():
 
     def __init__(self,title,summary,authors,institutions,keywords,content, url, references):
@@ -122,8 +118,8 @@ class Article():
         self.content = content
         self.url = url
         self.references = references
+        self.approved = False
     
-
     def toJSON(self):
         return {
             "title"        : self.title,
@@ -133,5 +129,6 @@ class Article():
             "keywords"     : self.keywords,
             "content"      : self.content,
             "url"          : self.url,
-            "references"   : self.references
+            "references"   : self.references,
+            "approved": self.approved
         }

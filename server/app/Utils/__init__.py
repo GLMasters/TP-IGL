@@ -1,13 +1,23 @@
 import ssl
 import smtplib
 import jwt
+import json
 from flask import jsonify,request
 from functools import wraps
-
 from Models.models import Token, db, TempUser, User
 from time import time
 from datetime import timedelta, datetime
 from config import *
+import re
+from PyPDF2  import PdfReader
+from Models.models import *
+from openai import OpenAI
+from string import ascii_letters, digits
+import random
+import sys
+
+
+client = OpenAI(api_key="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")
 
 # token functions
 def generate_normal_token(user):
@@ -161,4 +171,82 @@ def send_reset_token(mail,token):
     message = TOKEN_EMAIL_TEMPLATE.format(APP_URL+"/api/auth/reset/"+token)
     send_mail(mail,message)
 
-#extraction function 
+#misc
+
+def save_file(path, content):
+    with open(path, "wb") as fichier_local:
+        fichier_local.write(content)
+
+def gen_random_file_name(length):
+    return "".join([random.choice(ascii_letters+digits) for i in range(length)])
+
+# extraction functions
+def extract_text_from_pdf(pdf_path):
+    text = ''
+    with open(pdf_path, 'rb') as file:
+        pdf_reader = PdfReader(file)
+        num_pages = len(pdf_reader.pages)
+        for page_num in range(num_pages):
+            page = pdf_reader.pages[page_num]
+            text += page.extract_text()
+        return text
+    #here the extraction is finish --------------
+
+def organize(text):
+    part1 = get_first_infos(text[:4000])
+    references  = get_references(text)
+    
+    dict = json.loads(part1)
+    content = getContent(abstract=dict['abstract'] , text=text)
+    result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=content, references=references,url="")
+
+    return result
+def get_first_infos(text):
+    
+    response = client.chat.completions.create(
+    model="gpt-3.5-turbo",
+        messages= [   
+            {"role": "system", "content": '''\
+Extract these information from this text in json format: title as a string, authors names in a list, institutions names in a list, Abstract, keywords as a list. here is the format: {"title": "","authors": [], "institutions": [], "abstract": "", "keywords":[]}
+''' + text
+            }
+        ]
+        
+    )
+    
+    return response.choices[0].message.content
+
+def getContent(abstract , text):
+
+    # refernces
+    references_pattern = re.compile(r'References\s*', re.IGNORECASE)
+    references_match = references_pattern.search(text)
+    references_index = 0
+    if references_match:
+        references_index = references_match.end()
+    content = text[:references_index-len("refernces  ")]
+
+    # abstract
+    abstract = abstract.split()
+
+    lastWodAbstract = abstract[-1]
+    lastwordAbstractIndex = text.find(lastWodAbstract)
+    print(lastWodAbstract, file=sys.stderr)
+    if lastwordAbstractIndex != -1:
+        content = content[lastwordAbstractIndex +len(lastWodAbstract) :].strip()
+
+    return content
+
+def get_references(text):
+    
+    references_pattern = re.compile(r'References\s*', re.IGNORECASE)
+    references_match = references_pattern.search(text)
+    references_index = 0
+    if references_match:
+        references_index = references_match.end()
+
+    ref = text[references_index:]
+    pattern = re.compile(r'\[[^\]]+\]\s*(.*?)(?=\[\d+\]|\Z)', re.DOTALL)
+    references = pattern.findall(ref)
+    
+    return references  

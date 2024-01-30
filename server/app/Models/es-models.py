@@ -11,6 +11,7 @@ class Article():
         self.content = content
         self.url = url
         self.references = references
+        self.approved = False
     
 
     def toJSON(self):
@@ -22,5 +23,6 @@ class Article():
             "keywords"     : self.keywords,
             "content"      : self.content,
             "url"          : self.url,
-            "references"   : self.references
+            "references"   : self.references,
+            "approved": self.approved
         }
