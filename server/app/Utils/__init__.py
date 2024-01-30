@@ -197,7 +197,7 @@ def organize(text):
     
     dict = json.loads(part1)
     
-    result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=text, references=references,url="")
+    result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=text, references=references)
 
     return result
 def get_first_infos(text):

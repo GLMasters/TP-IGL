@@ -2,7 +2,6 @@ from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.orm import relationship, DeclarativeBase
 from sqlalchemy.ext.declarative import declarative_base
-from flask_login import UserMixin
 from flask_bcrypt import generate_password_hash, check_password_hash
 
 
@@ -13,7 +12,7 @@ class dbBase(DeclarativeBase):
 
 db = SQLAlchemy(model_class=dbBase)
 
-class User(Base , UserMixin ):
+class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
@@ -109,26 +108,40 @@ class Token(Base):
     
 class Article():
 
-    def __init__(self,title,summary,authors,institutions,keywords,content, url, references):
+    def __init__(self,title,summary,authors,institutions,keywords,content, references):
         self.title = title
         self.summary = summary
         self.authors= authors
         self.institutions = institutions
         self.keywords = keywords
         self.content = content
-        self.url = url
         self.references = references
         self.approved = False
+        self.url=None
+        self.id=None
+    
+    def set_url(self,url):
+        self.url = url
+    
+    def set_id(self,id):
+        self.id = id
     
     def toJSON(self):
-        return {
+        obj = {
             "title"        : self.title,
             "summary"      : self.summary,
             "authors"      : self.authors,
             "institutions" : self.institutions,
             "keywords"     : self.keywords,
             "content"      : self.content,
-            "url"          : self.url,
             "references"   : self.references,
             "approved": self.approved
         }
+        
+        if self.url:
+            obj['url'] = self.url
+            
+        if self.id:
+            obj['id'] = self.id
+        
+        return obj

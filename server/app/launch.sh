@@ -1,3 +1,4 @@
 #!/bin/sh
-[ -d /uploads ] || mkdir /uploads
+[ -d /certs ] || mkdir /certs
+
 python3 app.py

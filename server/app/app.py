@@ -11,9 +11,7 @@ from Controllers.uploadController import *
 from Utils import *
 from flask_apscheduler import APScheduler
 from config import *
-import tempfile
 from apscheduler.schedulers.background import BackgroundScheduler
-import gdown
 
 
 

@@ -6,21 +6,13 @@ if [ "$(id -u)" -eq 0 ]; then
     [ -d certs ] || mkdir certs 
     [ -d data/esdata01 ] || mkdir data/esdata01 && [ -d data/kibanadata ] || mkdir data/kibanadata
     [ -d data/db/mysql_data ] || mkdir -p data/db/mysql_data
-
-    # ajust max vm size of the system
-    sysctl -w vm.max_map_count=262144
-
-    # creating mysql network
-    docker network create mysql_network
-    docker network create es
-
-
-    # changing permissions (use your actual username)
-    chown -R f100w:f100w .
     
-    echo "Setup finished, you may want to run docker_start.sh"
+    rm -rf data/esdata01/*
+    rm -rf data/db/mysql_data/*
 
+    chown -R f100w:f100w .
 
+    echo "All data cleaned"
 
 else
     echo "You need to run this script using sudo."

@@ -1,5 +1,5 @@
 .env
-db/mysql_data/
+data/
 certs/
 __pycache__/
 node_modules
