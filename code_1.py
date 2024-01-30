@@ -22,9 +22,9 @@ document = {
     "grade": "1CS"
 }
 
-res = addDoc("students",document)
+#res = addDoc("students",document)
 
-# res = client.get(id="wA39Vo0BvQ7zbEdNNEgO", index="students")
+res = client.get(id="tz2JXI0BDUjwuNe-gjj_", index="articles")
 
 
 

@@ -17,7 +17,7 @@ import random
 import sys
 
 
-client = OpenAI(api_key="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")
+client = OpenAI(api_key=OPENAI_API_KEY)
 
 # token functions
 def generate_normal_token(user):

@@ -53,7 +53,8 @@ def registerFunction(request):
             
         return response(OK, data=user.toJSON())
     
-    except :
+    except Exception as e :
+        print(e, file=sys.stderr)
         return error(INTERNAL_ERROR)
 
 def confirmEmail(request):

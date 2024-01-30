@@ -1,7 +1,4 @@
-from PyPDF2  import PdfReader
 from flask import Flask, request , send_file , send_from_directory
-from dotenv import load_dotenv
-from os import getenv
 from flask_cors import CORS, cross_origin
 
 from Models.models import *
@@ -100,11 +97,17 @@ def addMod():
     return addmoderator(request)
 
 
-@app.route("/api/article/upload" , methods = ['POST'] )
+@app.route("/api/article/uploadurl" , methods = ['POST'] )
 #token required admin 
 # @token_required_forAdmin
-def uploadPdf(): 
+def uploadUrl(): 
    return uploadFileFromUrl(request)
+
+@app.route("/api/article/uploadfile" , methods = ['POST'] )
+#token required admin 
+# @token_required_forAdmin
+def uploadFile(): 
+   return uploadFileFromUser(request)
 
 @app.route('/home' )
 @token_required
