@@ -31,14 +31,24 @@ function SignUpPage() {
       password: Password,
     };
 
-    response = await signup(data);
-    if (response?.message) {
-      setErrorMessage(response.message);
-      return;
-    }
-    saveUserInfo(response);
-    //navigate to confirm mail page
+    var response = await signup(data);
+
+    console.log("sent email")
+
     navigate('/verifyEmail');
+
+    if (! response.result){
+      //do something
+    }
+    
+    // if (response.result) {
+
+    //   setErrorMessage(response.message);
+    //   return;
+    // }
+    // saveUserInfo(response);
+    //navigate to confirm mail page
+    // navigate('/verifyEmail');
   };
 
   return (

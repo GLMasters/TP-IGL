@@ -14,19 +14,13 @@ async function signup(data){
             }
         )
         
-        if (res.data.result){
-            return res.data.data
-
-        } else {
-
-            return {message: res.data.status }
-        }
+        return res.data
 
     } catch(error){
 
-        return {
-            message:error.message
-        }
+        console.log(error)
+
+        return false
 
     }
 
