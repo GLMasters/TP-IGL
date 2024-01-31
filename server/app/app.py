@@ -100,7 +100,7 @@ def favorits():
         return getFavorits(request)
     elif request.method=="POST":
         return addFavorit(request)
-    else:
+    elif request.method == "DELETE":
         return removeFavorit(request)
 
 @app.route("/api/auth/addmoderator",methods=['POST'])
