@@ -72,7 +72,7 @@ class TempUser(Base):
     
 
 
-class Favorite(Base):
+class Favorit(Base):
     __tablename__ = 'favorites'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
