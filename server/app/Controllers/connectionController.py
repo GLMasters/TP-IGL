@@ -224,7 +224,7 @@ def addmoderator(request):
         
         new_user = User(
             email=in_email,
-            role_id = 3 #the third role is for a moderator
+            role_id = 2 #the third role is for a moderator
         )
         new_user.set_hashed_password(in_passwd)
 
