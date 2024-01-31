@@ -8,6 +8,7 @@ if [ "$(id -u)" -eq 0 ]; then
     [ -d data/db/mysql_data ] || mkdir -p data/db/mysql_data
     
     rm -rf data/esdata01/*
+    rm -rf data/kibanadata/*
     rm -rf data/db/mysql_data/*
     rm -rf server/app/uploads/*
 
