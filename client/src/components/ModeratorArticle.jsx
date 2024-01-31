@@ -1,0 +1,29 @@
+import checkSvg from "../assets/checkSvg.svg"
+import checkDisabled from "../assets/checkDisabled.svg"
+import { useState } from "react"
+import { Link } from "react-router-dom"
+
+function ModeratorArticle({
+    articleTitle,
+    auteurs
+}) {
+    const articleData={}
+    const [checked,setChecked]=useState(false)
+  return (
+    <div className="grid grid-cols-3 gap-4 border border-b-2 border-b-black border-r-0 border-l-0 border-t-0 py-6 relative">
+    <img src={checked ? checkSvg : checkDisabled} onClick={()=>setChecked(!checked)} className="absolute -left-0 w-8 top-[0%] translate-y-[70%]" />
+    <h4 className="ml-14">{articleTitle}</h4>
+    {
+        <div className="">
+            {
+                auteurs.join(",")
+            }
+        </div>
+    }
+    {/* Edit button */}
+    <Link to={`/moderator/editArticle`} state={articleData} className="bg-seconadryColor px-8 py-3 -mt-2 ml-60 rounded-md w-fit text-white">view Details</Link>
+    </div>
+  )
+}
+
+export default ModeratorArticle

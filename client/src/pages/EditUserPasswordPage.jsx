@@ -1,3 +1,4 @@
+import { Link, useNavigate } from 'react-router-dom';
 import docLibLogo from '../assets/docLibLogo.svg';
 import PasswordInput from '../components/PasswordInput';
 import { useState } from 'react';
@@ -6,7 +7,7 @@ function EditUserPassword() {
   const [pass, setPass] = useState('');
   const [isValid, setIsValid] = useState(true);
   const [confirmedPass, setConfirmedPass] = useState('');
-
+  const navigate=useNavigate()
   const submitHandler = (e) => {
     e.preventDefault();
     if (pass != confirmedPass || !(pass.trim().length > 8)) {
@@ -14,6 +15,10 @@ function EditUserPassword() {
       return;
     }
   };
+
+  const navigateBack=()=>{
+      navigate(-1)
+  }
   return (
     <div className="container w-full mx-auto bg-white px-4 min-h-screen">
       {/* form */}
@@ -72,6 +77,7 @@ function EditUserPassword() {
         >
           continuer
         </button>
+        <p className='text-seconadryColor underline text-center' onClick={navigateBack}>retour</p>
       </form>
     </div>
   );

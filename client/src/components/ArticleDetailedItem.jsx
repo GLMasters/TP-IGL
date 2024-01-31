@@ -8,7 +8,7 @@ function ArticleDetailedItem({
             {/* title */}
             <h4 className='font-bold mt-4'>{title}</h4>
             {/* content */}
-            <div className='bg-gray p-4 px-6 rounded-2xl shadow-md'>
+            <div className='bg-gray p-4 px-6 rounded-2xl shadow-md text-wrap'>
                 {content}
             </div>
     </div>

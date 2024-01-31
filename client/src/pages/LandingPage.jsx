@@ -21,7 +21,7 @@ export default function LandingPage() {
       {/* filter bar */}
       {filterMode && <FilterBar visible={visible} setVisible={setVisible} />}
 
-      <div className="container w-full mx-auto mt-28">
+      <div className="container p-4 w-full mx-auto mt-28">
         {/* our seaach page */}
         <SearchBar setFilter={setFilterMode} />
         {filterMode ? (

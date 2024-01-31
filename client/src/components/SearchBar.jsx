@@ -25,7 +25,7 @@ function SearchBar({setFilter}) {
   },[items])
 
   return (
-    <div className="w-full xl:w-3/4 mx-auto my-10">
+    <div className="w-full xl:w-3/4 my-10 mx-auto">
     <div className="w-full rounded-3xl border-2 border-primaryColor flex items-center bg-white my-5 relative">
             {/* search input */}
             <input value={searchKey} onChange={(e)=>setSearchKey(e.target.value)} type="text" className="w-full h-full bg-inherit placeholder:text-slate-400 py-4 px-10 rounded-full outline-none" placeholder="Ajoutez quelques choses ..." />
