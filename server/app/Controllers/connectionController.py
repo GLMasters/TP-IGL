@@ -36,7 +36,7 @@ def registerFunction(request):
         if user:
             user.code = code
             user.set_password(in_passwd)
-            user.creation_timestamp = datetime.timestamp()
+            user.creation_timestamp = datetime.now()
             db.session.commit()
         else:        
             tmp_user = TempUser(

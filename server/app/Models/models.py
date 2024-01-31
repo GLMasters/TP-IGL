@@ -22,7 +22,7 @@ class User(Base):
     role_id = Column(Integer, nullable=False)
 
     # Define a relationship to the Favorites table
-    favorites = relationship('Favorite', back_populates='user')
+    favorites = relationship('Favorit', back_populates='user')
     #favorites = db.relationship('Favorite', backref='user')
 
     def __repr__(self):
