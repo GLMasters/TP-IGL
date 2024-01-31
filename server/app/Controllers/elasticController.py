@@ -26,3 +26,8 @@ def deleteDoc(id, index):
 def updateDoc(id, index,document):
     res = client.update(id=id, index=index,doc=document)
     return res
+
+def search(index,query):
+    res = client.search(index,query=query)
+    
+    return res

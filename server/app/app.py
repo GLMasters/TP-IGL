@@ -6,6 +6,7 @@ from Controllers.connectionController import *
 from Controllers.profileController import *
 from Controllers.favoritsController import *
 from Controllers.uploadController import *
+from Controllers.articlesController import *
 from Utils import *
 from flask_apscheduler import APScheduler
 from config import *
@@ -92,6 +93,11 @@ def profile():
 @token_required
 def changePassword():
     return changePasswordFunction(request)
+
+@app.route("/api/article", methods=["POST"])
+# @token_required
+def getArticle():
+    return getArticlebyId(request)
 
 @app.route("/api/favorits", methods=['GET', 'POST', 'DELETE'])
 @token_required

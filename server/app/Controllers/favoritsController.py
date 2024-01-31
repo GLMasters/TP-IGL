@@ -1,6 +1,6 @@
 from Models.models import Favorit, db, User
 from Utils import *
-from baseController import *
+from Controllers.baseController import *
 
 def getFavorits(request):
 

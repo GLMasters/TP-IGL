@@ -24,8 +24,25 @@ document = {
 
 #res = addDoc("students",document)
 
-res = client.get(id="4V7QXo0B5XKAVr7ImivD", index="articles")
+# res = client.get(id="4V7QXo0B5XKAVr7ImivD", index="articles")
+query = {
+    "bool": {
+        "must": [
+            {
+                "multi_match": {
+                    "query": "Surrogate Modeling",
+                    "fields": ["_all"]
+                }
+            },
+            {
+                "term": {
+                    "approved": True
+                }
+            }
+        ]
+    }
+}
 
-
+res = client.search(index="articles")
 
 print(res)
