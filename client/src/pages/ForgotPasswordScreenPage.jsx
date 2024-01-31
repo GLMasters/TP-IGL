@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react';
 import {checkIsEmailExist} from "../actions/user"
 import Spinner from '../components/Spinner';
 import {useSelector,useDispatch} from "react-redux"
+import Footer from '../components/Footer';
 function ForgotPasswordScreen() {
   const [email,setEmail]=useState("")
   const navigate = useNavigate();
@@ -24,6 +25,7 @@ function ForgotPasswordScreen() {
     if (success) navigate('/verifyEmail');
   }, [success]);
   return (
+    <>
     <div className="contanier w-full mx-auto px-4 bg-white min-h-screen">
       {loading && <Spinner />}
       <header>
@@ -67,6 +69,8 @@ function ForgotPasswordScreen() {
         </Link>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
 

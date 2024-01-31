@@ -4,8 +4,10 @@ import { TeamFeatues } from '../data/index';
 import FeatureCard from '../components/FeatureCard';
 import { motion } from 'framer-motion';
 import { stagger, fadeIn, textVariant } from '../motion/index';
+import Footer from '../components/Footer';
 export default function About() {
   return (
+    <>
     <div className="w-full">
       {/* section 1 */}
       <motion.div
@@ -108,6 +110,7 @@ export default function About() {
 
       {/* Faq */}
       <motion.div
+       id="FAQ"
         variants={stagger('chidrenBefore')}
         initial={'hidden'}
         whileInView={'show'}
@@ -117,6 +120,9 @@ export default function About() {
         }}
         className="bg-white container px-8 flex flex-col items-center my-10"
       >
+        <div>
+          
+        </div>
         <h2 className="uppercase text-seconadryColor font-bold">FAQ</h2>
         <motion.div
           variants={textVariant(0.1)}
@@ -188,5 +194,7 @@ export default function About() {
         </motion.div>
       </motion.div>
     </div>
+    <Footer/>
+    </>
   );
 }

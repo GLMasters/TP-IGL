@@ -12,21 +12,21 @@ function ArticleItem({
             setIsFavorit(!favorit)
     }
   return (
-    <div className={`w-full grid grid-cols-cols2 gap-5 ${index % 2 == 0 ? "bg-seconadryColor text-white" : "bg-white text-black" } rounded-2xl shadow-lg px-6 py-9 my-6 relative`}>
+    <div className={`lg:ml-16 lg:mr-16 grid grid-cols-cols2 gap-5 ${index % 2 == 0 ? "bg-seconadryColor text-white" : "bg-white text-black" } rounded-2xl shadow-lg px-6 py-9 my-6 relative`}>
         {/* favoris Icon */}
           
             <div className="h-10 w-10 absolute top-6 right-6" onClick={changeFavorit}>
                 {(index % 2 == 0 && favorit) ? <img src={heart1} className="w-full object-cover" /> : (index % 2 !=0 && favorit ? <img src={heart2} className="w-full object-cover" /> : (index % 2 == 0 && !favorit) ? <img src={emptyHeart1} className="w-full object-cover" /> : <img src={emptyHeart2} className="w-full object-cover" />) }
             </div>
           
-        <h3 className='col-span-2 w-4/5'>{titre}</h3>
-        <h3>Auteurs : </h3>
+        <h3 className='ml-8 col-span-2 w-4/5 text-2xl'>{titre}</h3>
+        <h3 className="ml-8">Auteurs : </h3>
         <ul>
         {
             auteurs.map(a => (<li>{a}</li>))
         }
         </ul>
-        <h3>Institutions : </h3>
+        <h3 className="ml-8">Institutions : </h3>
         <ul>
         {
             institutions.map(i => (<li>{i}</li>))

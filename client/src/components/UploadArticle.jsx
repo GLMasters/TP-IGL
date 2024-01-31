@@ -13,14 +13,14 @@ function UploadArticle() {
     <div>
       {/* uplaod part */}
       <div className="bg-seconadryColor px-10 py-12 md:flex justify-around items-center">
-        <div className="max-w-md w-full">
+        <div className="max-w-[42rem] w-full">
         {/* upload via URL */}
-          <div className="flex flex-col gap-2 items-start">
+          <div className="flex flex-col gap-3 items-center">
             <label
               htmlFor="urlInput"
-              className="font-Poppins text-white text-3xl"
+              className="ml-16 font-Poppins text-white text-3xl"
             >
-              Uploader votre article à partir d'un url
+              Uploader votre article à partir d'un url :
             </label>
             <div className="relative w-10/12 upload">
               <LuLink className='absolute top-[50%] -translate-y-[50%] right-4' size={25} />
@@ -28,21 +28,24 @@ function UploadArticle() {
               <input type='text' placeholder='Introduisez le lien de fichier' className="uploadInput" />
             </div>
           </div>
-{/* Uploader via file */}
-<div className="flex flex-col gap-2 items-start py-4">
+           {/* Uploader via file */}
+           <div className="flex flex-col gap-2 items-center py-4">
             <label
               htmlFor="urlInput"
-              className="font-Poppins text-white text-3xl"
+              className="ml-16 md:ml-0 font-Poppins text-white text-3xl"
             >
-              Ou bien à partir de votre appareil
+              Ou bien à partir de votre appareil : 
             </label>
-            <div className="relative w-10/12 upload py-4" onClick={uploadArticle}>
+            <div className="relative w-10/12 upload py-4 " onClick={uploadArticle}>
               <FiUpload className='absolute top-[50%] -translate-y-[50%] right-4' size={25}  />
               <span className='text-slate-300 px-6'>Sélectioonez votre fichier</span>
               <input type='file' className='hidden' ref={articleUploadRef} />
             </div>
           </div>
-          <button className='bg-primaryColor text-white px-4 py-3 rounded-md'>confirm</button>
+          <div className='flex flex-col items-center'>
+          <button className='bg-primaryColor text-white px-4 py-3 rounded-md '>confirm</button>
+          </div>
+         
         </div>
         <div className="w-[20rem]">
           <img

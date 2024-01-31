@@ -44,9 +44,9 @@ function FilterBar({visible,setVisible}) {
             <h3 className="text-white font-bold">Mots clés</h3>
             <div className="w-3/5 p-5 bg-[#C77DFA] rounded-md max-h-32 overflow-y-scroll">{motsC.length ? <ul>{
                 motsC.map(mot => <li>{mot}</li>)
-            }</ul> :"ajoutez des mots clés"}</div>
+            }</ul> :"Ajoutez des mots clés"}</div>
             <div className="flex justify-between items-center bg-white rounded-full w-4/5 relative">
-            <input type="text" ref={motCleRef} className="w-full bg-inherit text-black focus:outline-primaryColor rounded-full py-3 px-5" placeholder="ajoutez ..." />
+            <input type="text" ref={motCleRef} className="w-full bg-inherit text-black focus:outline-primaryColor rounded-full py-3 px-5" placeholder="Ajoutez ..." />
             <img alt="motscles" src={AddSvg} onClick={add} className="w-8 h-8 absolute right-2" />
             </div>
         </div>
@@ -57,9 +57,9 @@ function FilterBar({visible,setVisible}) {
             <h3 className="text-white font-bold">Auteurs</h3>
             <div className="w-3/5 p-5 bg-[#C77DFA] rounded-md max-h-32 overflow-y-scroll">{auts.length ? <ul>{
                 auts.map(aut => <li>{aut}</li>)
-            }</ul> :"ajoutez des auteurs ..."}</div>
+            }</ul> :"Ajoutez des auteurs ..."}</div>
             <div className="flex justify-between items-center bg-white rounded-full w-4/5 relative">
-            <input type="text" ref={autRef} className="w-full bg-inherit text-black focus:outline-primaryColor rounded-full py-3 px-5" placeholder="ajoutez ..." />
+            <input type="text" ref={autRef} className="w-full bg-inherit text-black focus:outline-primaryColor rounded-full py-3 px-5" placeholder="Ajoutez ..." />
             <img src={AddSvg} onClick={add} alt="auts" className="w-8 h-8 absolute right-2" />
             </div>
         </div>
@@ -69,9 +69,9 @@ function FilterBar({visible,setVisible}) {
             <h3 className="text-white font-bold">Institutions</h3>
             <div className="w-3/5 p-5 bg-[#C77DFA] rounded-md max-h-32 overflow-y-scroll">{institutions.length ? <ul>{
                 institutions.map(ins => <li>{ins}</li>)
-            }</ul> :"ajoutez des institutions"}</div>
+            }</ul> :"Ajoutez des institutions"}</div>
             <div className="flex justify-between items-center bg-white rounded-full w-4/5 relative">
-            <input type="text" ref={instRef} className="w-full bg-inherit text-black focus:outline-primaryColor rounded-full py-3 px-5" placeholder="ajoutez ..." />
+            <input type="text" ref={instRef} className="w-full bg-inherit text-black focus:outline-primaryColor rounded-full py-3 px-5" placeholder="Ajoutez ..." />
             <img alt="institutions" onClick={add} src={AddSvg} className="w-8 h-8 absolute right-2" />
             </div>
         </div>

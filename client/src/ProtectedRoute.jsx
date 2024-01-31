@@ -3,6 +3,7 @@ import { Outlet, useNavigate } from 'react-router-dom';
 import HomeNavbar from './components/HomeNavbar';
 import AuthNavbar from './components/AuthNavbar';
 import HomeScreen from './pages/HomePage';
+import Footer from './components/Footer';
 function ProtectedRoute() {
   const userIsLogged = true;
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ function ProtectedRoute() {
     <div>
       {userIsLogged ? <AuthNavbar /> : <HomeNavbar />}
       {userIsLogged && <Outlet context={[userIsLogged]} />}
+      
     </div>
   );
 }

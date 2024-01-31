@@ -5,6 +5,7 @@ import { validate } from 'react-email-validator';
 import PasswordInput from '../components/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
 import { login } from '../api/auth';
+import Footer from '../components/Footer';
 
 function HomeScreen() {
   const [Email, setEmail] = useState('');
@@ -33,6 +34,7 @@ function HomeScreen() {
     navigate('/Home');
   };
   return (
+    <>
     <div className="bg-white min-h-screen">
       <div className="flex">
         <img src={docLibLogo} alt="docLibLogo" className="h-[80px] mt-5" />
@@ -123,6 +125,8 @@ function HomeScreen() {
         </div>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
 

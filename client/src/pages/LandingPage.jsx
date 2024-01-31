@@ -3,12 +3,13 @@ import FilterBar from '../components/FilterBar';
 import ArticleItem from '../components/ArticleItem';
 import { useState } from 'react';
 import SearchBar from '../components/SearchBar';
-
+import Footer from '../components/Footer';
 export default function LandingPage() {
   const [visible, setVisible] = useState(false);
   const [filterMode, setFilterMode] = useState(false);
   return (
-    <div className="bg-thirdColor py-4 absolute -z-10 w-full top-0 bottom-0 lg:h-screen">
+    
+    <div className="bg-thirdColor py-4 absolute -z-10 w-full top-0 bottom-0 h-full lg:h-[1000px]">
       {visible && (
         <div
           className="bgGradient1 absolute top-0 h-full w-full left-0 z-10"
@@ -32,13 +33,13 @@ export default function LandingPage() {
             Filter
           </button>
         ) : (
-          <h3 className="font-Lora italic font-bold text-3xl mb-6 ml-4">
+          <h3 className="font-Lora italic font-bold text-3xl mb-6 ml-20 text-black">
             Découvrez nos Articles
           </h3>
         )}
 
         {/* our list articles */}
-        <div className="flex flex-col gap-4 lg:max-h-[60vh] lg:overflow-x-hidden lg:overflow-y-scroll scrollbar1 px-3">
+        <div className="flex flex-col gap-4 lg:max-h-[75vh] lg:overflow-x-hidden lg:overflow-y-scroll scrollbar1 px-3">
           {dummyData.map((artcl, index) => (
             <ArticleItem index={index} {...artcl} key={artcl.id} />
           ))}
@@ -50,6 +51,9 @@ export default function LandingPage() {
           </button>
         </div>
       </div>
+      <Footer />
     </div>
+    
+    
   );
 }

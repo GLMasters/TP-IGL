@@ -14,10 +14,10 @@ function ModerateurItem({
     <>
     <div className="w-full hidden lg:grid lg:grid-cols-5 py-6 border border-b-2 border-t-0 border-r-0 border-l-0 relative">
         <img src={isChecked ? checkSvg : checkDisabled} onClick={()=>setIsChecked(!isChecked)} className="absolute -left-0 w-8 top-[0%] translate-y-[70%]" />
-        <h4 className="ml-14">{moderatorName}</h4>
-        <h4>{moderatorEmail}</h4>
-        <h4>{moderatorPhone}</h4>
-        <h4>{moderatorAdr}</h4>
+        <h4 className="ml-14 text-black">{moderatorName}</h4>
+        <h4 className="text-black">{moderatorEmail}</h4>
+        <h4 className="text-black">{moderatorPhone}</h4>
+        <h4 className="text-black">{moderatorAdr}</h4>
         {/* Edit button */}
         <button className="bg-seconadryColor px-8 py-3 -mt-2 ml-16 rounded-md w-fit text-white ">Modifier</button>
     </div>

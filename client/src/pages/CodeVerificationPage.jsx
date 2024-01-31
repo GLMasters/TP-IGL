@@ -4,6 +4,7 @@ import { Link } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import {confirmVerificationCode} from "../actions/user"
 import {useSelector,useDispatch} from "react-redux"
+import Footer from '../components/Footer';
 function CodeVerificationPage() {
   const [codeAuth, setCodeAuth] = useState('');
   const dispatch=useDispatch()
@@ -12,6 +13,7 @@ function CodeVerificationPage() {
     dispatch(confirmVerificationCode(codeAuth,))
   }
   return (
+    <>
     <div className="contanier w-full mx-auto px-4 bg-white min-h-screen">
       {loading && <Spinner />}
       <header>
@@ -50,6 +52,8 @@ function CodeVerificationPage() {
         <Link className="underline text-seconadryColor mb-5">retour</Link>
       </div>
     </div>
+    <Footer />
+    </>
   );
 }
 

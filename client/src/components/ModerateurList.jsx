@@ -14,7 +14,7 @@ function ModerateurList() {
     <div className='container w-full mx-auto px-5 my-5'>
     {popUp && <AddModeratorPopUp setPopUp={setPopUp} />}
         <div className='flex items-center justify-between'>
-            <h3>Liste de modérateurs :</h3>
+            <h3 className="text-black">Liste de modérateurs :</h3>
             <div className='flex gap-2'>
                 <button className='rounded-md bg-primaryColor px-5 py-3 text-white' onClick={()=>setPopUp(true)}>Ajouter</button>
                 <button className='bg-gray rounded-md px-5 py-3 border'>Supprimer</button>
@@ -23,10 +23,10 @@ function ModerateurList() {
         {/* listing moderators */}
         <div className='w-full mt-8'>
         <div className='font-semibold hidden lg:grid lg:grid-cols-5'>
-            <h4 className="ml-14">Nom Complet</h4>
-            <h4>Email</h4>
-            <h4>Téléphone</h4>
-            <h4>Adresse</h4>
+            <h4 className="ml-14 text-black">Nom Complet</h4>
+            <h4 className="text-black">Email</h4>
+            <h4 className="text-black">Téléphone</h4>
+            <h4 className="text-black">Adresse</h4>
           </div>
 
           <ModerateurItem moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} />

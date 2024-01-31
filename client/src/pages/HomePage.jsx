@@ -1,6 +1,8 @@
 import homeImage from "../assets/home-image.svg"
+import Footer from '../components/Footer';
 function HomeScreen() {
   return (
+    <>
     <div className="container mx-auto w-full px-3 pt-20 lg:pt-6 max-h-screen flex flex-wrap items-center bg-white min-h-screen">
     {/* left side */}
     <div className="flex-fluid ml-4 mb-10">
@@ -21,6 +23,8 @@ function HomeScreen() {
         </div>
         
     </div>
+    <Footer />
+    </>
   )
 }
 

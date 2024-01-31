@@ -6,6 +6,8 @@ import { useDispatch, useSelector } from "react-redux"
 import {updateUserPassword} from "../actions/user"
 import Spinner from "../components/Spinner"
 import { USER_FAIL } from "../constants/userActions"
+import Footer from '../components/Footer';
+
 function ResetPasswordPage() {
     const dispatch=useDispatch()
     const {success,error,loading}=useSelector(state => state.resetUserReducer)
@@ -35,6 +37,7 @@ function ResetPasswordPage() {
 
 
   return (
+    <>
     <div className="contanier w-full mx-auto px-4 bg-white min-h-screen">
     {loading && <Spinner />}
         <header>
@@ -72,6 +75,8 @@ function ResetPasswordPage() {
                     <Link className="underline text-seconadryColor">retour</Link>
         </div>
     </div>
+    <Footer />
+    </>
   )
 }
 

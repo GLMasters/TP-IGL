@@ -2,6 +2,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import docLibLogo from '../assets/docLibLogo.svg';
 import PasswordInput from '../components/PasswordInput';
 import { useState } from 'react';
+import Footer from '../components/Footer';
 function EditUserPassword() {
   const [oldpass, setoldpass] = useState('');
   const [pass, setPass] = useState('');
@@ -20,6 +21,7 @@ function EditUserPassword() {
       navigate(-1)
   }
   return (
+    <>
     <div className="container w-full mx-auto bg-white px-4 min-h-screen">
       {/* form */}
       <form
@@ -80,6 +82,8 @@ function EditUserPassword() {
         <p className='text-seconadryColor underline text-center' onClick={navigateBack}>retour</p>
       </form>
     </div>
+    <Footer />
+    </>
   );
 }
 

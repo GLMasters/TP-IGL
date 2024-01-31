@@ -5,6 +5,7 @@ import Modal from './Modal';
 import { useState } from 'react';
 import { Link } from 'react-router-dom';
 import { FiMenu } from "react-icons/fi";
+import { animateScroll as scroll } from "react-scroll";
 
 export default function Navbar() {
   const [isModalShown, setIsModalShown] = useState(false);
@@ -21,17 +22,20 @@ export default function Navbar() {
       {/* header */}
       <nav className="flex items-center justify-between">
         {/* docLibLogo */}
-        <img src={docLibLogo} alt="docLib Logo" className="w-[9rem] object-cover" />
+        <Link to={'/'} >
+        <img src={docLibLogo} alt="docLib Logo"  className="w-[9rem] object-cover" />
+          </Link>
+        
 <div className='flex gap-5'>
-        <div className="hidden md:flex items-center gap-10">
+        <div className="hidden md:flex items-center gap-16 mr-12">
           {/* a propos */}
           <Link to={'/about'} className="font-semibold text-black">
             A PROPOS
           </Link>
           {/* About */} 
-          <Link className="font-semibold text-black">FAQ</Link>
+         
           {/* favoris */}
-          <Link className="flex items-center gap-3">
+          <Link className="flex items-center gap-3" to={'/favoris'}>
             <img
               className="w-5 h-6 object-cover"
               src={favIcon}
@@ -66,9 +70,9 @@ export default function Navbar() {
       A PROPOS
     </Link>
     {/* About */}
-    <Link  onClick={()=>setIsMenuShwon(false)} className="font-semibold text-black">FAQ</Link>
+   
     {/* favoris */}
-    <Link onClick={()=>setIsMenuShwon(false)} className="flex items-center gap-3">
+    <Link onClick={()=>setIsMenuShwon(false)} to={'/favoris'} className="flex items-center gap-3">
       <img
         className="w-5 h-6 object-cover"
         src={favIcon}
