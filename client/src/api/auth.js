@@ -19,7 +19,7 @@ async function signup(data){
 
         } else {
 
-            return {message: res.data.message}
+            return {message: res.data.status }
         }
 
     } catch(error){

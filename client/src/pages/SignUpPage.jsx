@@ -5,6 +5,7 @@ import { Link, useNavigate } from 'react-router-dom';
 import { validate } from 'react-email-validator';
 import PasswordInput from '../components/PasswordInput';
 import Footer from '../components/Footer';
+import {signup, login , logout, confirmRegistration ,getUserProfile} from '../api/auth'
 
 function SignUpPage() {
   const [Email, setEmail] = useState('');
@@ -18,6 +19,7 @@ function SignUpPage() {
       !validate(Email) ||
       Password.trim().length < 8 === true ||
       Password != confirmPassword
+
     ) {
       setValidSubmission(false);
       return;
@@ -29,6 +31,7 @@ function SignUpPage() {
       password: Password,
     };
 
+    response = await signup(data);
     if (response?.message) {
       setErrorMessage(response.message);
       return;
