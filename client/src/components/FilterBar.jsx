@@ -72,7 +72,7 @@ function FilterBar({visible,setVisible}) {
             }</ul> :"ajoutez des institutions"}</div>
             <div className="flex justify-between items-center bg-white rounded-full w-4/5 relative">
             <input type="text" ref={instRef} className="w-full bg-inherit text-black focus:outline-primaryColor rounded-full py-3 px-5" placeholder="ajoutez ..." />
-            <img alt="institutions" onClick={add} alt="institutions" src={AddSvg} className="w-8 h-8 absolute right-2" />
+            <img alt="institutions" onClick={add} src={AddSvg} className="w-8 h-8 absolute right-2" />
             </div>
         </div>
 

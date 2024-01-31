@@ -25,7 +25,7 @@ h3{
 font-size: 1.6rem;
 }
 h4{
-  font-size: 1rem;
+  font-size: 1.2rem;
   }
 
 p{
@@ -48,6 +48,12 @@ p{
     }
     .FooterWord{
       @apply my-1 mx-0 font-semibold text-white cursor-pointer font-Lora antialiased tracking-wider text-lg;
+    }
+    .uploadInput{
+      @apply bg-white px-6 outline-none placeholder:text-slate-300 py-3
+    }
+    .upload{
+      @apply bg-white px-6 rounded-full border border-primaryColor w-full
     }
   }
 

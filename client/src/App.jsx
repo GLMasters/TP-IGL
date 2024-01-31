@@ -1,42 +1,39 @@
 import {BrowserRouter as Router , Route,Routes} from "react-router-dom"
-import HomeScreen from "./pages/HomePage"
-import AppLayout from "./AppLayout"
+import ProtectedRoute from "./ProtectedRoute"
 import LoginPage from "./pages/LoginPage"
 import SignUpPage from "./pages/SignUpPage"
-import VerifyEmailScreen from "./pages/VerifyEmailScreen"
-import ForgotPasswordScreen from "./pages/ForgotPasswordScreen"
-import ChangerPasswordPage from "./pages/ChangerPasswordPage"
-//import resetPassProviderq
-import { ResetPassProvider } from "./context/resetPassContext"
-import EditUserPassword from "./pages/EditUserPassword"
-import Favoris from "./pages/Favoris"
-import About from "./pages/About"
-import LandingPage from "./pages/LandingPage"
-import ArticlesScreen from "./pages/ArticlesScreen"
+import ResetPasswordPage from "./pages/ResetPasswordPage"
+import ForgotPasswordScreen from "./pages/ForgotPasswordScreenPage"
+import EditUserPassword from "./pages/EditUserPasswordPage"
+import Favoris from "./pages/FavorisPage"
+import About from "./pages/AboutPage"
+import RenderHome from "./utils/RenderHome"
+import ArticlesScreen from "./pages/ArticlesPage"
+import AdminScreen from "./pages/AdminPage"
+import CodeVerificationPage from "./pages/CodeVerificationPage"
 function App() {
   
   return (
     <div>
-    <ResetPassProvider>
       <Router>
           <Routes>
-                <Route path="/" element={<AppLayout />}>
-                    <Route path="/" element={false ? <HomeScreen /> : <LandingPage />} />
+                <Route path="/" element={<ProtectedRoute />}>
+                    <Route path="/" element={<RenderHome />} />
                     <Route path="/editUserPassword" element={<EditUserPassword />} />
                     <Route path="/about" element={<About />} />
                     <Route path="/favoris" element={<Favoris />} />
                     <Route path="/article/:articleId" element={<ArticlesScreen />} />
+                    <Route path="/admin" element={<AdminScreen />} />
                 </Route>
                 <Route path="/login" element={<LoginPage />}  />
                 <Route path="/register" element={<SignUpPage />} />
-                <Route path="/verifyEmail" element={<VerifyEmailScreen />} />
+                <Route path="/verifyEmail" element={<CodeVerificationPage />} />
                 <Route path="/forgotPass" element={<ForgotPasswordScreen />} />
-                <Route path="/changePassword" element={<ChangerPasswordPage />} />
+                <Route path="/changePassword" element={<ResetPasswordPage />} />
                 <Route path="*" element={<p>Not Found oops</p>} />
                 
            </Routes>
       </Router>
-      </ResetPassProvider>
     </div>
   )
 }
