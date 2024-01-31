@@ -92,28 +92,30 @@ def token_required(f):
 
     return decorated
 
-
-def token_required_forAdmin(f):
+def token_admin(f):
     @wraps(f)
     def decorated(*args, **kwargs):
-        token = extract_token(request)
+        token = decode_token(extract_token(request))
+            
+        role_id = token.get('user', {}).get('role_id')  
 
-        if not token:
-            return jsonify({'Alert!': 'Token is missing!'}), 401
-        
-        if isBlacklisted(token):
-            return jsonify({'Message': 'Token has expired (blacklist)'}), 403
-
-        try:
-            data = decode_token(token)
-            role_id = data.get('user', {}).get('role_id')  
-        except jwt.ExpiredSignatureError:
-            return jsonify({'Message': 'Token has expired'}), 403
-        except jwt.InvalidTokenError:
-            return jsonify({'Message': 'Invalid token'}), 403
-
-        if role_id != 2:
+        if role_id != 3:
             return jsonify({'Message': 'Insufficient privileges (admin required)'  }), 403  
+
+        return f(*args, **kwargs)
+
+    return decorated
+
+def token_moderator(f):
+    @wraps(f)
+    def decorated(*args, **kwargs):
+        token = decode_token(extract_token(request))
+            
+        role_id = token.get('user', {}).get('role_id')  
+
+        # we just need to check if the priviliges are not for normal user
+        if role_id == 1:
+            return jsonify({'Message': 'Insufficient privileges (at least moderator required)'  }), 403  
 
         return f(*args, **kwargs)
 

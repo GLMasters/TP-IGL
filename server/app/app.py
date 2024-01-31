@@ -98,16 +98,22 @@ def addMod():
 
 
 @app.route("/api/article/uploadurl" , methods = ['POST'] )
-#token required admin 
-# @token_required_forAdmin
+# @token_required
+# @token_admin
 def uploadUrl(): 
    return uploadFileFromUrl(request)
 
 @app.route("/api/article/uploadfile" , methods = ['POST'] )
-#token required admin 
-# @token_required_forAdmin
+# @token_required
+# @token_admin
 def uploadFile(): 
    return uploadFileFromUser(request)
+
+@app.route("/api/article/confirmupload", methods = ['POST'])
+# @token_required
+# @token_moderator
+def confirmUplaod():
+    return approveArticle(request)
 
 @app.route('/home' )
 @token_required

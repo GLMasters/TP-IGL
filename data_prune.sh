@@ -9,6 +9,7 @@ if [ "$(id -u)" -eq 0 ]; then
     
     rm -rf data/esdata01/*
     rm -rf data/db/mysql_data/*
+    rm -rf server/app/uploads/*
 
     chown -R f100w:f100w .
 

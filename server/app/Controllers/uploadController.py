@@ -14,15 +14,15 @@ def test():
 
 def uploadFileFromUser(request):
     if 'file' not in request.files:
-        return 'No file part'
+        return error(EMPTY_FIELD)
     
     file = request.files['file']
     
     if file.filename == '':
-        return 'No selected file'
+        return error(EMPTY_FIELD)
     
     if not file:
-        return "pass"
+        return error(EMPTY_FIELD)
     
     tmp_file_path = TEMP_FOLDER+ gen_random_file_name(20) +".pdf"
     
@@ -103,3 +103,32 @@ def uploadFileFromUrl(request) :
             return error(INTERNAL_ERROR)
     else:
         return error(INVALID_URL)
+
+def approveArticle(request):
+    in_id = request.json['id']
+    
+    if not in_id :
+        return error(EMPTY_FIELD)
+    
+    try:
+        res = getDoc(in_id,"articles")
+        
+        if not res['found']:
+            return error(RESSOURCE_DOESNT_EXIST)
+        
+        document = res["_source"]
+        document['approved'] = True
+        
+        res = updateDoc(res['_id'],'articles',document)
+        
+        if (res['result']!= "updated"):
+            raise Exception("update failed")
+        
+        return response(OK)
+            
+    except Exception as e:
+        print(e,file=sys.stderr)
+        return error(INTERNAL_ERROR)
+        
+    
+    

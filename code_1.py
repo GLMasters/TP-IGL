@@ -18,13 +18,13 @@ def addDoc(index,doc):
 
 
 document = {
-    "name": "hennouni",
+    "name": "smail",
     "grade": "1CS"
 }
 
 #res = addDoc("students",document)
 
-res = client.get(id="tz2JXI0BDUjwuNe-gjj_", index="articles")
+res = client.get(id="4V7QXo0B5XKAVr7ImivD", index="articles")
 
 
 
