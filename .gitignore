@@ -1,9 +1,8 @@
 .env
 data/db/mysql_data
-data/esdata01
-data/kibanadata
+data/esdata01/
+data/kibanadata/
 certs/
 __pycache__/
 node_modules
-esdata/
 .vscode/

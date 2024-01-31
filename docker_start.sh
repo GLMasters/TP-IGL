@@ -8,7 +8,7 @@ if [ "$(id -u)" -eq 0 ]; then
     # container start
     docker-compose up --build -d
 
-    chown -R oussama:oussama certs/
+    chown -R f100w:f100w certs/
 
 else
     echo "You need to run this script using sudo."
