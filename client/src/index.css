@@ -1,0 +1,120 @@
+@import url('https://fonts.googleapis.com/css2?family=Poppins:ital,wght@0,500;0,800;1,500&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora&display=swap');
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+*,*::after,**::before{
+  box-sizing: border-box;
+}
+
+html{
+    font-size: calc(0.6vmin + 60%);
+}
+body{
+    font-family: 'Poppins', sans-serif;
+    background-color: white;
+}
+h1{
+font-size: 4rem;
+}
+h2{
+font-size: 2.6rem;
+}
+h3{
+font-size: 1.6rem;
+}
+h4{
+  font-size: 1.2rem;
+  }
+
+p{
+    font-size: 1rem;
+}
+
+@layer pages {
+  .shadow-custom {
+    box-shadow: 3.07px 6.14px 15.35px rgba(0, 0, 0, 0.19);
+  }
+}
+
+
+@layer components {
+    .loginBtn{
+      @apply rounded-full px-6 py-3 bg-primaryColor shadow-md text-white;
+    }
+    .Inputsign{
+      @apply focus:border-primaryColor bg-white focus:outline-none font-Poppins block w-full h-[52px] text-black  placeholder-black px-7 border-black border-[0.5px];
+    }
+    .FooterWord{
+      @apply my-1 mx-0 font-semibold text-white cursor-pointer font-Lora antialiased tracking-wider text-lg;
+    }
+    .uploadInput{
+      @apply bg-white px-6 outline-none placeholder:text-slate-300 py-3
+    }
+    .upload{
+      @apply bg-white px-6 rounded-full border border-primaryColor w-full
+    }
+  }
+
+  .Btn2{
+border-radius: 0px 0px 40.7576px 0px;
+  }
+  .Btn1{
+
+border-radius: 0px 0px 100px 0px;
+  }
+
+  .bgGradient{
+    background: rgba(0, 0, 0, 0.3);
+  }
+.bgGradient1{
+  background: rgba(0, 0, 0, 0.7);
+}
+
+.btn1{
+box-shadow: 4.07576px 8.15151px 20.3788px rgba(0, 0, 0, 0.19);
+border-radius: 0px 0px 40.7576px 0px;
+}
+.btn2{
+  box-shadow: 4.07576px 8.15151px 20.3788px rgba(0, 0, 0, 0.19);
+  border-radius: 0px 0px 0px 58px;
+}
+.disable-scrolling{
+  height: 100%;
+  overflow: hidden;
+}
+
+.filterBtn{
+  border-radius: 0px 0px 40.7576px 0px;
+}
+
+.scrollbar1::-webkit-scrollbar{
+  width: 1.3rem;
+  background-color: #7209B7;
+}
+.scrollbar1::-webkit-scrollbar-track {
+  background-color: white;
+}
+
+.scrollbar1::-webkit-scrollbar-thumb {
+  background-color: #7209B7;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
+
+
+.scrollbar2::-webkit-scrollbar{
+  width: 10px;
+  background-color: white;
+}
+.scrollbar2::-webkit-scrollbar-track {
+  background-color: #7209B7;
+  height: 20px;
+}
+
+.scrollbar2::-webkit-scrollbar-thumb {
+  background: white;
+  border-radius: 6px;
+  height: 10%;
+  box-shadow: inset 0 0 6px rgba(0, 0, 0, 0.3);
+}
