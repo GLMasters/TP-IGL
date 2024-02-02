@@ -1,26 +1,25 @@
-import {USER_UPDATE_INFO,CLEAR_USER_INFO,USER_ERROR, USER_LOADING,USER_SUCCESS, SAVE_USER_LOGIN_DATA,USER_FAIL, CONFIRM_USER_MAIL,SAVE_ENTERED_EMAIL} from "../constants/userActions"
+import {USER_UPDATE_INFO,CLEAR_USER_INFO,USER_ERROR,SAVE_CONFIRMATION_CODE, USER_LOADING,USER_SUCCESS, SAVE_USER_LOGIN_DATA,USER_FAIL, CONFIRM_USER_MAIL,SAVE_ENTERED_EMAIL} from "../constants/userActions"
 
 const initialState={
     loading:false,
     userInfo:localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
     error:"",
-    successMessage:"",
     success:false
 }
 export const userReducer=(state=initialState,action)=>{
     switch (action.type) {
         case USER_LOADING:
-            return {...state,loading:true,success:false,successMessage:""}
+            return {...state,loading:true,success:false}
         case USER_SUCCESS:
             return {
-                ...state,success:true,successMessage:action.payload
+                ...state,loading:false,success:true
             }
         case SAVE_USER_LOGIN_DATA:
             return {userInfo:action.payload,loading:false,success:true}
         case USER_ERROR:
             return {...state,loading:false,error:action.payload,success:false}
         case CLEAR_USER_INFO:
-            return {...state,userInfo:{}}
+            return {...state,success: false,userInfo:{}}
         default: return state
     }
 }
@@ -30,6 +29,7 @@ const initialState2={
     loading:false,
     code:"",
     email:"",
+    id: null,
     error:""
 }
 export const resetUserReducer=(state=initialState2,action)=>{
@@ -56,6 +56,13 @@ export const resetUserReducer=(state=initialState2,action)=>{
                 success:false,
                 error:action.payload
             }
+        case SAVE_CONFIRMATION_CODE:
+            return {
+                ...state,
+                loading: false,
+                id: action.payload.id
+            }
+
         default:
             return state
     }

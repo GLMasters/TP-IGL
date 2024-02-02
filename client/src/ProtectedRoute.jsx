@@ -4,17 +4,21 @@ import HomeNavbar from './components/HomeNavbar';
 import AuthNavbar from './components/AuthNavbar';
 import HomeScreen from './pages/HomePage';
 import Footer from './components/Footer';
+import {useSelector} from "react-redux"
+
 function ProtectedRoute() {
-  const userIsLogged = true;
+  const {userInfo} = useSelector(state=>state.userReducer) ;
+
   const navigate = useNavigate();
   useEffect(() => {
-    if (!userIsLogged) navigate('/login');
+
+    if (!userInfo.role_id) navigate('/login');
     return;
-  }, [userIsLogged]);
+  }, [userInfo.role_id]);
   return (
     <div>
-      {userIsLogged ? <AuthNavbar /> : <HomeNavbar />}
-      {userIsLogged && <Outlet context={[userIsLogged]} />}
+      {userInfo.role_id ? <AuthNavbar /> : <HomeNavbar />}
+      {userInfo.role_id && <Outlet context={[userInfo.role_id]} />}
       
     </div>
   );

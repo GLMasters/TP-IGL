@@ -1,11 +1,13 @@
 import docLibLogo from '../assets/docLibLogo.svg';
 import googlelogo from '../assets/googlelogo.svg';
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { validate } from 'react-email-validator';
 import PasswordInput from '../components/PasswordInput';
 import { Link, useNavigate } from 'react-router-dom';
-import { login } from '../api/auth';
 import Footer from '../components/Footer';
+import {useSelector, useDispatch} from "react-redux"
+import Spinner from "../components/Spinner"
+import { login } from '../actions/user';
 
 function HomeScreen() {
   const [Email, setEmail] = useState('');
@@ -13,6 +15,8 @@ function HomeScreen() {
   const [validSubmission, setValidSubmission] = useState(true);
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
+  const dispatch = useDispatch() ;
+  const {loading,error,success} = useSelector(state=>state.userReducer) ;
   const HanldeSubmit = async (e) => {
     e.preventDefault();
     if (!validate(Email) || Password.trim().length < 8 === true) {
@@ -26,13 +30,15 @@ function HomeScreen() {
       password: Password,
     };
 
-    var response = await login(data);
-    if (response.message) {
-      setErrorMessage(response.message);
-      return;
-    }
-    navigate('/Home');
+    dispatch(login(data)) ;
+
   };
+
+  useEffect(()=>{
+    if (success){
+      navigate("/") ;
+    }
+  }, [success])
   return (
     <>
     <div className="bg-white min-h-screen">

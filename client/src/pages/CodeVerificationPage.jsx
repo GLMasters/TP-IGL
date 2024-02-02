@@ -1,17 +1,24 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import docLibLogo from '../assets/docLibLogo.svg';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import Spinner from '../components/Spinner';
 import {confirmVerificationCode} from "../actions/user"
 import {useSelector,useDispatch} from "react-redux"
 import Footer from '../components/Footer';
 function CodeVerificationPage() {
   const [codeAuth, setCodeAuth] = useState('');
-  const dispatch=useDispatch()
-  const {success,error,loading,email}=useSelector(state => state.resetUserReducer)
+  const dispatch=useDispatch();
+  const navigate = useNavigate() ;
+  const {success,error,loading,id}=useSelector(state => state.resetUserReducer)
   const submitCode=()=>{
-    dispatch(confirmVerificationCode(codeAuth,))
+    dispatch(confirmVerificationCode(codeAuth,id)) ;
   }
+
+  useEffect(()=>{
+    if (success){
+      navigate("/login")
+    }
+  }, [success])
   return (
     <>
     <div className="contanier w-full mx-auto px-4 bg-white min-h-screen">

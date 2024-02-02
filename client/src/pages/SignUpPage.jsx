@@ -5,13 +5,19 @@ import { Link, useNavigate } from 'react-router-dom';
 import { validate } from 'react-email-validator';
 import PasswordInput from '../components/PasswordInput';
 import Footer from '../components/Footer';
-import {signup, login , logout, confirmRegistration ,getUserProfile} from '../api/auth'
+import { registerUser } from '../actions/user';
+import {useSelector, useDispatch} from "react-redux"
+import Spinner from "../components/Spinner"
 
 function SignUpPage() {
   const [Email, setEmail] = useState('');
   const [Password, setPassword] = useState('');
   const [confirmPassword, setconfirmPassword] = useState('');
   const [ValidSubmission, setValidSubmission] = useState(true);
+
+  const dispatch = useDispatch() ;
+  const authState = useSelector(state=>state.userReducer) ;
+
   const navigate = useNavigate();
   const HanldeSubmit = async (e) => {
     e.preventDefault();
@@ -31,29 +37,21 @@ function SignUpPage() {
       password: Password,
     };
 
-    var response = await signup(data);
-
-    console.log("sent email")
-
-    navigate('/verifyEmail');
-
-    if (! response.result){
-      //do something
-    }
+    dispatch(registerUser(data))
     
-    // if (response.result) {
 
-    //   setErrorMessage(response.message);
-    //   return;
-    // }
-    // saveUserInfo(response);
-    //navigate to confirm mail page
-    // navigate('/verifyEmail');
   };
+
+  useEffect(()=>{
+    if (authState.success)
+      navigate("/verifyEmail")
+
+  }, [authState.success])
 
   return (
     <>
       <div className="container w-full mx-auto px-4 bg-white lg:h-[1024px] md:h-[900px] h-[800px]">
+        {authState.loading && <Spinner/>} 
         <header>
           <img
             src={docLibLogo}
@@ -108,6 +106,12 @@ function SignUpPage() {
                 {!ValidSubmission && (
                   <span className="text-red-600 text-xs ml-5 text-center ">
                     Saisissez une adresse de courriel ou un mot de passe valide.
+                  </span>
+                )}
+
+                {authState.error && (
+                  <span className="text-red-600 text-xs ml-5 text-center ">
+                    {authState.error}
                   </span>
                 )}
 

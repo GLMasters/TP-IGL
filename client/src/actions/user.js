@@ -1,8 +1,9 @@
-import {USER_ERROR,USER_SUCCESS,USER_UPDATE_INFO,USER_LOADING,SAVE_USER_LOGIN_DATA,CONFIRM_USER_MAIL,CLEAR_USER_INFO} from "../constants/userActions"
+import {USER_ERROR,USER_SUCCESS,USER_UPDATE_INFO,USER_LOADING,SAVE_USER_LOGIN_DATA,CONFIRM_USER_MAIL,CLEAR_USER_INFO, SAVE_CONFIRMATION_CODE} from "../constants/userActions"
 
 import axios from "axios"
 
-import {config} from "../api/config"
+
+import {config} from "./config"
 
 export const url = axios.create({
     baseURL:config.URL
@@ -23,16 +24,41 @@ const registerUser=(data)=>async(dispatch)=>{
         
         if (res.data.result){
             //return res.data.data
+            
             dispatch({
                 type:USER_SUCCESS,
+                payload:res.data.data
+            })
+            
+
+            dispatch({
+                type:SAVE_CONFIRMATION_CODE,
                 payload:res.data.data
             })
 
         } else {
 
+            var message= "" ;
+
+            switch(res.data.status){
+
+                case 103:
+                    message = "Email Invalid" ;
+                    break ;
+                
+                case 101:
+                    message= "Compte déja existant"
+                    break
+                
+                case 500:
+                    message = "Erreur Serveur, Veuillez Ressayer"
+                    break
+
+            }
+
             return dispatch({
                 type:USER_ERROR,
-                payload:res.data.message
+                payload:message
             })
         }
     } catch (error) {
@@ -56,16 +82,25 @@ const login=(data)=>async(dispatch)=>{
                 }
             }
         )
+
         
         if (res.data.result){
             //save to local storage
-            localStorage.setItem("token",JSON.parse(res.data.data.token))
+            localStorage.setItem("user",
+                JSON.stringify({
+                    "token": res.data.data.token, 
+                    "role_id":res.data.data.role_id
+                })
+            ) ;
+
             //save user Data
             dispatch({
-                type:SAVE_USER_LOGIN_DATA
+                type:SAVE_USER_LOGIN_DATA,
+                payload: res.data.data
             })
 
         } else {
+            console.log("error")
 
             return dispatch({
                 type:USER_ERROR,
@@ -74,6 +109,8 @@ const login=(data)=>async(dispatch)=>{
         }
 
     } catch(error){
+
+        console.log(error) ;
 
         dispatch({
             type:USER_ERROR,
@@ -149,16 +186,21 @@ const updateUserPassword=(user_id,userPass)=>async(dispatch)=>{
 
 }
 
-const confirmVerificationCode=(code,email)=>async(dispatch)=>{
+const confirmVerificationCode=(code,id)=>async(dispatch)=>{
         try {
+            console.log(code) ;
+            console.log(id) ;
+
             const res=await url.post(`/api/auth/confirm`,JSON.stringify({
-                email,
-                code
+                id,
+                code: Number(code)
             }),{
                 headers:{
                     "Content-Type":"application/json"
                 }
             })
+
+            console.log(res.data) ;
 
             if(res.data.result){
                 //save user data in localStorage
@@ -166,9 +208,10 @@ const confirmVerificationCode=(code,email)=>async(dispatch)=>{
                     token:res.data.data
                 }))*/
                     dispatch({
-                        type:CONFIRM_REGISTRATION
+                        type:CONFIRM_USER_MAIL
                     })
             }else{
+
                 return  dispatch({
                     type:USER_ERROR,
                     payload:res.data.message
@@ -186,11 +229,13 @@ const confirmVerificationCode=(code,email)=>async(dispatch)=>{
 const logout=()=>async(dispatch)=>{
     try {
         //get token from localStorage
-        const token= localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : null
+        const token= localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")).token : null
+
+
         if(!token) return;
-        //clear localStorage 
-        localStorage.removeItem("user");
-        const res=await url.get(`/api/auth/logout`,{
+
+        console.log(token) ;
+        const res=await url.post(`/api/auth/logout`,{},{
             headers:{
                 Authorization:`Bearer ${token}`
             }

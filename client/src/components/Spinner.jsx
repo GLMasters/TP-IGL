@@ -1,6 +1,6 @@
 function Spinner() {
   return (
-    <div className="absolute inset-0 h-full flex justify-center items-center bgGradient z-10">
+    <div className="fixed inset-0 h-full flex justify-center items-center bgGradient z-10">
         <span className="loading loading-spinner loading-md"></span>
     </div>
   )

@@ -52,6 +52,7 @@ def decode_token(token):
 def extract_token(request):
     token = request.headers.get('Authorization')
 
+    print(token,sys.stderr)
     if not token:
         return None
 
@@ -74,7 +75,7 @@ def token_required(f):
     @wraps(f)
     def decorated(*args, **kwargs):
         token = extract_token(request)
-
+        
         if not token:
             return jsonify({'Alert!': 'Token is missing!'}), 401
         

@@ -23,7 +23,7 @@ def registerFunction(request):
             return error(EMPTY_FIELD)
         
         if (not is_valid_email(in_email)):
-           return response(INVALID_INPUT)
+           return error(INVALID_INPUT)
 
         user = db.session.query(User).filter_by(email=in_email).first()
         if (not user == None):
@@ -61,8 +61,10 @@ def confirmEmail(request):
     try:
         id = request.json['id']
         code = request.json['code']
+        print(f"id={id} & code={code}",file=sys.stderr)
 
-        if (not id or not code):
+        if ((not id) or (not code)):
+            print(f"id={id} & code={code}",file=sys.stderr)
             return error(EMPTY_FIELD)
         
 
