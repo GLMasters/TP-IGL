@@ -1,24 +1,42 @@
-import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLE,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR} from "../constants/articleActions"
+import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLES,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR} from "../constants/articleActions"
 
 import { url } from "./user"
 
-const getArticles=()=>async(dispatch)=>{
+const getArticles=(approved)=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ARTICLE_LOADING
         })
-        const res=await url.get("/");
-        if(res.data?.result){
+
+        var res ;
+
+        if (!approved){
+            res=await url.get("/api/articles/pending",{
+                headers: {
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`
+                }
+            });
+
+        } else {
+            res=await url.get("/api/articles/approved", {
+                headers: {
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`
+                }
+            });
+        }
+
+
+        if(res.data.result){
                 dispatch({
                     type:GET_ARTICLES,
-                    payload:res.data.data
+                    payload:res.data.data.articles
                 })
         }else{
             return dispatch({
                 type:ARTICLE_ERROR,
-                payload:res.data.message
             })
         }
+
     } catch (error) {
         dispatch({
             type:ARTICLE_ERROR,
@@ -28,22 +46,45 @@ const getArticles=()=>async(dispatch)=>{
 }
 
 
-const addArticle=(article_data)=>async(dispatch)=>{
+const addArticle=(article_data,byLink)=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ARTICLE_LOADING
         })
+        var res ;
+        
+        if (byLink){
+            
+            res=await url.post("/api/article/uploadurl", JSON.stringify({"url": article_data}), {
+                headers:{
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                    "Content-Type": "application/json"
+                }
+            });
 
-        const res=await url.post();
-        if(res.data?.result){
+        } else {
+
+            const formData = new FormData();
+            formData.append('file', article_data);
+
+            res=await url.post("/api/article/uploadfile", formData,  {
+                headers:{
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                    "Content-Type": 'multipart/from-data',
+                }
+            });
+
+
+        }
+        
+        if(res.data.result){
             dispatch({
                 type:ADD_ARTICLE,
-                payload:article_data
+                payload:res.data.data
             })
         }else{
             return dispatch({
                 type:ARTICLE_ERROR,
-                payload:res.data.message
             })
         }
     } catch (error) {
@@ -71,35 +112,81 @@ const editArticle=(article_id,newArticleData)=>(dispatch)=>{
     }
 }
 
-const deleteArticle=(article_id)=>async(dispatch)=>{
+const deleteArticle=(article_id_list)=>async(dispatch,getState)=>{
+    console.log(article_id_list)
     try {
         dispatch({
             type:ARTICLE_LOADING
         })
-        const res=await url.delete("");
+        const res=await url.post("/api/articles/delete",JSON.stringify({
+                articles:article_id_list
+        }),{
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+            }
+        });
+
+        console.log(res.data)
         if(res.data?.result){
             return dispatch({
-                type:DELETE_ARTICLE,
-                payload:{
-                    articleId:article_id
-                }
+                type:DELETE_ARTICLES,
+                payload:res.data?.data.articles
             })
         }
         return dispatch({
             type:ARTICLE_ERROR,
             payload:res.data.message
         })
-} catch (error) {
-    dispatch({
-        type:ARTICLE_ERROR,
-        payload:error.message
-    })
+    } catch (error) {
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:error.message
+        })
+    }
 }
+
+const approveArticles=(articles_id_list)=>async(dispatch,getState)=>{
+    try {
+        dispatch({
+            type:ARTICLE_LOADING
+        })
+
+        
+        var res = await url.post("/api/articles/confirm",JSON.stringify({
+            "articles": articles_id_list
+            
+        }), {
+            headers:{
+                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        if(res.data.result){
+
+            return dispatch({
+                type:GET_ARTICLES,
+                payload: res.data.data.articles
+            })
+        }
+        return dispatch({
+            type:ARTICLE_ERROR,
+            payload:res.data.status
+        })
+    } catch (error) {
+
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:error.message
+        })
+    }
 }
 
 export {
     getArticles,
     addArticle,
     editArticle,
-    deleteArticle
+    deleteArticle,
+    approveArticles,
 }

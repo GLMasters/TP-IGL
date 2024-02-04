@@ -5,9 +5,8 @@ from Models.models import *
 from Controllers.connectionController import *
 from Controllers.profileController import *
 from Controllers.favoritsController import *
-from Controllers.uploadController import *
+from Controllers.articlesController import *
 from Utils import *
-from flask_apscheduler import APScheduler
 from config import *
 from apscheduler.schedulers.background import BackgroundScheduler
 
@@ -109,27 +108,33 @@ def addMod():
 
 
 @app.route("/api/article/uploadurl" , methods = ['POST'] )
-# @token_required
-# @token_admin
+@token_required
+@token_admin
 def uploadUrl(): 
    return uploadFileFromUrl(request)
 
 @app.route("/api/article/uploadfile" , methods = ['POST'] )
-# @token_required
-# @token_admin
+@token_required
+@token_admin
 def uploadFile(): 
    return uploadFileFromUser(request)
 
-@app.route("/api/article/confirmupload", methods = ['POST'])
-# @token_required
-# @token_moderator
-def confirmUplaod():
-    return approveArticle(request)
-
-@app.route('/home' )
+@app.route("/api/articles/confirm", methods = ['POST'])
 @token_required
-def home():
-    return 'JWT is verified. Welcome to your dashboard !  '
+@token_moderator
+def confirmUplaod():
+    return approveArticles(request)
+
+@app.route("/api/articles/approved", methods=['GET'])
+@token_required
+def getGoodArticles():
+    return getAllArticles(approved=True)
+
+@app.route("/api/articles/pending", methods=['GET'])
+@token_required
+@token_moderator
+def getPendingArticles():
+    return getAllArticles(approved=False)
 
 
 #repeating tasks

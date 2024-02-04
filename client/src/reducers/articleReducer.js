@@ -2,21 +2,21 @@ import {
     ADD_ARTICLE,
     GET_ARTICLES,
     CONFIRM_ARTICLE,
-    DELETE_ARTICLE,
     ARTICLE_ERROR,
     ARTICLE_LOADING,
-    EDIT_ARTICLE_BY_MODERATOR
+    EDIT_ARTICLE_BY_MODERATOR,
+    DELETE_ARTICLES
 } from "../constants/articleActions"
 const initialState={
     loading:false,
     articles:[],
-    error:"",
+    error:false,
     success:false
 }
 export const articleReducer=(state=initialState,action)=>{
     switch (action.type) {
         case ARTICLE_LOADING:
-            return {...state,loading:true,success:false}
+            return {...state,loading:true,success:false, error: false}
         case GET_ARTICLES:
             return {
                 ...state,success:true,articles:action.payload,
@@ -39,12 +39,13 @@ export const articleReducer=(state=initialState,action)=>{
             return {...state,loading:false,error:action.payload,success:false}
         case ARTICLE_ERROR:
             return {
-                ...state,loading:false,success:false,error:action.payload
+                ...state,loading:false,success:false,error:true
             }
-        case DELETE_ARTICLE:
-            state.articles=state.articles.filter(art => art._id != action.payload.articleId)
+        case DELETE_ARTICLES:
+            //state.articles=state.articles.filter(art => art._id != action.payload.articleId)
             return {
                 ...state,
+                articles:action.payload,
                 loading:false
             }
         default: return state

@@ -7,6 +7,8 @@ import Footer from '../components/Footer';
 export default function LandingPage() {
   const [visible, setVisible] = useState(false);
   const [filterMode, setFilterMode] = useState(false);
+  
+  
   return (
     
     <div className="bg-thirdColor py-4 absolute -z-10 w-full top-0 bottom-0 h-full lg:h-[1000px]">

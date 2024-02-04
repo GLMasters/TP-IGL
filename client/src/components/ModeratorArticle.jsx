@@ -1,14 +1,33 @@
 import checkSvg from "../assets/checkSvg.svg"
 import checkDisabled from "../assets/checkDisabled.svg"
-import { useState } from "react"
+import { useEffect, useState } from "react"
 import { Link } from "react-router-dom"
 
 function ModeratorArticle({
+    articleId,
     articleTitle,
-    auteurs
+    auteurs,
+    checkedArticles, 
+    setCheckedArticles
 }) {
     const articleData={}
     const [checked,setChecked]=useState(false)
+
+    useEffect(()=>{
+    
+
+        if (checked && !(checkedArticles.includes(articleId) )) {
+            setCheckedArticles([...checkedArticles, articleId])
+        } else if ((! checked) && (checkedArticles.includes(articleId))){
+            setCheckedArticles(checkedArticles.filter((id)=>{
+                return id != articleId
+            }))
+        }
+
+
+    }, [checked])
+
+
   return (
     <div className="grid grid-cols-3 gap-4 border border-b-2 border-b-black border-r-0 border-l-0 border-t-0 py-6 relative -z-0">
     <img src={checked ? checkSvg : checkDisabled} onClick={()=>setChecked(!checked)} className="absolute -left-0 w-8 top-[0%] translate-y-[70%]" />

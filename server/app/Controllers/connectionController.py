@@ -147,7 +147,9 @@ def resetToken(request):
 
         return response(OK)
     
-    except :
+    except Exception as e:
+        print("Exeption of forgot password")
+        print(e, file=sys.stderr)
         return error(INTERNAL_ERROR)
 
 def verifyResetToken(token):
@@ -178,8 +180,8 @@ def reset_password(request):
     
     try:
         password = request.json['password']
-        token = extract_token(request)
-        user_id = decode_token(token)['user']['id']
+        token = decode_token(extract_token(request))
+        user_id = token['user']['id']
         
         if (not password or not user_id):
             return error(EMPTY_FIELD)
@@ -189,13 +191,13 @@ def reset_password(request):
         
 
         user = db.session.query(User).filter_by(id=user_id).first()
+        
 
         if (not user):
             return error(RESSOURCE_DOESNT_EXIST)
         
         user.set_hashed_password(password)
 
-        
         db.session.commit()
 
         token = generate_normal_token(user)
@@ -208,7 +210,8 @@ def reset_password(request):
             }
         )
 
-    except :
+    except Exception as e:
+        print(e,file=sys.stderr)
         return error(INTERNAL_ERROR)
     
 def addmoderator(request):

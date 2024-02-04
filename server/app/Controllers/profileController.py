@@ -28,6 +28,8 @@ def changePasswordFunction(request):
     try:
         
         token = decode_token(extract_token(request))
+        import sys
+        print(token,file=sys.stderr)
 
         oldPassword = request.json['old_password']
         newPassword = request.json['new_password']
@@ -53,5 +55,7 @@ def changePasswordFunction(request):
             data=user.toJSON()
         )
     
-    except:
+    except Exception as e:
+        import sys
+        print(e,file=sys.stderr)
         return error(INTERNAL_ERROR)

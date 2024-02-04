@@ -52,7 +52,6 @@ def decode_token(token):
 def extract_token(request):
     token = request.headers.get('Authorization')
 
-    print(token,sys.stderr)
     if not token:
         return None
 
@@ -64,7 +63,7 @@ def extract_token(request):
     return None
 
 def verify_user(token):
-    user = db.session.query(User).filter_by(id=token['user']['id'])
+    user = db.session.query(User).filter_by(id=token['user']['id']).first()
     
     if not user:
         blacklistToken(token)
@@ -169,8 +168,6 @@ def send_verif_code(mail,code):
     send_mail(mail,message)
 
 def send_reset_token(mail,token):
-    print(APP_URL)
-    print(SECRET_KEY)
     message = TOKEN_EMAIL_TEMPLATE.format(APP_URL+"/api/auth/reset/"+token)
     send_mail(mail,message)
 
@@ -204,6 +201,7 @@ def organize(text):
     result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=content, references=references)
 
     return result
+
 def get_first_infos(text):
     
     response = client.chat.completions.create(
@@ -253,3 +251,17 @@ def get_references(text):
     references = pattern.findall(ref)
     
     return references  
+
+def fitArticles(es_articles):
+    local_es_articles = []
+    for i in es_articles:
+        obj = {
+            "id": i['_id'],
+            "title": i['_source']['title'],
+            "authors": i['_source']['authors'],
+            "institutions": i['_source']['institutions'],
+            "approved": i['_source']['approved']
+        }
+        local_es_articles.append(obj)
+    
+    return local_es_articles
