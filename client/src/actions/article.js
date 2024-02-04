@@ -1,4 +1,4 @@
-import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLE,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR} from "../constants/articleActions"
+import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLES,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR} from "../constants/articleActions"
 
 import { url } from "./user"
 
@@ -112,18 +112,26 @@ const editArticle=(article_id,newArticleData)=>(dispatch)=>{
     }
 }
 
-const deleteArticle=(article_id)=>async(dispatch)=>{
+const deleteArticle=(article_id_list)=>async(dispatch,getState)=>{
+    console.log(article_id_list)
     try {
         dispatch({
             type:ARTICLE_LOADING
         })
-        const res=await url.delete("");
+        const res=await url.post("/api/articles/delete",JSON.stringify({
+                articles:article_id_list
+        }),{
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+            }
+        });
+
+        console.log(res.data)
         if(res.data?.result){
             return dispatch({
-                type:DELETE_ARTICLE,
-                payload:{
-                    articleId:article_id
-                }
+                type:DELETE_ARTICLES,
+                payload:res.data?.data.articles
             })
         }
         return dispatch({
@@ -154,8 +162,6 @@ const approveArticles=(articles_id_list)=>async(dispatch,getState)=>{
                 "Content-Type": "application/json"
             }
         });
-
-        console.log(res.data.data.articles, res.data.data.articles.length)
 
         if(res.data.result){
 

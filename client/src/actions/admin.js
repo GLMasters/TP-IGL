@@ -1,5 +1,5 @@
 import { url } from "./user";
-import {GET_MODERATORS,ADD_MODERATOR,DELETE_MODERATOR,EDIT_MODERATOR, UPLOAD_ARTICLELOAD_ARTICLE,ADMIN_ACTION_SUCCESS,ADMIN_FAIL_ACTION,ADMIN_LOADING, UPLOAD_ARTICLE} from "../constants/adminActions"
+import {GET_MODERATORS,ADD_MODERATOR,DELETE_MODERATOR,EDIT_MODERATOR,ADMIN_ACTION_SUCCESS,ADMIN_FAIL_ACTION,ADMIN_LOADING} from "../constants/adminActions"
 
 const getModerators=()=>async(dispatch)=>{
     try {
@@ -32,7 +32,7 @@ const addModerator=(moderatorData)=>async(dispatch)=>{
             type:ADMIN_LOADING
         })
 
-        const res=await url.post("/api/admin/...")
+        const res=await url.post("/api/")
         if(res.data?.result){
             return dispatch({
                 type:ADD_MODERATOR,
@@ -57,7 +57,7 @@ const editModerator=(newModeratorData,mod_id)=>async(dispatch)=>{
             type:ADMIN_LOADING
         })
 
-        const res=await url.patch("/api/admin/...")
+        const res=await url.post("/api/article/delete")
         if(res.data?.result){
             return dispatch({
                 type:EDIT_MODERATOR,

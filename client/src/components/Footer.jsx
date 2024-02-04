@@ -7,7 +7,7 @@ import { FaFacebookF } from "react-icons/fa";
 
 const Footer = () => {
   return (
-    <div className="pb-16 flex  flex-col justify-center items-center xl:justify-between bg-primaryColor xl:flex-row mt-32">
+    <div className="pb-16 flex  flex-col justify-center items-center xl:justify-between bg-primaryColor xl:flex-row mt-32" >
       <div className="flex-initial">
         <div className="max-w-[260px] ">
           <img src={docLibLogo} alt="" />

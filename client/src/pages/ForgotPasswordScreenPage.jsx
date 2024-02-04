@@ -10,7 +10,7 @@ function ForgotPasswordScreen() {
   const navigate = useNavigate();
 
   const dispatch=useDispatch()
-  const {success,error,loading,generatedToken,successMessage}=useSelector(state => state.userReducer)
+  const {error,loading,successMessage}=useSelector(state => state.userReducer)
   const enterEmail=(e)=>{
       setEmail(e.target.value)
   }
@@ -21,12 +21,6 @@ function ForgotPasswordScreen() {
   }
 
 
-  useEffect(() => {
-    if (success){
-      // verify Token
-      console.log(generatedToken)
-    }
-  }, [success]);
   return (
     <>
     <div className="contanier w-full mx-auto px-4 bg-white min-h-screen">

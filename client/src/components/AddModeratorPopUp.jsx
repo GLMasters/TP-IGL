@@ -1,10 +1,55 @@
 import { IoIosCloseCircleOutline } from "react-icons/io";
+import { addModerator,editModerator } from "../actions/admin";
+import { useDispatch, useSelector } from "react-redux";
 function AddModeratorPopUp({
-    setPopUp
+    setPopUp,
+    isEdit,
+    mod_id
 }) {
+  const dispatch=useDispatch()
+  const {success,error}=useSelector(state => state.adminReducer)
 
-    const addModerator=()=>{
-        setPopUp(false)
+  const [formData,setFormData]=useState({
+    nomComplet:"",
+    adr:"",
+    phone:"",
+    email:""
+  })
+
+  mutateInputs=(e)=>{
+    switch (e.target.name) {
+      case "email":
+        setFormData({
+          ...formData,
+          email:e.target.value
+        })
+        break;
+      case "phone":
+        setFormData({
+          ...formData,
+          phone:e.target.value
+        })
+        break;
+
+      case "adr":
+        setFormData({
+          ...formData,
+          adr:e.target.value
+        })
+        break;
+
+      case "nom":
+        setFormData({
+          ...formData,
+          nomComplet:e.target.value
+        })
+        break;
+    }
+  }
+
+
+    const handleModerator=()=>{
+        isEdit ? dispatch(editModerator(formData,mod_id)) : dispatch(addModerator(formData))
     }
   return (
     <div className="bgGradient1 fixed z-10 top-0 left-0 w-full bottom-0 flex justify-center items-center">
@@ -34,7 +79,7 @@ function AddModeratorPopUp({
             className="rounded-full py-4 px-4 outline-none text-black"
           />
         </div>
-        <button className="bg-gray rounded-lg px-6 text-center text-primaryColor pt-3 pb-2 mx-auto mt-5" onClick={addModerator}>add</button>
+        <button className="bg-gray rounded-lg px-6 text-center text-primaryColor pt-3 pb-2 mx-auto mt-5" onClick={handleModerator}>{isEdit ? "modifier" : "ajouter"}</button>
       </div>
     </div>
   );

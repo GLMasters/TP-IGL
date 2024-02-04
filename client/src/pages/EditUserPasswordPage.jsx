@@ -12,7 +12,6 @@ function EditUserPassword() {
   const [isValid, setIsValid] = useState(true);
   const [confirmedPass, setConfirmedPass] = useState('');
   const navigate=useNavigate()
-  const {userInfo}=useSelector(state => state.userReducer)
   const dispatch=useDispatch()
   const {error,success,loading}=useSelector(state => state.resetUserReducer)
   const submitHandler = (e) => {
