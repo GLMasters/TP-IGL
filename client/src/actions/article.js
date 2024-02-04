@@ -2,23 +2,41 @@ import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLE,ADD
 
 import { url } from "./user"
 
-const getArticles=()=>async(dispatch)=>{
+const getArticles=(approved)=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ARTICLE_LOADING
         })
-        const res=await url.get("/");
-        if(res.data?.result){
+
+        var res ;
+
+        if (!approved){
+            res=await url.get("/api/articles/pending",{
+                headers: {
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`
+                }
+            });
+
+        } else {
+            res=await url.get("/api/articles/approved", {
+                headers: {
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`
+                }
+            });
+        }
+
+
+        if(res.data.result){
                 dispatch({
                     type:GET_ARTICLES,
-                    payload:res.data.data
+                    payload:res.data.data.articles
                 })
         }else{
             return dispatch({
                 type:ARTICLE_ERROR,
-                payload:res.data.message
             })
         }
+
     } catch (error) {
         dispatch({
             type:ARTICLE_ERROR,
@@ -59,7 +77,6 @@ const addArticle=(article_data,byLink)=>async(dispatch,getState)=>{
 
         }
         
-        console.log(res) ;
         if(res.data.result){
             dispatch({
                 type:ADD_ARTICLE,
@@ -113,17 +130,57 @@ const deleteArticle=(article_id)=>async(dispatch)=>{
             type:ARTICLE_ERROR,
             payload:res.data.message
         })
-} catch (error) {
-    dispatch({
-        type:ARTICLE_ERROR,
-        payload:error.message
-    })
+    } catch (error) {
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:error.message
+        })
+    }
 }
+
+const approveArticles=(articles_id_list)=>async(dispatch,getState)=>{
+    try {
+        dispatch({
+            type:ARTICLE_LOADING
+        })
+
+        
+        var res = await url.post("/api/articles/confirm",JSON.stringify({
+            "articles": articles_id_list
+            
+        }), {
+            headers:{
+                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                "Content-Type": "application/json"
+            }
+        });
+
+        console.log(res.data.data.articles, res.data.data.articles.length)
+
+        if(res.data.result){
+
+            return dispatch({
+                type:GET_ARTICLES,
+                payload: res.data.data.articles
+            })
+        }
+        return dispatch({
+            type:ARTICLE_ERROR,
+            payload:res.data.status
+        })
+    } catch (error) {
+
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:error.message
+        })
+    }
 }
 
 export {
     getArticles,
     addArticle,
     editArticle,
-    deleteArticle
+    deleteArticle,
+    approveArticles,
 }

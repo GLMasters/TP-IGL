@@ -201,6 +201,7 @@ def organize(text):
     result = Article(title=dict['title'], summary=dict['abstract'], authors=dict['authors'], institutions=dict["institutions"], keywords=dict['keywords'], content=content, references=references)
 
     return result
+
 def get_first_infos(text):
     
     response = client.chat.completions.create(
@@ -250,3 +251,17 @@ def get_references(text):
     references = pattern.findall(ref)
     
     return references  
+
+def fitArticles(es_articles):
+    local_es_articles = []
+    for i in es_articles:
+        obj = {
+            "id": i['_id'],
+            "title": i['_source']['title'],
+            "authors": i['_source']['authors'],
+            "institutions": i['_source']['institutions'],
+            "approved": i['_source']['approved']
+        }
+        local_es_articles.append(obj)
+    
+    return local_es_articles

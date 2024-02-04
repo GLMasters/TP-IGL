@@ -13,9 +13,9 @@ client = Elasticsearch(
 # Successful response!
 client.info()
 
-def addDoc(index,doc):
-    res = client.index(index=index,document=doc)
-    return res
+# def addDoc(index,doc):
+#     res = client.index(index=index,document=doc)
+#     return res
 
 
 document = {
@@ -24,8 +24,21 @@ document = {
 }
 
 # res = addDoc("students",document)
-res = client.get(index="articles", id="WlGsdI0BhO3lzsYNpZYe")
 
+def update(id):
+    res = client.get(index="articles", id=id)
+
+    new_doc = res['_source']
+    
+    new_doc['approved'] = False
+
+    # print(new_doc)
+    res= client.update(index="articles", id=id, doc=new_doc)
+
+ids = ["_v0rdo0BbJKVEZMd0w2a","__0sdo0BbJKVEZMdQA2b", "AP0tdo0BbJKVEZMdCQ5l"]
+
+for i in ids:
+    update(i)
 # res = client.post()
 # client = OpenAI(api_key="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")
 # response = client.chat.completions.create(
@@ -38,7 +51,3 @@ res = client.get(index="articles", id="WlGsdI0BhO3lzsYNpZYe")
 #         ]
         
 #     )
-
-
-
-print(res)
