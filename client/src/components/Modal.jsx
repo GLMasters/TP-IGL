@@ -1,12 +1,13 @@
 import { Link, useNavigate } from "react-router-dom"
 import {useSelector, useDispatch} from "react-redux"
 import { logout } from "../actions/user";
-import { useEffect } from "react";
+import { useEffect, useState } from "react";
 
 
 export default function Modal() {
-  const isModerateur=true;
-  const isAdmin=true
+  const [isModerateur, setIsModerator] = useState(false) ;
+  const [isAdmin, setIsAdmin] = useState(false) ;
+
   
   const dispatch = useDispatch() ;
   const navigate = useNavigate() ;
@@ -19,10 +20,22 @@ export default function Modal() {
   }
 
   useEffect(()=>{
-
-    if (userInfo=={}){
-      navigate("/login") ;
-    }
+  
+      switch(userInfo.role_id){
+        case 1:
+          setIsAdmin(false) ;
+          setIsModerator(false);
+          break ;
+        case 2:
+          setIsAdmin(false) ;
+          setIsModerator(true) ;
+          break ;
+        case 3:
+          setIsAdmin(true);
+          setIsModerator(false) ;
+          break ;
+      }
+    
 
   }, [userInfo]) ;
 
@@ -31,7 +44,7 @@ export default function Modal() {
     
             <Link to="/editUserPassword"><p className="text-lg px-5 py-3 rounded-xl block mb-5 text-black hover:bg-seconadryColor">Modifier mot de passe</p></Link>
             {isAdmin ?<Link to="/admin" ><p className="text-lg px-5 py-3 rounded-xl block mb-5 text-black hover:bg-seconadryColor">Dashboard admin</p> </Link> : null}
-            {isModerateur ?<Link to={`/moderator/{_id}`} ><p className="text-lg px-5 py-3 rounded-xl block mb-5 text-black hover:bg-seconadryColor">Dashboard modérateur</p></Link>:null}
+            {(isModerateur || isAdmin) ?<Link to={`/moderator/{_id}`} ><p className="text-lg px-5 py-3 rounded-xl block mb-5 text-black hover:bg-seconadryColor">Dashboard modérateur</p></Link>:null}
            <p onClick={logoutFunction} className="text-lg px-5 py-3 rounded-xl block mb-5 text-black hover:bg-seconadryColor cursor-pointer">Se deconnecter</p>
     </div>
   )
