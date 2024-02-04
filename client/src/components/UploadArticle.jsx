@@ -12,13 +12,20 @@ function UploadArticle() {
 
   const dispatch = useDispatch() ;
   const {loading, success, articles,error} = useSelector(state=>state.articleReducer) ;
-  
+  const [selectedFileName, setSelectedFileName] = useState(null);
   const articleUploadRef=useRef()
   const uploadArticle=()=>{
         articleUploadRef.current.click()
-
+       
   }
 
+  const handlefilechange=()=>{
+    const fileInput = articleUploadRef.current;
+    if (fileInput && fileInput.files.length > 0) {
+      setSelectedFileName(fileInput.files[0].name);
+      // You can also perform other actions related to the uploaded file here
+    } 
+  }
   const confirmUpload = ()=>{
 
     if (!link && (! articleUploadRef.current.files[0])){
@@ -53,7 +60,7 @@ function UploadArticle() {
             <div className="relative w-10/12 upload">
               <LuLink className='absolute top-[50%] -translate-y-[50%] right-4' size={25} />
 
-              <input type='text' placeholder='Introduisez le lien de fichier' className="uploadInput" value={link} onChange={(e)=>setLink(e.target.value)}/>
+              <input type='text' placeholder='Introduisez le lien de fichier' className="uploadInput w-full" value={link} onChange={(e)=>setLink(e.target.value)}/>
             </div>
           </div>
            {/* Uploader via file */}
@@ -66,8 +73,10 @@ function UploadArticle() {
             </label>
             <div className="relative w-10/12 upload py-4 " onClick={uploadArticle}>
               <FiUpload className='absolute top-[50%] -translate-y-[50%] right-4' size={25}  />
-              <span className='text-slate-300 px-6'>Sélectioonez votre fichier</span>
-              <input type='file' className='hidden' ref={articleUploadRef} />
+              <span className='text-slate-300 px-6'>
+                {selectedFileName || 'Sélectionnez votre fichier'} 
+              </span>
+              <input type='file' className='hidden' ref={articleUploadRef}  onChange={handlefilechange} />
             </div>
           </div>
          <div className='flex flex-col items-center'>
@@ -75,7 +84,7 @@ function UploadArticle() {
          { error && (<span className=' text-red-500 text-bold mb-4 text-xl '>Une Erreur est survenue !</span>)}
          </div>
           <div className='flex flex-col items-center'>
-          <button className='bg-primaryColor text-white px-4 py-3 rounded-md ' onClick={confirmUpload}>confirm</button>
+          <button className='bg-primaryColor text-white px-4 py-3 rounded-md hover:bg-black ' onClick={confirmUpload}>confirm</button>
           </div>
          
         </div>
