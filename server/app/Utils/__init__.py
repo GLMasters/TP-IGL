@@ -52,7 +52,6 @@ def decode_token(token):
 def extract_token(request):
     token = request.headers.get('Authorization')
 
-    print(token,sys.stderr)
     if not token:
         return None
 
@@ -64,7 +63,7 @@ def extract_token(request):
     return None
 
 def verify_user(token):
-    user = db.session.query(User).filter_by(id=token['user']['id'])
+    user = db.session.query(User).filter_by(id=token['user']['id']).first()
     
     if not user:
         blacklistToken(token)
@@ -169,8 +168,6 @@ def send_verif_code(mail,code):
     send_mail(mail,message)
 
 def send_reset_token(mail,token):
-    print(APP_URL)
-    print(SECRET_KEY)
     message = TOKEN_EMAIL_TEMPLATE.format(APP_URL+"/api/auth/reset/"+token)
     send_mail(mail,message)
 

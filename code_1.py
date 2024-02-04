@@ -1,4 +1,5 @@
 from elasticsearch import Elasticsearch
+from openai import OpenAI
 
 ELASTIC_PASSWORD = "password"
 
@@ -22,9 +23,21 @@ document = {
     "grade": "1CS"
 }
 
-#res = addDoc("students",document)
+# res = addDoc("students",document)
+res = client.get(index="articles", id="WlGsdI0BhO3lzsYNpZYe")
 
-res = client.get(id="4V7QXo0B5XKAVr7ImivD", index="articles")
+# res = client.post()
+# client = OpenAI(api_key="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")
+# response = client.chat.completions.create(
+#     model="gpt-3.5-turbo",
+#         messages= [   
+#             {"role": "system", "content": '''\
+# Hello there
+# ''' 
+#             }
+#         ]
+        
+#     )
 
 
 

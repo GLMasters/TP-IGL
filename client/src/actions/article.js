@@ -28,22 +28,46 @@ const getArticles=()=>async(dispatch)=>{
 }
 
 
-const addArticle=(article_data)=>async(dispatch)=>{
+const addArticle=(article_data,byLink)=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ARTICLE_LOADING
         })
+        var res ;
+        
+        if (byLink){
+            
+            res=await url.post("/api/article/uploadurl", JSON.stringify({"url": article_data}), {
+                headers:{
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                    "Content-Type": "application/json"
+                }
+            });
 
-        const res=await url.post();
-        if(res.data?.result){
+        } else {
+
+            const formData = new FormData();
+            formData.append('file', article_data);
+
+            res=await url.post("/api/article/uploadfile", formData,  {
+                headers:{
+                    "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                    "Content-Type": 'multipart/from-data',
+                }
+            });
+
+
+        }
+        
+        console.log(res) ;
+        if(res.data.result){
             dispatch({
                 type:ADD_ARTICLE,
-                payload:article_data
+                payload:res.data.data
             })
         }else{
             return dispatch({
                 type:ARTICLE_ERROR,
-                payload:res.data.message
             })
         }
     } catch (error) {

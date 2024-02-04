@@ -10,13 +10,13 @@ import {
 const initialState={
     loading:false,
     articles:[],
-    error:"",
+    error:false,
     success:false
 }
 export const articleReducer=(state=initialState,action)=>{
     switch (action.type) {
         case ARTICLE_LOADING:
-            return {...state,loading:true,success:false}
+            return {...state,loading:true,success:false, error: false}
         case GET_ARTICLES:
             return {
                 ...state,success:true,articles:action.payload,
@@ -39,7 +39,7 @@ export const articleReducer=(state=initialState,action)=>{
             return {...state,loading:false,error:action.payload,success:false}
         case ARTICLE_ERROR:
             return {
-                ...state,loading:false,success:false,error:action.payload
+                ...state,loading:false,success:false,error:true
             }
         case DELETE_ARTICLE:
             state.articles=state.articles.filter(art => art._id != action.payload.articleId)

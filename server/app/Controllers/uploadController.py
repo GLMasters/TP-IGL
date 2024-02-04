@@ -74,7 +74,9 @@ def uploadFileFromUrl(request) :
         try:
             extracted_text = extract_text_from_pdf(tmp_file_path)
             
-            article = organize(extracted_text)            
+            article = organize(extracted_text)
+            
+            print(article.toJSON(), file=sys.stderr)          
             
             res = addDoc(article.toJSON(), "articles")
             
@@ -99,7 +101,7 @@ def uploadFileFromUrl(request) :
                 raise Exception("couldn't copy file to dest")
             
         except Exception as e:
-            print(e)
+            print(e,file=sys.stderr)
             return error(INTERNAL_ERROR)
     else:
         return error(INVALID_URL)

@@ -147,7 +147,9 @@ def resetToken(request):
 
         return response(OK)
     
-    except :
+    except Exception as e:
+        print("Exeption of forgot password")
+        print(e, file=sys.stderr)
         return error(INTERNAL_ERROR)
 
 def verifyResetToken(token):
@@ -208,7 +210,8 @@ def reset_password(request):
             }
         )
 
-    except :
+    except Exception as e:
+        
         return error(INTERNAL_ERROR)
     
 def addmoderator(request):
