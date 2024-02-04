@@ -1,28 +1,41 @@
-import { Link, useNavigate } from 'react-router-dom';
+import { useNavigate } from 'react-router-dom';
 import docLibLogo from '../assets/docLibLogo.svg';
 import PasswordInput from '../components/PasswordInput';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import Footer from '../components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { updateUserPassword } from '../actions/user';
+import Spinner from '../components/Spinner';
 function EditUserPassword() {
   const [oldpass, setoldpass] = useState('');
   const [pass, setPass] = useState('');
   const [isValid, setIsValid] = useState(true);
   const [confirmedPass, setConfirmedPass] = useState('');
   const navigate=useNavigate()
+  const {userInfo}=useSelector(state => state.userReducer)
+  const dispatch=useDispatch()
+  const {error,success,loading}=useSelector(state => state.resetUserReducer)
   const submitHandler = (e) => {
     e.preventDefault();
-    if (pass != confirmedPass || !(pass.trim().length > 8)) {
+    if (pass != confirmedPass || !(pass.trim().length > 5)) {
       setIsValid(false);
       return;
     }
+    //add action 
+    dispatch(updateUserPassword(oldpass,pass))
   };
 
   const navigateBack=()=>{
       navigate(-1)
   }
+  useEffect(()=>{
+    if(success) navigate("/")
+  },[success])
+
   return (
     <>
     <div className="container w-full mx-auto bg-white px-4 min-h-screen">
+    {loading && <Spinner />}
       {/* form */}
       <form
         onSubmit={submitHandler}
@@ -70,6 +83,11 @@ function EditUserPassword() {
         {!isValid && (
           <span className="text-red-600 text-xs ml-5 text-center">
             vérifier votre mot de passe !
+          </span>
+        )}
+        {!error && (
+          <span className="text-red-600 text-xs ml-5 text-center">
+            {error}
           </span>
         )}
 

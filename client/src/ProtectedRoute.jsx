@@ -12,7 +12,9 @@ function ProtectedRoute() {
   const navigate = useNavigate();
   useEffect(() => {
 
-    if (!userInfo.role_id) navigate('/login');
+    if (!userInfo.role_id) {
+      navigate('/login');
+    }
     return;
   }, [userInfo.role_id]);
   return (
