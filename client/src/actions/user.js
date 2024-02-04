@@ -121,21 +121,41 @@ const login=(data)=>async(dispatch)=>{
 
 }
 
-const checkIsEmailExist=(email)=>(dispatch,getState)=>{
+const checkIsEmailExist=(email)=>async(dispatch)=>{
     try {
+        console.log(email)
         dispatch({
             type:USER_LOADING
         }) 
-        const userEmail=getState().userReducer.userInfo.email
-        if(userEmail != email) return dispatch({
+        //const userEmail=getState().userReducer.userInfo.email
+        const res=await url.post("/api/auth/forgot",JSON.stringify({
+            email
+        }),{
+            headers:{
+                "Content-Type":"application/json"
+            }
+        })
+        console.log(res.data)
+        if(res.data?.result){
+            dispatch({
+                type:USER_SUCCESS,
+                payload:"vérifiez votre boite d'email"
+            })
+        }else{
+            dispatch({
+                type:USER_ERROR,
+                payload:"vérifiez votre email"
+            })
+        }
+        /*if(userEmail != email) return dispatch({
             type:USER_ERROR,
             payload:"Email entré incorrect"
         })
-
-        dispatch({
+*/
+       /* dispatch({
             type:CONFIRM_USER_MAIL,
             payload:email
-        })
+        })*/
     } catch (error) {
         dispatch({
             type:USER_ERROR,
@@ -145,22 +165,23 @@ const checkIsEmailExist=(email)=>(dispatch,getState)=>{
 }
 
 
-const updateUserPassword=(user_id,userPass)=>async(dispatch)=>{
-
+const updateUserPassword=(oldPassword,newPassword)=>async(dispatch,getState)=>{
     try{
         dispatch({
             type:USER_LOADING
         })
-        var res = await url.patch("/api/auth/updateUserPass",JSON.stringify({
-            id:user_id,
-            newPassword:userPass
+        var res = await url.put("/api/profile/changepassword",JSON.stringify({
+            old_password:oldPassword,
+            new_password:newPassword
         }),
             {"headers": {
+                "Authorization":`Bearer ${getState().userReducer.userInfo.token}`,
                 "Content-Type": "application/json"
                 }
             }
         )
         
+        console.log(res.data)
         if (res.data.result){
             dispatch({
                 type:USER_UPDATE_INFO,
@@ -226,6 +247,31 @@ const confirmVerificationCode=(code,id)=>async(dispatch)=>{
 }
 
 
+const verifyToken=(generated_token)=>async(dispatch)=>{
+    try {
+
+        dispatch({
+            type:USER_LOADING
+        })
+        const res=await url.get(`/api/auth/reset/${generated_token}`)
+        if(res.data?.result){
+            dispatch({
+                type:USER_SUCCESS
+            })
+        }else{
+            dispatch({
+                type:USER_ERROR,
+                payload:"something went wrong"
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type:USER_ERROR,
+            payload:error.message
+        })
+    }
+}
+
 const logout=()=>async(dispatch)=>{
     try {
         //get token from localStorage
@@ -283,4 +329,4 @@ const logout=()=>async(dispatch)=>{
     }
 }*/
 
-export {registerUser, login , logout, confirmVerificationCode,updateUserPassword,checkIsEmailExist}
+export {registerUser, login , logout, confirmVerificationCode,updateUserPassword,checkIsEmailExist,verifyToken}

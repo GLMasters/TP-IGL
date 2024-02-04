@@ -4,15 +4,18 @@ const initialState={
     loading:false,
     userInfo:localStorage.getItem("user") ? JSON.parse(localStorage.getItem("user")) : {},
     error:"",
+    successMessage:"",
+    generatedToken:"",
     success:false
 }
 export const userReducer=(state=initialState,action)=>{
     switch (action.type) {
         case USER_LOADING:
-            return {...state,loading:true,success:false}
+            return {...state,loading:true,success:false,error:"",successMessage:""}
         case USER_SUCCESS:
             return {
-                ...state,loading:false,success:true
+                ...state,loading:false,success:true,
+                successMessage:action.payload
             }
         case SAVE_USER_LOGIN_DATA:
             return {userInfo:action.payload,loading:false,success:true}
@@ -34,6 +37,12 @@ const initialState2={
 }
 export const resetUserReducer=(state=initialState2,action)=>{
     switch (action.type) {
+        case USER_LOADING:
+            return {
+                ...state,
+                loading:true,
+                success:false
+            }
         case SAVE_ENTERED_EMAIL:
             return {
                 ...state,

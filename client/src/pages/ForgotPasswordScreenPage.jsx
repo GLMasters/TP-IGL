@@ -10,19 +10,22 @@ function ForgotPasswordScreen() {
   const navigate = useNavigate();
 
   const dispatch=useDispatch()
-  const {success,error,loading}=useSelector(state => state.userReducer)
+  const {success,error,loading,generatedToken,successMessage}=useSelector(state => state.userReducer)
   const enterEmail=(e)=>{
       setEmail(e.target.value)
   }
 
 
   const checkMail=()=>{
-      dispatch(checkIsEmailExist())
+      dispatch(checkIsEmailExist(email))
   }
 
 
   useEffect(() => {
-    if (success) navigate('/verifyEmail');
+    if (success){
+      // verify Token
+      console.log(generatedToken)
+    }
   }, [success]);
   return (
     <>
@@ -54,6 +57,12 @@ function ForgotPasswordScreen() {
         {error && (
           <span className="text-red-600 text-sm ml-5 text-center">
             {error}
+          </span>
+        )}
+        {/* success */}
+        {successMessage && (
+          <span className=" text-green-700 text-sm ml-5 text-center">
+            {successMessage}
           </span>
         )}
         <button

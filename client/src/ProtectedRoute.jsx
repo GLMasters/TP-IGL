@@ -14,7 +14,6 @@ function ProtectedRoute() {
 
     if (!userInfo.role_id) {
       navigate('/login');
-      console.log("suiii2")
     }
     return;
   }, [userInfo.role_id]);

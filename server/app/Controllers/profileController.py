@@ -26,7 +26,7 @@ def getProfileInfo(request):
 def changePasswordFunction(request):
 
     try:
-
+        
         token = decode_token(extract_token(request))
         import sys
         print(token,file=sys.stderr)

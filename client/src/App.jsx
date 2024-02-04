@@ -14,6 +14,8 @@ import AdminScreen from "./pages/AdminPage"
 import CodeVerificationPage from "./pages/CodeVerificationPage"
 import ModerateurPage from "./pages/ModerateurPage"
 import EditArticleModeratorPage from "./pages/EditArticleModeratorPage"
+import Spinner from "./components/Spinner"
+import VerifyToken from "./components/VerifyToken"
 function App() {
   
   return (
@@ -34,6 +36,7 @@ function App() {
                 <Route path="/login" element={<LoginPage />}  />
                 <Route path="/register" element={<SignUpPage />} />
                 <Route path="/verifyEmail" element={<CodeVerificationPage />} />
+                <Route path="/verifyToken/:token" element={<VerifyToken />} />
                 <Route path="/forgotPass" element={<ForgotPasswordScreen />} />
                 <Route path="/changePassword" element={<ResetPasswordPage />} />
                 <Route path="*" element={<p>Not Found oops</p>} />
