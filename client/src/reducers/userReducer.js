@@ -1,4 +1,4 @@
-import {USER_UPDATE_INFO,CLEAR_USER_INFO,USER_ERROR,SAVE_CONFIRMATION_CODE, USER_LOADING,USER_SUCCESS, SAVE_USER_LOGIN_DATA,USER_FAIL, CONFIRM_USER_MAIL,SAVE_ENTERED_EMAIL} from "../constants/userActions"
+import {USER_UPDATE_INFO,USER_LOADING2,CLEAR_USER_INFO,USER_ERROR,SAVE_CONFIRMATION_CODE, USER_LOADING,USER_SUCCESS, SAVE_USER_LOGIN_DATA,USER_FAIL, CONFIRM_USER_MAIL,SAVE_ENTERED_EMAIL,SAVE_TOKEN_OF_FORGET} from "../constants/userActions"
 
 const initialState={
     loading:false,
@@ -21,8 +21,10 @@ export const userReducer=(state=initialState,action)=>{
             return {userInfo:action.payload,loading:false,success:true}
         case USER_ERROR:
             return {...state,loading:false,error:action.payload,success:false}
+        case SAVE_TOKEN_OF_FORGET:
+            return {...state,generatedToken:action.payload}
         case CLEAR_USER_INFO:
-            return {...state,success: false,userInfo:{}}
+            return {...state,success: false,userInfo:{},loading:false}
         default: return state
     }
 }
@@ -37,7 +39,7 @@ const initialState2={
 }
 export const resetUserReducer=(state=initialState2,action)=>{
     switch (action.type) {
-        case USER_LOADING:
+        case USER_LOADING2:
             return {
                 ...state,
                 loading:true,
@@ -46,6 +48,7 @@ export const resetUserReducer=(state=initialState2,action)=>{
         case SAVE_ENTERED_EMAIL:
             return {
                 ...state,
+
                 email:action.payload
             }
         case USER_UPDATE_INFO:

@@ -3,7 +3,7 @@ import ModerateurItem from "./ModerateurItem"
 import AddModeratorPopUp from "./AddModeratorPopUp"
 function ModerateurList() {
   const [popUp,setPopUp]=useState(false)
-
+  const [checkedMods,setCheckedMods]=useState([])
 
   useEffect(()=>{
     //fetch Moderator List
@@ -17,7 +17,7 @@ function ModerateurList() {
             <h3 className="text-black">Liste de modérateurs :</h3>
             <div className='flex gap-2'>
                 <button className='rounded-md bg-primaryColor px-5 py-3 text-white' onClick={()=>setPopUp(true)}>Ajouter</button>
-                <button className='bg-gray rounded-md px-5 py-3 border'>Supprimer</button>
+                <button className='bg-gray rounded-md px-5 py-3 border' disabled={!checkedMods.length}>Supprimer</button>
             </div>
         </div>
         {/* listing moderators */}
@@ -29,8 +29,8 @@ function ModerateurList() {
             <h4 className="text-black">Adresse</h4>
           </div>
 
-          <ModerateurItem moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} />
-          <ModerateurItem moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} />
+          <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"1"} />
+          <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"2"} />
         </div>
     </div>
   )

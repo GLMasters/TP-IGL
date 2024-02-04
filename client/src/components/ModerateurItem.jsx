@@ -1,14 +1,26 @@
 import checkSvg from "../assets/checkSvg.svg"
 import checkDisabled from "../assets/checkDisabled.svg"
-import { useState } from "react"
+import { useEffect, useMemo, useState } from "react"
 function ModerateurItem({
     moderatorName,
+    moderatorId,
     moderatorEmail,
     moderatorPhone,
-    moderatorAdr
+    moderatorAdr,
+    checkedMods,
+    setCheckedMods
 }) {
 
   const [isChecked,setIsChecked]=useState(false)
+  
+  useEffect(()=>{
+    const timewait=2000;
+    const timeout=setTimeout(()=>{
+      if(isChecked && !checkedMods.includes(moderatorId)) setCheckedMods(prev => [...prev,moderatorId])
+    if(!isChecked) setCheckedMods(checkedMods.filter(mod => mod != moderatorId))
+    },timewait)
+    return ()=>clearTimeout(timeout)
+  },[isChecked])
 
   return (
     <>
