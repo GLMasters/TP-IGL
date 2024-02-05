@@ -1,0 +1,866 @@
+{
+  "openapi": "3.0.0",
+  "info": {
+    "description": "sean",
+    "version": "1.0.0",
+    "title": "Seans-Python3-Flask-Rest-Boilerplate",
+    "license": {
+      "name": "MIT",
+      "url": "https://opensource.org/licenses/MIT"
+    }
+  },
+  "servers": [
+    {
+      "url": "/"
+    }
+  ],
+  "tags": [
+    {
+      "name": "Articles search engine ",
+      "description": "Documentation of the routes of Doclib"
+    }
+  ],
+  "paths": {
+    "/api/auth/register": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Create a new account in doclib",
+        "requestBody": {
+          "description": "User Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/signUpRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "Signup done with succes",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/signUpResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "103": {
+            "description": "Invalid Input"
+          }
+        }
+      }
+    },
+    "/api/auth/confirm": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "Confirm the user by sending a code to his email",
+        "requestBody": {
+          "description": "Confirm Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/confirmRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/confirmResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          },
+          "103": {
+            "description": "Invalid Input"
+          }
+        }
+      }
+    },
+    "/api/auth/login": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "login to doclib using email and password",
+        "requestBody": {
+          "description": "Login Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "104": {
+            "description": "Invalid creds"
+          }
+        }
+      }
+    },
+    "/api/auth/logout": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "logout from doclib",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Logout Request Post Object",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/logoutRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/logoutResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+    "/api/auth/reset": {
+      "post": {
+        "tags": ["Authentication"],
+        "summary": "reset password",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "reset password in case of forgot password",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/forgotRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/forgotResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "200": {
+            "description": "Invalid token"
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          }
+        }
+      }
+    },
+
+    "/api/profile": {
+      "get": {
+        "tags": ["User fonctions"],
+        "summary": "Profile",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Get user profile",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/profileRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/profileResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          }
+        }
+      }
+    },
+
+    "/api/changepassword": {
+      "get": {
+        "tags": ["User fonctions"],
+        "summary": "Change password user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "body of the request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/changepasswordRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/changepasswordResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          },
+          "104": {
+            "description": "Invalid creds"
+          }
+        }
+      }
+    },
+    "/api/favorits": {
+      "get": {
+        "tags": ["User fonctions"],
+        "summary": "Get favorites of the user",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "body of the request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/xxy"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/favorite"
+                  }
+                }
+              }
+            }
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "post": {
+        "tags": ["User fonctions"],
+        "summary": "Add favorite",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "body request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/favoriteToAdd"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/favorite"
+                }
+              }
+            }
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      },
+      "delete": {
+        "tags": ["User fonctions"],
+        "summary": "remouve favorite",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "body request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/favoriteToRemouve"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/xxy"
+                }
+              }
+            }
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          },
+          "500": {
+            "description": "Internal server error"
+          }
+        }
+      }
+    },
+
+    "/api/auth/addmoderator": {
+      "post": {
+        "tags": ["Admin fonctions"],
+        "summary": "Add new moderator",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "body of the request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/loginRequestBody"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/loginResponse"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "104": {
+            "description": "Invalid creds"
+          }
+        }
+      }
+    },
+    "/api/article/uploadurl": {
+      "post": {
+        "tags": ["Admin fonctions"],
+        "summary": "upload file by link",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "body of the request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/url"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/articleId"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "300": {
+            "description": "Invalid URL"
+          }
+        }
+      }
+    },
+
+    "/api/article/uploadfile": {
+      "post": {
+        "tags": ["Admin fonctions"],
+        "summary": "upload file ",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "File Post Object",
+          "required": true,
+          "content": {
+            "multipart/form-data": {
+              "schema": {
+                "type": "object",
+                "properties": {
+                  "file": {
+                    "type": "string",
+                    "format": "binary",
+                    "description": "The file to be uploaded."
+                  }
+                }
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/articleId"
+                }
+              }
+            }
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "300": {
+            "description": "Invalid URL"
+          }
+        }
+      }
+    },
+
+    "/api/article/confirmupload": {
+      "post": {
+        "tags": ["Moderator fonctions"],
+        "summary": "Confirm the upload",
+        "security": [
+          {
+            "BearerAuth": []
+          }
+        ],
+        "requestBody": {
+          "description": "Body of the request",
+          "required": true,
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/articleId"
+              }
+            }
+          }
+        },
+        "produces": ["application/json"],
+        "responses": {
+          "201": {
+            "description": "OK"
+          },
+          "500": {
+            "description": "Internal server error"
+          },
+          "100": {
+            "description": "Empty field"
+          },
+          "102": {
+            "description": "Ressources dosen't exist."
+          }
+        }
+      }
+    }
+  },
+  "components": {
+    "securitySchemes": {
+      "BearerAuth": {
+        "type": "apiKey",
+        "in": "header",
+        "name": "Authorization",
+        "description": "JWT token obtained after successful login"
+      }
+    },
+    "schemas": {
+      "signUpRequestBody": {
+        "type": "object",
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "signUpResponse": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "string"
+          },
+          "code": {
+            "type": "string",
+            "format": "number"
+          }
+        }
+      },
+      "confirmRequestBody": {
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "number"
+          },
+          "code": {
+            "type": "string",
+            "format": "number"
+          }
+        }
+      },
+      "confirmResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "boolean"
+          },
+          "data": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "id": {
+              "type": "string",
+              "format": "number"
+            },
+            "role_id": {
+              "type": "string",
+              "format": "number"
+            }
+          }
+        }
+      },
+      "loginRequestBody": {
+        "properties": {
+          "email": {
+            "type": "string",
+            "format": "email"
+          },
+          "password": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "loginResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "boolean"
+          },
+          "data": {
+            "token": {
+              "type": "string",
+              "format": "string"
+            },
+            "role_id": {
+              "type": "string",
+              "format": "number"
+            }
+          }
+        }
+      },
+      "logoutResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "boolean"
+          }
+        }
+      },
+      "forgotRequestBody": {
+        "properties": {
+          "password": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "forgotResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "boolean"
+          },
+          "data": {
+            "token": {
+              "type": "string",
+              "format": "string"
+            },
+            "role_id": {
+              "type": "string",
+              "format": "number"
+            }
+          }
+        }
+      },
+
+      "profileResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "boolean"
+          },
+          "data": {
+            "id": {
+              "type": "string",
+              "format": "string"
+            },
+            "role_id": {
+              "type": "string",
+              "format": "number"
+            },
+            "email": {
+              "type": "string",
+              "format": "email"
+            }
+          }
+        }
+      },
+
+      "changepasswordRequestBody": {
+        "properties": {
+          "old_password": {
+            "type": "string",
+            "format": "string"
+          },
+          "new_password": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+      "changepasswordResponse": {
+        "type": "object",
+        "properties": {
+          "result": {
+            "type": "boolean"
+          },
+          "data": {
+            "email": {
+              "type": "string",
+              "format": "email"
+            },
+            "role_id": {
+              "type": "string",
+              "format": "number"
+            }
+          }
+        }
+      },
+      "favorite": {
+        "type": "object",
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "string"
+          },
+          "user_id": {
+            "type": "string",
+            "format": "string"
+          },
+          "article_id": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+
+      "favoriteToAdd": {
+        "properties": {
+          "article_id": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+
+      "favoriteToRemouve": {
+        "properties": {
+          "article_id": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+
+      "url": {
+        "type": "object",
+        "properties": {
+          "url": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      },
+
+      "articleId": {
+        "type": "object",
+        "properties": {
+          "article_id": {
+            "type": "string",
+            "format": "string"
+          }
+        }
+      }
+    }
+  }
+}

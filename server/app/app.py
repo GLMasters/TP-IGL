@@ -1,4 +1,4 @@
-from flask import Flask, request , send_file , send_from_directory
+from flask import Flask, request , send_file , send_from_directory, Blueprint
 from flask_cors import CORS, cross_origin
 
 from Models.models import *
@@ -10,7 +10,7 @@ from Utils import *
 from flask_apscheduler import APScheduler
 from config import *
 from apscheduler.schedulers.background import BackgroundScheduler
-
+from flask_swagger_ui import get_swaggerui_blueprint
 
 
 #init flask app
@@ -29,6 +29,28 @@ app.secret_key =SECRET_KEY
 #db init
 db.init_app(app)
 
+# swagger ui
+REQUEST_API = Blueprint('request_api', __name__)
+
+def get_blueprint():
+    """Return the blueprint for the main app module"""
+    return REQUEST_API
+
+### swagger specific ###
+SWAGGER_URL = '/swagger'
+API_URL = '/static/swagger.json'
+SWAGGERUI_BLUEPRINT = get_swaggerui_blueprint(
+    SWAGGER_URL,
+    API_URL,
+    config={
+        'app_name': "Seans-Python-Flask-REST-Boilerplate"
+    }
+)
+app.register_blueprint(SWAGGERUI_BLUEPRINT, url_prefix=SWAGGER_URL)
+### end swagger specific ###
+
+
+app.register_blueprint(get_blueprint())
 
 
 #Routes and api
@@ -41,11 +63,9 @@ def after_request(response):
   return response
 
 
-
 @app.route("/test",methods=['GET'])
 def test():
     tks = isBlacklisted("a")
-
     return str(type(tks[0]))
 
    
