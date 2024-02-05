@@ -218,3 +218,43 @@ def deleteArticles(request):
             "articles": result
         }
     )
+    
+def getArticleById(id):
+    
+    if not id :
+        return error(EMPTY_FIELD)
+    
+    try: 
+        res = getDoc(id,index="articles")
+        
+        if (not res['found']):
+            return error(RESSOURCE_DOESNT_EXIST)
+        
+        if (not res['_source']['approved']):
+            return error(RESSOURCE_DOESNT_EXIST)
+        
+        article = Article(
+            res['_source']['title'],
+            res['_source']['summary'],
+            res['_source']['authors'],
+            res['_source']['institutions'],
+            res['_source']['keywords'],
+            "empty",
+            res['_source']['references']
+        )
+        
+        article.set_id(res['_id'])
+        article.set_url("aaa")
+        article.set_approved(True)
+        
+        
+        return response(
+            OK,
+            data=article.toJSON()
+            
+        )
+        
+        
+    except Exception as e:
+        print(e, file=sys.stderr)
+        return error(INTERNAL_ERROR)

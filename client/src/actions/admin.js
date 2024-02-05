@@ -1,17 +1,23 @@
 import { url } from "./user";
 import {GET_MODERATORS,ADD_MODERATOR,DELETE_MODERATOR,EDIT_MODERATOR,ADMIN_ACTION_SUCCESS,ADMIN_FAIL_ACTION,ADMIN_LOADING} from "../constants/adminActions"
 
-const getModerators=()=>async(dispatch)=>{
+const getModerators=()=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ADMIN_LOADING
         })
 
-        const res=await url.get("/api/admin/...")
-        if(res.data?.result){
+        const res=await url.get("/api/admin/moderators", {
+            headers:{
+                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`
+            }
+        })
+        
+        console.log(res) ;
+        if(res.data.result){
             return dispatch({
                 type:GET_MODERATORS,
-                payload:res.data.data
+                payload:res.data.data.mods
             })
         }
         dispatch({
@@ -26,17 +32,30 @@ const getModerators=()=>async(dispatch)=>{
     }
 }
 
-const addModerator=(moderatorData)=>async(dispatch)=>{
+const addModerator=(moderatorData)=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ADMIN_LOADING
         })
 
-        const res=await url.post("/api/")
-        if(res.data?.result){
+        const res=await url.post("/api/auth/addmoderator", JSON.stringify({
+            "email": moderatorData.email,
+            "phone": moderatorData.phone,
+            "address": moderatorData.adr,
+            "name": moderatorData.nomComplet,
+        }), {
+            headers: {
+                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                "Content-Type": "application/json"
+            }
+        })
+        
+        console.log(res)
+        if(res.data.result){
+            console.log(moderatorData)
             return dispatch({
                 type:ADD_MODERATOR,
-                payload:moderatorData
+                payload:res.data.data
             })
         }
         dispatch({

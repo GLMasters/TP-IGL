@@ -6,6 +6,8 @@ from Controllers.connectionController import *
 from Controllers.profileController import *
 from Controllers.favoritsController import *
 from Controllers.articlesController import *
+from Controllers.moderatorsController import *
+
 from Utils import *
 from config import *
 from apscheduler.schedulers.background import BackgroundScheduler
@@ -60,12 +62,6 @@ def after_request(response):
   response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
   response.headers.add('Access-Control-Allow-Credentials', 'true')
   return response
-
-
-@app.route("/test",methods=['GET'])
-def test():
-    tks = isBlacklisted("a")
-    return str(type(tks[0]))
 
    
 @app.route('/api/auth/register', methods=['POST'])
@@ -123,8 +119,16 @@ def favorits():
         return removeFavorit(request)
 
 @app.route("/api/auth/addmoderator",methods=['POST'])
+@token_required
+@token_admin
 def addMod():
     return addmoderator(request)
+
+@app.route("/api/admin/moderators",methods=['GET'])
+# @token_required
+# @token_admin
+def getMod():
+    return getmoderators()
 
 
 @app.route("/api/article/uploadurl" , methods = ['POST'] )
@@ -139,6 +143,13 @@ def uploadUrl():
 def uploadFile(): 
    return uploadFileFromUser(request)
 
+
+@app.route("/api/article/<id>" , methods = ['GET'] )
+# @token_required
+# @token_admin
+def getArticle(id): 
+   return getArticleById(id)
+
 @app.route("/api/articles/delete" , methods = ['POST'] )
 @token_required
 @token_moderator
@@ -152,13 +163,13 @@ def confirmUplaod():
     return approveArticles(request)
 
 @app.route("/api/articles/approved", methods=['GET'])
-@token_required
+# @token_required
 def getGoodArticles():
     return getAllArticles(approved=True)
 
 @app.route("/api/articles/pending", methods=['GET'])
-@token_required
-@token_moderator
+# @token_required
+# @token_moderator
 def getPendingArticles():
     return getAllArticles(approved=False)
 

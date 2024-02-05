@@ -1,4 +1,4 @@
-from Models.models import Favorit, db, User
+from Models.models import Favorite, db, User
 from Utils import *
 from Controllers.baseController import *
 
@@ -12,7 +12,7 @@ def getFavorits(request):
             return error(RESSOURCE_DOESNT_EXIST)
         
         id = token['user']['id']
-        favorits = db.session.query(Favorit).filter_by(user_id=id).all()
+        favorits = db.session.query(Favorite).filter_by(user_id=id).all()
 
         return response(
             OK,
@@ -39,7 +39,7 @@ def addFavorit(request):
         if (not user):
             return error(RESSOURCE_DOESNT_EXIST)
 
-        new_fav = Favorit(
+        new_fav = Favorite(
             user_id=user.id,
             article_id=article_id
         )
@@ -73,7 +73,7 @@ def removeFavorit(request):
         if (not user):
             return error(RESSOURCE_DOESNT_EXIST)
         
-        fav = db.session.query(Favorit).filter_by(id=article_id).first()
+        fav = db.session.query(Favorite).filter_by(id=article_id).first()
 
         if (not fav):
             return error(RESSOURCE_DOESNT_EXIST)

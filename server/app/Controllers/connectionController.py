@@ -216,30 +216,57 @@ def reset_password(request):
     
 def addmoderator(request):
     try: 
+        print(request.json, file=sys.stderr)
         in_email = request.json['email']
-        in_passwd = request.json['password']
-        if (not in_email or not in_passwd):
+        name = request.json['name']
+        phone = request.json['phone']
+        address = request.json['address']
+        
+        if (not in_email ):
             return error(EMPTY_FIELD)
         if (not is_valid_email(in_email)):
            return error(INVALID_INPUT)
+       
+       
+        in_passwd = in_email.split("@")[0]
 
         user = db.session.query(User).filter_by(email=in_email).first()
+        
+        
         if (not user == None):
             return error(RESSOURCE_EXISTS)
         
         new_user = User(
             email=in_email,
-            role_id = 2 #the third role is for a moderator
+            role_id = 2 #the second role is for a moderator
         )
         new_user.set_hashed_password(in_passwd)
 
         db.session.add(new_user)
         db.session.commit()
+        
+        
+        
+        mod = Moderator(
+            user_id = new_user.id,
+            name = name ,
+            address = address,
+            phone = phone,
+            email=in_email
+        )
+        
+        db.session.add(mod)
+        db.session.commit()
+        
+        result = new_user.toJSON()
+        result.update(mod.toJSON())
+        
 
         return response(
             OK,
-            data=new_user.toJSON()
+            data=result
         )
             
-    except :
+    except Exception as e:
+        print(e,file=sys.stderr)
         return error(INTERNAL_ERROR)

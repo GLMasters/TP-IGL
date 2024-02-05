@@ -28,3 +28,13 @@ CREATE TABLE IF NOT EXISTS temp_users(
     code INT NOT NULL, 
     creation_timestamp TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 ) ;
+
+CREATE TABLE IF NOT EXISTS moderators(
+    id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(255) NOT NULL,
+    email VARCHAR(255) UNIQUE NOT NULL,
+    phone VARCHAR(255),
+    address VARCHAR(255),
+    user_id INT UNIQUE NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id)
+) ;

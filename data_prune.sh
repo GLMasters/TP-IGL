@@ -12,7 +12,7 @@ if [ "$(id -u)" -eq 0 ]; then
     rm -rf data/db/mysql_data/*
     rm -rf server/app/uploads/*
 
-    chown -R oussama:oussama .  
+    chown -R f100w:f100w .  
 
     echo "All data cleaned"
 

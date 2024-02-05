@@ -1,30 +1,26 @@
 from sqlalchemy import Column, Integer, String, ForeignKey, TIMESTAMP
+from sqlalchemy.orm import relationship,DeclarativeBase
 from flask_sqlalchemy import SQLAlchemy
-from sqlalchemy.orm import relationship, DeclarativeBase
 from sqlalchemy.ext.declarative import declarative_base
 from flask_bcrypt import generate_password_hash, check_password_hash
-
 
 Base = declarative_base()
 
 class dbBase(DeclarativeBase):
     pass
-
 db = SQLAlchemy(model_class=dbBase)
 
 class User(Base):
     __tablename__ = 'users'
 
     id = Column(Integer, primary_key=True, autoincrement=True)
-    #id = db.Column(db.Integer, primary_key=True)
     email = Column(String(255), unique=True, nullable=False)
     password = Column(String(255), nullable=False)
     role_id = Column(Integer, nullable=False)
 
-    # Define a relationship to the Favorites table
-    favorites = relationship('Favorit', back_populates='user')
-    #favorites = db.relationship('Favorite', backref='user')
-
+    favorites = relationship('Favorite', back_populates='user')
+    moderators = relationship('Moderator', back_populates='user')
+    
     def __repr__(self):
         return f'User#{self.id} - Email: {self.email} - role: {self.role_id}'
 
@@ -46,6 +42,50 @@ class User(Base):
     def check_password(self, password):
         return check_password_hash(self.password, password)
 
+class Favorite(Base):
+    __tablename__ = 'favorites'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
+    article_id = Column(String(255), nullable=False)
+
+    user = relationship('User', back_populates='favorites')
+    
+    def __repr__(self):
+        return f'Favorite#{self.id} - User#{self.user_id} - Article#{self.article_id}'
+
+    def toJSON(self):
+        return {
+            'id': self.id,
+            'user_id' : self.user_id,
+            'article_id' : self.article_id, 
+        }
+
+class Moderator(Base):
+    __tablename__ = 'moderators'
+
+    id = Column(Integer, primary_key=True, autoincrement=True)
+    name = Column(String(255), nullable=False)
+    email = Column(String(255), unique=True, nullable=False)
+    phone = Column(String(255))
+    address = Column(String(255))
+    user_id = Column(Integer, ForeignKey('users.id'), unique=True, nullable=False)
+
+    user = relationship('User', back_populates='moderators')
+    
+    def __repr__(self):
+        return f"Mod#{self.id};Name#{self.name}"
+    
+    def toJSON(self):
+        return {
+            "id": self.id,
+            "user_id": self.user_id,
+            "name": self.name,
+            "phone": self.phone,
+            "address": self.address,
+            "email": self.email
+        }
+
 class TempUser(Base):
     __tablename__ = 'temp_users'
 
@@ -53,8 +93,8 @@ class TempUser(Base):
     email = Column(String(255), unique=True, nullable=False)
     password = Column(String(255), nullable=False)
     code = Column(Integer, nullable=False)
-    creation_timestamp = Column(TIMESTAMP, server_default="CURRENT_TIMESTAMP", nullable=False)
-
+    creation_timestamp = Column(TIMESTAMP, nullable=False)
+    
     def set_password(self, password):
         self.password = generate_password_hash(password).decode('utf-8')
     
@@ -68,29 +108,7 @@ class TempUser(Base):
         }
     def get_id(self):
         return str(self.id)
-
     
-
-
-class Favorit(Base):
-    __tablename__ = 'favorites'
-
-    id = Column(Integer, primary_key=True, autoincrement=True)
-    user_id = Column(Integer, ForeignKey('users.id'), nullable=False)
-    article_id = Column(String(255), nullable=False)
-
-    # Define a relationship to the Users table
-    user = relationship('User', back_populates='favorites')
-
-    def __repr__(self):
-        return f'Favorite#{self.id} - User#{self.user_id} - Article#{self.article_id}'
-
-    def toJSON(self):
-        return {
-            'id': self.id,
-            'user_id' : self.user_id,
-            'article_id' : self.article_id, 
-        }
 
 class Token(Base):
     __tablename__ = "tokens_blacklist"
@@ -105,7 +123,7 @@ class Token(Base):
         return {
             'token': self.token
         }
-    
+
 class Article():
 
     def __init__(self,title,summary,authors,institutions,keywords,content, references):
@@ -125,6 +143,9 @@ class Article():
     
     def set_id(self,id):
         self.id = id
+    
+    def set_approved(self,val):
+        self.approved = val
     
     def toJSON(self):
         obj = {

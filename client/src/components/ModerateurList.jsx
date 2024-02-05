@@ -1,19 +1,27 @@
 import { useEffect, useState } from "react"
 import ModerateurItem from "./ModerateurItem"
 import AddModeratorPopUp from "./AddModeratorPopUp"
-import { useSelector } from "react-redux"
+import { useSelector, useDispatch } from "react-redux"
+import { getModerators } from "../actions/admin"
+import Spinner from "./Spinner"
+
+
 function ModerateurList() {
   const [popUp,setPopUp]=useState(false)
   const [checkedMods,setCheckedMods]=useState([])
   const [mod_id,setMod_id]=useState("")
-  const {success,error,moderators}=useSelector(state => state.adminReducer)
+  const {success,error,moderators,loading}=useSelector(state => state.adminReducer)
+  const dispatch = useDispatch() ;
   useEffect(()=>{
     //fetch Moderator List
+    dispatch(getModerators())
+    
   },[])
 
 
   return (
     <div className='container w-full mx-auto px-5 my-5'>
+      {loading && <Spinner/>}
     {popUp && <AddModeratorPopUp mod_id={mod_id} setPopUp={setPopUp} isEdit={false} />}
         <div className='flex items-center justify-between'>
             <h3 className="text-black">Liste de modérateurs :</h3>
@@ -32,8 +40,12 @@ function ModerateurList() {
             <h4 className="text-black">Adresse</h4>
           </div>
 
-          <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"1"} isPop={popUp} setPop={setPopUp} setMod_id={setMod_id} />
-          <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"2"} isPop={popUp} setPop={setPopUp} setMod_id={setMod_id} />
+          {moderators.map(mod=>(
+            <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={mod.name} moderatorAdr={mod.address} moderatorEmail={mod.email} moderatorPhone={mod.phone} moderatorId={mod.id} isPop={popUp} setPop={setPopUp} setMod_id={setMod_id} key={mod.id}/>
+          ))}
+
+          {/* <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"1"} isPop={popUp} setPop={setPopUp} setMod_id={setMod_id} />
+          <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"2"} isPop={popUp} setPop={setPopUp} setMod_id={setMod_id} /> */}
         </div>
          : <p>no modérateurs pour le moments</p> }
     </div>
