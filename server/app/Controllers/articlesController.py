@@ -8,6 +8,7 @@ from Models.models import *
 from Utils import *
 import sys
 import subprocess
+import time
 
 def test():
     pass
@@ -158,7 +159,6 @@ def approveArticle(article_id):
 def approveArticles(request):
     articles = request.json['articles']
     
-    print(articles, file=sys.stderr)
     
     if not articles :
         return error(EMPTY_FIELD)
@@ -174,7 +174,6 @@ def approveArticles(request):
     
     # while (len(result)==len(articles)):
         
-    import time
     time.sleep(3)
     result = getAllArticles(False)['data']['articles']
     
@@ -186,5 +185,36 @@ def approveArticles(request):
         }
     )
  
+def deleteArticle(id):
+    try:
+        res = deleteDoc(id,"articles")
         
+        
+    except Exception as e:
+        print(e,file=sys.stderr)
+        
+def deleteArticles(request):
+    articles = request.json['articles']
     
+    
+    if not articles :
+        return error(EMPTY_FIELD)
+    
+    try:
+        for article_id in articles:
+            deleteArticle(article_id)
+        
+    except Exception as e:
+        return error(INTERNAL_ERROR)
+    
+    time.sleep(3)
+
+    result = getAllArticles(False)['data']['articles']
+    
+    
+    return response(
+        OK,
+        data={
+            "articles": result
+        }
+    )

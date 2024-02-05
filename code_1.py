@@ -37,8 +37,12 @@ def update(id):
 
 ids = ["_v0rdo0BbJKVEZMd0w2a","__0sdo0BbJKVEZMdQA2b", "AP0tdo0BbJKVEZMdCQ5l"]
 
-for i in ids:
-    update(i)
+# for i in ids:
+#     update(i)
+
+res = client.delete(index="articles", id="_v0rdo0BbJKVEZMd0w2a")
+
+print(res)
 # res = client.post()
 # client = OpenAI(api_key="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")
 # response = client.chat.completions.create(

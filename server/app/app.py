@@ -119,6 +119,12 @@ def uploadUrl():
 def uploadFile(): 
    return uploadFileFromUser(request)
 
+@app.route("/api/articles/delete" , methods = ['POST'] )
+@token_required
+@token_moderator
+def delete(): 
+   return deleteArticles(request)
+
 @app.route("/api/articles/confirm", methods = ['POST'])
 @token_required
 @token_moderator
