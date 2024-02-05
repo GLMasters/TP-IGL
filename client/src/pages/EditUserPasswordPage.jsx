@@ -14,7 +14,7 @@ function EditUserPassword() {
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const {error,success,loading}=useSelector(state => state.resetUserReducer)
-  const {firstRender,setFirstRender}=useState(true)
+  const [firstRender,setFirstRender]=useState(true)
   const submitHandler = (e) => {
     e.preventDefault();
     if (pass != confirmedPass || !(pass.trim().length > 5)) {

@@ -19,7 +19,6 @@ function ArticlesScreen() {
       {/* title */}
       <ArticleDetailedItem
         title={articleDetailInfo?.title || ""}
-        content={articleDetailInfo?.content || ""}
       />
       {/* Auteurs */}
       <ArticleDetailedItem
@@ -47,15 +46,15 @@ function ArticlesScreen() {
       <ArticleDetailedItem
         title="Références"
         content={articleDetailInfo?.references || [] } />
-      {/* text intégral */}
-      <ArticleDetailedItem
-        title="Text intégral"
-        content={articleDetailInfo?.textIntegral || ""}
-      />
-      {/* lien pdf */}
-      <ArticleDetailedItem title="Lien Pdf" content="path pdf" />
 
-      <button className="bg-primaryColor px-6 py-3 rounded-md shadow-lg w-fit text-white mx-auto my-10 cursor-pointer">
+        <iframe className='h-[100vh] rounded-3xl' src={articleDetailInfo.url}>
+
+        </iframe>
+      <button className="bg-primaryColor px-6 py-3 rounded-md shadow-lg w-fit text-white mx-auto my-10 cursor-pointer" onClick={()=>{
+        window.location.href = "http://192.168.41.135:8000/api/pdf/download/"+articleDetailInfo.id
+
+
+      }}>
         Télécharger
       </button>
     </div>
