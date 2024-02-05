@@ -2,8 +2,6 @@ import React, { useEffect } from 'react';
 import { Outlet, useNavigate } from 'react-router-dom';
 import HomeNavbar from './components/HomeNavbar';
 import AuthNavbar from './components/AuthNavbar';
-import HomeScreen from './pages/HomePage';
-import Footer from './components/Footer';
 import {useSelector} from "react-redux"
 
 function ProtectedRoute() {

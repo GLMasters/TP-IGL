@@ -1,7 +1,8 @@
 import {
     ADD_ARTICLE,
     GET_ARTICLES,
-    CONFIRM_ARTICLE,
+    ADD_ARTICLE_TO_FAVORIS,
+    GET_FAVORITS,
     GET_APPROVED_ARTICLES,
     ARTICLE_ERROR,
     ARTICLE_LOADING,
@@ -13,6 +14,7 @@ const initialState={
     loading:false,
     approvedArticles:[],
     nonApprovedArticles:[],
+    favoriteArticles:[],
     error:false,
     articleDetailInfo:{},
     success:false
@@ -63,6 +65,23 @@ export const articleReducer=(state=initialState,action)=>{
                 ...state,
                 nonApprovedArticles:action.payload,
                 loading:false
+            }
+        case GET_FAVORITS:
+            return {
+                ...state,
+                loading:false,
+                success:true,
+                favoriteArticles:action.payload
+            }
+        case REMOVE_FAVORITE_ARTICLE:
+            return {
+                ...state,
+                favoriteArticles:state.favoriteArticles.filter(fa => fa.id != action.payload)
+            }
+        case ADD_ARTICLE_TO_FAVORIS:
+            state.favoriteArticles.push(action.payload);
+            return {
+                ...state
             }
         default: return state
     }
