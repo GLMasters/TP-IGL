@@ -1,3 +1,6 @@
 {
-    "application.experimental.rendererProfiling": true
+    "application.experimental.rendererProfiling": true,
+    "python.analysis.extraPaths": [
+        "./server/app"
+    ]
 }
