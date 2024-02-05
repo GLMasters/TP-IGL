@@ -108,15 +108,18 @@ def profile():
 def changePassword():
     return changePasswordFunction(request)
 
-@app.route("/api/favorits", methods=['GET', 'POST', 'DELETE'])
+@app.route("/api/favorits", methods=['GET', 'POST'])
 @token_required
 def favorits():
     if request.method=="GET":
         return getFavorits(request)
-    elif request.method=="POST":
+    else request.method=="POST":
         return addFavorit(request)
-    elif request.method == "DELETE":
-        return removeFavorit(request)
+    
+@app.route("/api/favorits/delete", methods=['POST'])
+@token_required
+def favorits():
+    return removeFavorit(request)
 
 @app.route("/api/auth/addmoderator",methods=['POST'])
 @token_required

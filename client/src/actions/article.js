@@ -277,7 +277,6 @@ const addArticleToFavoris=(articleId)=>async(dispatch,getState)=>{
 
 const deleteFavoriteArticle=(articleId)=>async(dispatch,getState)=>{
     try {
-        console.log("called")
         const res=await url.post("/api/favorites/delete",JSON.stringify({
             article_id:articleId
         }),{
