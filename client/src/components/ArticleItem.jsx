@@ -40,20 +40,20 @@ function ArticleItem({
                 {(index % 2 == 0 && favorit) ? <img src={heart1} className="w-full object-cover" /> : (index % 2 !=0 && favorit ? <img src={heart2} className="w-full object-cover" /> : (index % 2 == 0 && !favorit) ? <img src={emptyHeart1} className="w-full object-cover" /> : <img src={emptyHeart2} className="w-full object-cover" />) }
             </div>
           
-        <Link to={`/article/${id}`} state={{title,authors,institutions,id}}><h3 className='ml-8 col-span-2 w-4/5 text-2xl'>{title}</h3></Link>
+        <Link to={`/article/${id}`} state={{title,authors,institutions,id}}><h3 className='ml-8 col-span-2 w-4/5 text-4xl mb-4 font-bold'>{title}</h3></Link>
         <div className="flex gap-4 items-center">
-        <h3 className="ml-8 block">Auteurs : </h3>
+        <h3 className="ml-8 font-semibold">Auteurs : </h3>
         <ul className="flex gap-2">
         {
-            authors.map(a => (<li>{a}</li>))
+            authors.map(a => (<li className="text-xl">{a}</li>))
         }
         </ul>
         </div>
         <div className="flex gap-4 items-center">
-        <h3 className="ml-8">Institutions: </h3>
+        <h3 className="ml-8 font-semibold">Institutions: </h3>
         <ul className="flex gap-2 flex-wrap">
         {
-            institutions.map(i => (<li>{i}</li>))
+            institutions.map(i => (<li className="text-xl">{i}</li>))
         }
         </ul>
         </div>
