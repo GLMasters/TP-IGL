@@ -166,6 +166,7 @@ const checkIsEmailExist = (email) => async (dispatch) => {
 
 const updateUserPassword =
   (oldPassword, newPassword) => async (dispatch, getState) => {
+    
     try {
       dispatch({
         type: USER_LOADING2,

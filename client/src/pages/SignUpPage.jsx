@@ -100,6 +100,7 @@ function SignUpPage() {
                   value={confirmPassword}
                   setValue={setconfirmPassword}
                   label="confirm password"
+                  setIsValid={setValidSubmission}
                   isValid={ValidSubmission}
                 />
 

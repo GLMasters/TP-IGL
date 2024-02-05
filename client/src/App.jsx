@@ -34,6 +34,7 @@ function App() {
                     <Route path="/moderator/editArticle" element={<EditArticleModeratorPage />} />
                 </Route>
                 <Route path="/login" element={<LoginPage />}  />
+                
                 <Route path="/register" element={<SignUpPage />} />
                 <Route path="/verifyEmail" element={<CodeVerificationPage />} />
                 <Route path="/verifyToken/:token" element={<VerifyToken />} />

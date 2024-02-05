@@ -2,15 +2,19 @@ import {
     ADD_ARTICLE,
     GET_ARTICLES,
     CONFIRM_ARTICLE,
+    GET_APPROVED_ARTICLES,
     ARTICLE_ERROR,
     ARTICLE_LOADING,
     EDIT_ARTICLE_BY_MODERATOR,
-    DELETE_ARTICLES
+    DELETE_ARTICLES,
+    GET_ARTCLE_DETAILS
 } from "../constants/articleActions"
 const initialState={
     loading:false,
-    articles:[],
+    approvedArticles:[],
+    nonApprovedArticles:[],
     error:false,
+    articleDetailInfo:{},
     success:false
 }
 export const articleReducer=(state=initialState,action)=>{
@@ -19,8 +23,20 @@ export const articleReducer=(state=initialState,action)=>{
             return {...state,loading:true,success:false, error: false}
         case GET_ARTICLES:
             return {
-                ...state,success:true,articles:action.payload,
+                ...state,success:true,nonApprovedArticles:action.payload,
                 loading:false
+            }
+        case GET_APPROVED_ARTICLES:
+            return {
+                ...state,  
+                 loading:false,
+                approvedArticles:action.payload
+            }
+        case GET_ARTCLE_DETAILS:
+            return {
+                ...state,
+                loading:false,
+                articleDetailInfo:action.payload
             }
         case ADD_ARTICLE:
             state.articles.push(action.payload)
@@ -30,7 +46,7 @@ export const articleReducer=(state=initialState,action)=>{
                 success:true
             }
         case EDIT_ARTICLE_BY_MODERATOR:
-            state.articles=state.articles.map(article =>{
+            state.nonApprovedArticles=state.nonApprovedArticles.map(article =>{
                 if(article._id == action.payload.article_id){
                     article=action.payload.newArticleData
                 }
@@ -45,7 +61,7 @@ export const articleReducer=(state=initialState,action)=>{
             //state.articles=state.articles.filter(art => art._id != action.payload.articleId)
             return {
                 ...state,
-                articles:action.payload,
+                nonApprovedArticles:action.payload,
                 loading:false
             }
         default: return state

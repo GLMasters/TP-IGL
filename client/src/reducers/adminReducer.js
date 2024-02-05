@@ -1,6 +1,6 @@
 import {
     ADD_MODERATOR,
-    DELETE_MODERATOR,
+    DELETE_MODERATORS,
     EDIT_MODERATOR,
     UPLOAD_ARTICLE,
     ADMIN_ACTION_SUCCESS,
@@ -32,9 +32,8 @@ export const adminReducer=(state=initialState,action)=>{
                 moderators:state.moderators,
                 success:true
             }
-        case DELETE_MODERATOR:
-            state.moderators=state.moderators.filter(mod => mod._id != action.payload.mod_id)
-            return {...state,loading:false,error:action.payload,success:false}
+        case DELETE_MODERATORS:
+            return {...state,loading:false,moderators:action.payload,success:false}
         case EDIT_MODERATOR:
             state.moderators=state.moderators.map(mod => {
                 if(mod._id == action.payload.mod_id) {
@@ -42,7 +41,7 @@ export const adminReducer=(state=initialState,action)=>{
                 }
                 return mod
             })
-            return {...state,loading:false,error:action.payload,success:false}
+            return {...state,loading:false,success:false}
         case UPLOAD_ARTICLE:
             return state
         case ADMIN_FAIL_ACTION:

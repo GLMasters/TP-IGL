@@ -14,6 +14,7 @@ function EditUserPassword() {
   const navigate=useNavigate()
   const dispatch=useDispatch()
   const {error,success,loading}=useSelector(state => state.resetUserReducer)
+  const {firstRender,setFirstRender}=useState(true)
   const submitHandler = (e) => {
     e.preventDefault();
     if (pass != confirmedPass || !(pass.trim().length > 5)) {
@@ -28,7 +29,12 @@ function EditUserPassword() {
       navigate(-1)
   }
   useEffect(()=>{
-    if(success) navigate("/")
+    setFirstRender(false)
+  },[])
+  useEffect(()=>{
+    if(!firstRender){
+      if(success) navigate("/")
+    }
   },[success])
 
   return (
