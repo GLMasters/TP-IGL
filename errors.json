@@ -1,0 +1,19 @@
+{
+    "1": "Operation done successfully" ,
+    
+    
+
+    "100": "One of the request body parameters is empty or isn't even includedd",
+    "101": "Ressource Already exists (ex: registring with an already existant email)",
+    "102": "Ressource doesn't exist (ex :trying to login with an email that's not registrer )",
+    "103": "Invalid input (example invalid email or invalid verif code)",
+    
+    "104": "Invalid Credentials",
+
+    "200": "Invalid Token",
+    "201": "Expired Token",
+    
+    "300": "Couldn't fetch ressource from url",
+
+    "500": "Internal Server Error"
+}

@@ -1,0 +1,146 @@
+{
+    "json_1": {
+        "email": "email@email.com",
+        "password": "password"
+    },
+
+    "json_2_success":{
+        "result": true,
+        "data": {
+            "token": "jwt token",
+            "role_id": 1
+        },
+        "message": "Logged in successfully"
+    },
+
+    "json_2_error": {
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_3_success":{
+        "data": {
+            "email": "ls_djerrai@esi.dz",
+            "id": 1
+        },
+        "message": "Password sent to email",
+        "result": true
+    },
+
+    "json_3_error": {
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_13":{
+            "id": 1,
+            "code": 69240
+    },
+
+    "json_14_success": {
+        "result": true,
+        "data": {
+            "email": "ls_djerrai@esi.dz",
+            "id": 1,
+            "role_id": 1
+        },
+        "message": "Account created successfull, you can login now"
+    },
+
+    "json_14_error":{
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_10_success": {
+        "result": true,
+        "message": "Logged Out successfully" 
+    },
+
+    "json_10_error": {
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_19":{
+        "email": "validemail@gmail.com"
+    },
+
+    "json_20_success":{
+        "result": true,
+        "message": "Token sent to email"
+    },
+    "json_20_error":{
+        "result": false,
+        "message": "some error"
+    },
+    "json_21_success":{
+        "result": true,
+        "data":{
+            "token": "token here",
+            "role_id": 1
+        },
+        "message":"Token Verified Successfully"
+    },
+    "json_21_error":{
+        "result": false,
+        "message": "some error msg"
+    },
+    "json_22": {
+        "user_id":1 ,
+        "password": "passwordhere"
+    },
+
+    "json_23_success":{
+        "result": true,
+        "dat":{
+            "token": "token",
+            "role_id": 2
+        },
+        "message":"Password Changed successfully"
+    },
+
+    "json_23_error":{
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_5_success":{
+        "result": true,
+        "data": {
+            "id": 1,
+            "role_id": 1,
+            "email": "email@email.com"
+        },
+
+        "message":"User info fetched succesfully"
+    },
+
+    "json_5_error":{
+        "result": false,
+        "message": "some error message"
+    },
+
+    "json_8":{
+        "old_password": "password",
+        "new_password": "123456789",
+        "id": 2
+    },
+
+    "json_9_success":{
+        "data": {
+            "email": "ls_djerrai@esi.dz",
+            "id": 2,
+            "role_id": 1
+        },
+        "message": "Password changed succesfuly",
+        "result": true
+    },
+
+    "json_9_error":{
+        "result": false,
+        "message": "some error message"
+    }
+    
+    
+}
