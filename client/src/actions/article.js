@@ -253,6 +253,7 @@ const addArticleToFavoris=(articleId)=>async(dispatch,getState)=>{
                 "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
             }
         })
+        console.log(res.data)
         if(res?.data?.result){
             const approvedArtcs=getState().articleReducer.approvedArticles;
             const favoriteArticle=approvedArtcs.find(art => art.id == articleId)
@@ -274,8 +275,9 @@ const addArticleToFavoris=(articleId)=>async(dispatch,getState)=>{
     }
 }
 
-const deleteFavoriteArticle=(articleId)=>async(dispatch)=>{
+const deleteFavoriteArticle=(articleId)=>async(dispatch,getState)=>{
     try {
+        console.log("called")
         const res=await url.post("/api/favorites/delete",JSON.stringify({
             article_id:articleId
         }),{
@@ -284,10 +286,11 @@ const deleteFavoriteArticle=(articleId)=>async(dispatch)=>{
                 "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
             }
         })
+        console.log(res.data)
         if(res?.data?.result){
             dispatch({
                 type:REMOVE_FAVORITE_ARTICLE,
-                payload:favoriteArticle
+                payload:articleId
             })
         }else{
             dispatch({

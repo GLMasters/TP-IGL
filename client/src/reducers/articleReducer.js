@@ -8,7 +8,8 @@ import {
     ARTICLE_LOADING,
     EDIT_ARTICLE_BY_MODERATOR,
     DELETE_ARTICLES,
-    GET_ARTCLE_DETAILS
+    GET_ARTCLE_DETAILS,
+    REMOVE_FAVORITE_ARTICLE
 } from "../constants/articleActions"
 const initialState={
     loading:false,
