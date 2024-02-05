@@ -8,6 +8,7 @@ import {userReducer,resetUserReducer} from "../reducers/userReducer"
 //import our cart reducer
 import {articleReducer} from "../reducers/articleReducer"
 import {adminReducer} from "../reducers/adminReducer"
+import { searchReducer } from "../reducers/searchReducer"
 const initialState={}
 
 const middleware=[thunk]
@@ -15,7 +16,8 @@ const reducer = combineReducers({
    userReducer,
     adminReducer,
     articleReducer,
-    resetUserReducer
+    resetUserReducer,
+    searchReducer
 })
 
 const store=createStore(reducer,initialState,composeWithDevTools(applyMiddleware(

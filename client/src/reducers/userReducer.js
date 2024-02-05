@@ -1,4 +1,6 @@
-import {USER_UPDATE_INFO,USER_LOADING2,CLEAR_USER_INFO,USER_ERROR,SAVE_CONFIRMATION_CODE, USER_LOADING,USER_SUCCESS, SAVE_USER_LOGIN_DATA,USER_FAIL, CONFIRM_USER_MAIL,SAVE_ENTERED_EMAIL,SAVE_TOKEN_OF_FORGET} from "../constants/userActions"
+import {USER_UPDATE_INFO,USER_LOADING2,CLEAR_USER_INFO,USER_ERROR,SAVE_CONFIRMATION_CODE, USER_LOADING,USER_SUCCESS, SAVE_USER_LOGIN_DATA,USER_FAIL, 
+    INITIAL_SUCCESS,
+    CONFIRM_USER_MAIL,SAVE_ENTERED_EMAIL,SAVE_TOKEN_OF_FORGET} from "../constants/userActions"
 
 const initialState={
     loading:false,
@@ -10,6 +12,10 @@ const initialState={
 }
 export const userReducer=(state=initialState,action)=>{
     switch (action.type) {
+        case INITIAL_SUCCESS:
+            return {
+                ...state,success:false
+            }
         case USER_LOADING:
             return {...state,loading:true,success:false,error:"",successMessage:""}
         case USER_SUCCESS:

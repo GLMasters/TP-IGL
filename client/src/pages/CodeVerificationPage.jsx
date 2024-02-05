@@ -16,7 +16,7 @@ function CodeVerificationPage() {
 
   useEffect(()=>{
     if (success){
-      navigate("/login")
+      navigate("/login") 
     }
   }, [success])
   return (

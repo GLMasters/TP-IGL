@@ -1,4 +1,4 @@
-import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLES,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR} from "../constants/articleActions"
+import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLES,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR,GET_APPROVED_ARTICLES} from "../constants/articleActions"
 
 import { url } from "./user"
 
@@ -24,11 +24,10 @@ const getArticles=(approved)=>async(dispatch,getState)=>{
                 }
             });
         }
-
-
+        console.log(res.data)
         if(res.data.result){
                 dispatch({
-                    type:GET_ARTICLES,
+                    type:approved ? GET_APPROVED_ARTICLES : GET_ARTICLES,
                     payload:res.data.data.articles
                 })
         }else{
@@ -99,7 +98,7 @@ const editArticle=(article_id,newArticleData)=>(dispatch)=>{
             dispatch({
                 type:ARTICLE_LOADING
             })
-            //call api if necessary !
+            //const res=await url.put
             dispatch({
                 type:EDIT_ARTICLE_BY_MODERATOR,
                 payload:{newArticleData,article_id}
@@ -183,10 +182,43 @@ const approveArticles=(articles_id_list)=>async(dispatch,getState)=>{
     }
 }
 
+const getArticleDetails=(article_id)=>async(dispatch,getState)=>{
+    console.log("called")
+    try {
+        dispatch({
+            type:ARTICLE_LOADING
+        })
+        console.log("called 2")
+        const res=await url.get(`/api/article/${article_id}`,{
+            headers:{
+                "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+            }
+        })
+        console.log(res.data)
+        if(res.data?.result){
+            dispatch({
+                type:GET_ARTCLE_DETAILS,
+                payload:res.data.data
+            })
+        }else{
+            dispatch({
+                type:ARTICLE_ERROR,
+                payload:"error"
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:error.message
+        })
+    }
+}
+
 export {
     getArticles,
     addArticle,
     editArticle,
     deleteArticle,
     approveArticles,
+    getArticleDetails
 }

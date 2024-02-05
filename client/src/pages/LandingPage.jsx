@@ -1,18 +1,26 @@
 import { dummyData } from '../data/dummyData';
 import FilterBar from '../components/FilterBar';
 import ArticleItem from '../components/ArticleItem';
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import SearchBar from '../components/SearchBar';
 import Footer from '../components/Footer';
+import { useDispatch, useSelector } from 'react-redux';
+import { getArticles } from '../actions/article';
+import Spinner from '../components/Spinner';
 export default function LandingPage() {
   const [visible, setVisible] = useState(false);
   const [filterMode, setFilterMode] = useState(false);
-  
+  const dispatch=useDispatch()
+  const {approvedArticles,success,error,loading,nonApprovedArticles}=useSelector(state => state.articleReducer);
+  useEffect(()=>{
+    dispatch(getArticles(true))
+  },[])
   
   return (
     
     <div className="bg-thirdColor py-4 absolute -z-10 w-full top-0 bottom-0 h-full lg:h-[1000px]">
-      {visible && (
+      {loading && <Spinner />} 
+    {visible && (
         <div
           className="bgGradient1 absolute top-0 h-full w-full left-0 z-10"
           onClick={() => setVisible(false)}
@@ -42,7 +50,7 @@ export default function LandingPage() {
 
         {/* our list articles */}
         <div className="flex flex-col gap-4 lg:max-h-[75vh] lg:overflow-x-hidden lg:overflow-y-scroll scrollbar1 px-3">
-          {dummyData.map((artcl, index) => (
+          {approvedArticles.map((artcl, index) => (
             <ArticleItem index={index} {...artcl} key={artcl.id} />
           ))}
         </div>

@@ -1,5 +1,5 @@
 import { url } from "./user";
-import {GET_MODERATORS,ADD_MODERATOR,DELETE_MODERATOR,EDIT_MODERATOR,ADMIN_ACTION_SUCCESS,ADMIN_FAIL_ACTION,ADMIN_LOADING} from "../constants/adminActions"
+import {GET_MODERATORS,ADD_MODERATOR,DELETE_MODERATORS,EDIT_MODERATOR,ADMIN_ACTION_SUCCESS,ADMIN_FAIL_ACTION,ADMIN_LOADING} from "../constants/adminActions"
 
 const getModerators=()=>async(dispatch,getState)=>{
     try {
@@ -104,7 +104,7 @@ const deleteModerator=(mod_id)=>async(dispatch)=>{
         const res=await url.delete("/api/admin/...")
         if(res.data?.result){
             return dispatch({
-                type:DELETE_MODERATOR,
+                type:DELETE_MODERATORS,
                 payload:{mod_id}
             })
         }

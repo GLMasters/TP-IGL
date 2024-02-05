@@ -8,6 +8,7 @@ import Footer from '../components/Footer';
 import {useSelector, useDispatch} from "react-redux"
 import Spinner from "../components/Spinner"
 import { login } from '../actions/user';
+import { INITIAL_SUCCESS } from '../constants/userActions';
 
 function HomeScreen() {
   const [Email, setEmail] = useState('');
@@ -16,6 +17,7 @@ function HomeScreen() {
   const [errorMessage, setErrorMessage] = useState('');
   const navigate = useNavigate();
   const dispatch = useDispatch() ;
+  const [isFirstRender,setIsFirstRender]=useState(true)
   const {loading,error,success} = useSelector(state=>state.userReducer) ;
   const HanldeSubmit = async (e) => {
     e.preventDefault();
@@ -35,20 +37,31 @@ function HomeScreen() {
   };
 
   useEffect(()=>{
-    if (success){
-      navigate("/") ;
+    dispatch({
+      type:INITIAL_SUCCESS
+    })
+    setIsFirstRender(false)
+  },[])
+
+  useEffect(()=>{
+    if(!isFirstRender){
+      if (success){
+        navigate("/") ;
+      }
     }
+    
   }, [success])
   return (
     <>
     <div className="bg-white min-h-screen">
+    {loading && <Spinner />}
       <div className="flex">
         <img src={docLibLogo} alt="docLibLogo" className="h-[80px] mt-5" />
       </div>
 
       <div className="flex flex-col justify-center items-center py-10">
-        <div className="flex flex-col justify-center items-center w-[300px] rounded-3xl md:w-[400px] md:shadow-custom2 mt-[-20px]">
-          <div className="relative text-center items-center  rounded-ss-none rounded-se-[30.71px] rounded-es-[30.71px] rounded-ee-none mt-10 w-[198px] h-[43px] shadow-custom" id='se_connecter'>
+        <div className="flex flex-col justify-center items-center max-w-lg w-full rounded-3xl md:shadow-custom2 mt-[-20px]">
+          <div className="relative text-center items-center  rounded-ss-none rounded-se-[30.71px] rounded-es-[30.71px] rounded-ee-none mt-10 w-[198px] h-[43px] shadow-custom">
             <h5 className="absolute mt-4 inset-0 flex justify-center items-center font-bold font-Lora pb-4 text-base text-black">
               Se connecter
             </h5>
@@ -58,8 +71,8 @@ function HomeScreen() {
               Ravis de vous revoir
             </h5>
           </div>
-          <div className="flex flex-col justify-center items-center mt-[55px] ">
-            <form className="w-[290px] h-[330px]" onSubmit={HanldeSubmit}>
+          <div className="flex flex-col justify-center items-center mt-[55px]">
+            <form className="max-w-full" onSubmit={HanldeSubmit}>
               <input
                 onChange={(e) => setEmail(e.target.value)}
                 onFocus={(e) => setValidSubmission(true)}
