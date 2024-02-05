@@ -1,4 +1,4 @@
-import {GET_ARTICLES,GET_ARTCLE_DETAILS,GET_MODERATOR_ARTICLE,DELETE_ARTICLES,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR,GET_APPROVED_ARTICLES} from "../constants/articleActions"
+import {GET_ARTICLES,GET_ARTCLE_DETAILS,REMOVE_FAVORITE_ARTICLE,DELETE_ARTICLES,ADD_ARTICLE,ARTICLE_ERROR,ARTICLE_LOADING, EDIT_ARTICLE_BY_MODERATOR,GET_APPROVED_ARTICLES, GET_FAVORITS, ADD_ARTICLE_TO_FAVORIS} from "../constants/articleActions"
 
 import { url } from "./user"
 
@@ -214,11 +214,107 @@ const getArticleDetails=(article_id)=>async(dispatch,getState)=>{
     }
 }
 
+const getFavoritsArticles=()=>async(dispatch,getState)=>{
+    try {
+            dispatch({
+                type:ARTICLE_LOADING
+            })
+            const res=await url.get("/api/favorites",{
+                headers:{
+                    "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+                }
+            });
+            if(res.data?.result){
+                dispatch({
+                    type:GET_FAVORITS,
+                    payload:res.data?.data.favorits
+                })
+            }else{
+                dispatch({
+                    type:ARTICLE_ERROR,
+                    payload:"erreur survenue"
+                })
+            }
+    } catch (error) {
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:"serveur erreur"
+        })
+    }
+}
+
+const addArticleToFavoris=(articleId)=>async(dispatch,getState)=>{
+    try {
+        const res=await url.post("/api/favorites",JSON.stringify({
+            article_id : articleId
+        }),{
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+            }
+        })
+        console.log(res.data)
+        if(res?.data?.result){
+            const approvedArtcs=getState().articleReducer.approvedArticles;
+            const favoriteArticle=approvedArtcs.find(art => art.id == articleId)
+            dispatch({
+                type:ADD_ARTICLE_TO_FAVORIS,
+                payload:favoriteArticle
+            })
+        }else{
+            dispatch({
+                type:ARTICLE_ERROR,
+                payload:"erreur servenu"
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:"erreur"
+        })
+    }
+}
+
+const deleteFavoriteArticle=(articleId)=>async(dispatch,getState)=>{
+    try {
+        console.log("called")
+        const res=await url.post("/api/favorites/delete",JSON.stringify({
+            article_id:articleId
+        }),{
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+            }
+        })
+        console.log(res.data)
+        if(res?.data?.result){
+            dispatch({
+                type:REMOVE_FAVORITE_ARTICLE,
+                payload:articleId
+            })
+        }else{
+            dispatch({
+                type:ARTICLE_ERROR,
+                payload:"erreur servenu"
+            })
+        }
+    } catch (error) {
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:"erreur"
+        })
+    }
+}
+
+
 export {
     getArticles,
     addArticle,
     editArticle,
     deleteArticle,
     approveArticles,
-    getArticleDetails
+    getArticleDetails,
+    getFavoritsArticles,
+    addArticleToFavoris,
+    deleteFavoriteArticle
 }
