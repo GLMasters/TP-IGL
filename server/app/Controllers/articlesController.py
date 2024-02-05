@@ -244,7 +244,7 @@ def getArticleById(id):
         )
         
         article.set_id(res['_id'])
-        article.set_url("aaa")
+        article.set_url(APP_URL+"/api/pdf/"+res['_id'])
         article.set_approved(True)
         
         

@@ -75,7 +75,7 @@ const addArticle=(article_data,byLink)=>async(dispatch,getState)=>{
 
 
         }
-        
+        console.log(res)
         if(res.data.result){
             dispatch({
                 type:ADD_ARTICLE,

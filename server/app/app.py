@@ -108,7 +108,7 @@ def profile():
 def changePassword():
     return changePasswordFunction(request)
 
-@app.route("/api/favorits", methods=['GET', 'POST', 'DELETE'])
+@app.route("/api/favorites", methods=['GET', 'POST', 'DELETE'])
 @token_required
 def favorits():
     if request.method=="GET":
@@ -173,6 +173,19 @@ def getGoodArticles():
 def getPendingArticles():
     return getAllArticles(approved=False)
 
+
+@app.route("/api/pdf/<id>", methods=['GET'])
+# @token_required
+# @token_moderator
+def viewPdf(id):
+    return send_file(UPLOADS_FOLDER+f"{id}.pdf")
+    
+@app.route("/api/pdf/download/<id>", methods=['GET'])
+# @token_required
+# @token_moderator
+def downloadPdf(id):
+    return send_file(UPLOADS_FOLDER+f"{id}.pdf",as_attachment=True)
+    
 
 #repeating tasks
 def removeExpiredTokens():

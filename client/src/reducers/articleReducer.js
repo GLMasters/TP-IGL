@@ -43,6 +43,7 @@ export const articleReducer=(state=initialState,action)=>{
             return {
                 loading:false,
                 articles:state.articles,
+                error: false,
                 success:true
             }
         case EDIT_ARTICLE_BY_MODERATOR:
