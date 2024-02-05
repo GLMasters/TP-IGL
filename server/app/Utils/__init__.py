@@ -15,6 +15,8 @@ from openai import OpenAI
 from string import ascii_letters, digits
 import random
 import sys
+from Controllers.baseController import *
+from Controllers.elasticController import *
 
 
 client = OpenAI(api_key=OPENAI_API_KEY)
@@ -265,3 +267,5 @@ def fitArticles(es_articles):
         local_es_articles.append(obj)
     
     return local_es_articles
+
+    

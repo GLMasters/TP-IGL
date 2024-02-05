@@ -24,8 +24,4 @@ def general_search(request):
         data={
             "articles": fitArticles(res['hits']['hits'])
         }
-    ) 
-
-def search_title():
-    
-    pass
+    )

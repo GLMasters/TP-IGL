@@ -13,12 +13,16 @@ def getFavorits(request):
         
         id = token['user']['id']
         favorits = db.session.query(Favorite).filter_by(user_id=id).all()
+        
+        result = [
+            getById(f.article_id) for f in favorits
+        ]
 
         return response(
             OK,
             data={
                 "id": id,
-                "favorits": favorits
+                "favorits": result
             },
         )
     
@@ -73,13 +77,15 @@ def removeFavorit(request):
         if (not user):
             return error(RESSOURCE_DOESNT_EXIST)
         
-        fav = db.session.query(Favorite).filter_by(id=article_id).first()
+        fav = db.session.query(Favorite).filter_by(user_id=user.id,article_id=article_id).first()
 
         if (not fav):
             return error(RESSOURCE_DOESNT_EXIST)
         
         db.session.delete(fav)
         db.session.commit()
+        
+        return response(OK)
     
     except:
         return error(INTERNAL_ERROR)
