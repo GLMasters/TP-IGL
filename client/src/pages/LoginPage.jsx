@@ -48,7 +48,7 @@ function HomeScreen() {
 
       <div className="flex flex-col justify-center items-center py-10">
         <div className="flex flex-col justify-center items-center w-[300px] rounded-3xl md:w-[400px] md:shadow-custom2 mt-[-20px]">
-          <div className="relative text-center items-center  rounded-ss-none rounded-se-[30.71px] rounded-es-[30.71px] rounded-ee-none mt-10 w-[198px] h-[43px] shadow-custom">
+          <div className="relative text-center items-center  rounded-ss-none rounded-se-[30.71px] rounded-es-[30.71px] rounded-ee-none mt-10 w-[198px] h-[43px] shadow-custom" id='se_connecter'>
             <h5 className="absolute mt-4 inset-0 flex justify-center items-center font-bold font-Lora pb-4 text-base text-black">
               Se connecter
             </h5>
@@ -66,6 +66,7 @@ function HomeScreen() {
                 value={Email}
                 type="email"
                 placeholder="Adresse e-mail"
+                id='email'
                 className={`Inputsign my-3 mb-8 ${
                   !validSubmission && 'border-red-600 placeholder-red-600'
                 }`}
@@ -74,6 +75,7 @@ function HomeScreen() {
               <PasswordInput
                 label={'mot de passe'}
                 value={Password}
+                id='password'
                 setValue={setPassword}
                 isValid={validSubmission}
                 setIsValid={setValidSubmission}
@@ -100,6 +102,7 @@ function HomeScreen() {
               <button
                 type="submit"
                 className="w-full h-[52px] bg-seconadryColor mt-[35px] "
+                id='submit_button'
               >
                 <span className=" font-Poppins">Continuer</span>
               </button>

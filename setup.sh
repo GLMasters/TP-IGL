@@ -16,7 +16,7 @@ if [ "$(id -u)" -eq 0 ]; then
 
 
     # changing permissions (use your actual username)
-    chown -R f100w:f100w .
+    chown -R oussama:oussama .
     
     echo "Setup finished, you may want to run docker_start.sh"
 
