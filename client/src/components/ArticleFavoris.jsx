@@ -21,7 +21,7 @@ function ArticleFavoris({title, authors, institutions,id}) {
   <h1 className='text-black font-Poppins font-medium text-xl md:text-2xl underline ml-6 md:ml-16 mr-5 '>{title}</h1>
   <button onClick={removeFavoriteArticled}><img className='w-20 h-16 pr-2 pb-2 mr-2' src={DeleteArticle} alt="delete" /></button>
   </div>
-    <h1 className=' text-black font-Poppins font-medium text-xl md:text-2xl  ml-6 md:ml-16 mt-6'>Auteurs :<p className={`${isHovered ?' text-white':''} text-primaryColor  font-Poppins font-medium text-lg mt-2 mb-2`}>{authors.join(', ')}</p></h1>
+    <h1 className=' text-black font-Poppins font-medium text-xl md:text-2xl  ml-6 md:ml-16 mt-6'>Auteurs :<p className={`${isHovered ?' text-white':''} text-primaryColor  font-Poppins font-medium text-lg mt-2 mb-2`}>{authors.join(',')}</p></h1>
     
 
     <h1 className='text-black font-Poppins font-medium text-xl md:text-2xl  ml-6 md:ml-16'>Institutions :</h1>

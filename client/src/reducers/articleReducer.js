@@ -15,7 +15,7 @@ const initialState={
     loading:false,
     approvedArticles:[],
     nonApprovedArticles:[],
-    favoriteArticles:[],
+    favoriteArticles:localStorage.getItem("favorites") ? JSON.parse(localStorage.getItem("favorites")) : [],
     error:false,
     articleDetailInfo:{},
     success:false

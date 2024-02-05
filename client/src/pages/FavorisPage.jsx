@@ -8,7 +8,7 @@ import { getFavoritsArticles } from '../actions/article';
 function Favoris() {
   const dispatch=useDispatch()
   const {loading,success,favoriteArticles}=useSelector(state => state.articleReducer)
-  console.log(favoriteArticles)
+
   useEffect(()=>{
     dispatch(getFavoritsArticles())
   },[])
@@ -25,7 +25,7 @@ function Favoris() {
         {
           favoriteArticles.length ? favoriteArticles.map(fa=>(
             <ArticleFavoris key={fa.id} {...fa} />
-          )) : <p>no favoris</p>
+          )) : <p className='text-center'>no favoris</p>
         }
       </div>
 

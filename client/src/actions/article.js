@@ -224,7 +224,9 @@ const getFavoritsArticles=()=>async(dispatch,getState)=>{
                     "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
                 }
             });
+           
             if(res.data?.result){
+                localStorage.setItem("favorites",JSON.stringify(res.data.data.favorits))
                 dispatch({
                     type:GET_FAVORITS,
                     payload:res.data?.data.favorits
@@ -285,6 +287,7 @@ const deleteFavoriteArticle=(articleId)=>async(dispatch,getState)=>{
                 "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
             }
         })
+        console.log(articleId)
         console.log(res.data)
         if(res?.data?.result){
             dispatch({
