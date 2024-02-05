@@ -10,6 +10,7 @@ from Controllers.moderatorsController import *
 
 from Utils import *
 from config import *
+from Controllers.searchController import *
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask_swagger_ui import get_swaggerui_blueprint
 
@@ -110,15 +111,16 @@ def changePassword():
 
 @app.route("/api/favorites", methods=['GET', 'POST'])
 @token_required
-def favorits():
+def favorites():
     if request.method=="GET":
         return getFavorits(request)
-    else request.method=="POST":
+    
+    else :
         return addFavorit(request)
     
-@app.route("/api/favorits/delete", methods=['POST'])
+@app.route("/api/favorites/delete", methods=['POST'])
 @token_required
-def favorits():
+def deletefav():
     return removeFavorit(request)
 
 @app.route("/api/auth/addmoderator",methods=['POST'])
@@ -156,7 +158,7 @@ def getArticle(id):
 @app.route("/api/articles/delete" , methods = ['POST'] )
 @token_required
 @token_moderator
-def delete(): 
+def deleteArt(): 
    return deleteArticles(request)
 
 @app.route("/api/articles/confirm", methods = ['POST'])
@@ -189,8 +191,9 @@ def viewPdf(id):
 def downloadPdf(id):
     return send_file(UPLOADS_FOLDER+f"{id}.pdf",as_attachment=True)
 
-
-@app.route("")
+@app.route("/api/search")
+def searchAll():
+    return general_search(request)
 
 #repeating tasks
 def removeExpiredTokens():

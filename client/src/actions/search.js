@@ -23,4 +23,26 @@ const searchByTitle=(query)=>async(dispatch,getState)=>{
 }
 
 
+
+const generalSearch=(query)=>async(dispatch,getState)=>{
+    try {
+        const approvedArticles=getState().articleReducer.approvedArticles
+        dispatch({
+            type:SEARCH_LOADING
+        })
+
+        
+        
+        dispatch({
+            type:SEARCH_BY_TITLE,
+            payload:newArtcls
+        })
+    } catch (error) {
+        dispatch({
+            type:SEARCH_ERROR,
+            payload:"something went wrong"
+        })
+    }
+}
+
 export {searchByTitle}

@@ -1,5 +1,5 @@
 import emptyHeart1 from "../assets/emptyHeart1.svg"
-import heart1 from "../assets/fullheart1.svg"
+import heart1 from "../assets/fullHeart1.svg"
 import emptyHeart2 from "../assets/emptyHeart2.svg"
 import heart2 from "../assets/heart2.svg"
 import { useEffect, useState } from "react"
@@ -19,7 +19,7 @@ function ArticleItem({
     const dispatch=useDispatch()
 
     useEffect(()=>{
-        const waitTime=2000;
+        const waitTime=500;
         const timeOut=setTimeout(()=>{
              favorit ? dispatch(addArticleToFavoris(id)) : dispatch(deleteFavoriteArticle(id))
         },waitTime)

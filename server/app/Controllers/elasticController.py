@@ -1,5 +1,6 @@
 from elasticsearch import Elasticsearch
 from config import *
+from Models.models import *
 
 
 # Create the client instance
@@ -30,3 +31,25 @@ def updateDoc(id, index,document):
 def searchDocs(index,body):
     res = client.search(index=index, body=body)
     return res
+
+
+def getById(id):
+    
+    res = getDoc(id,index="articles")
+            
+    article = Article(
+        res['_source']['title'],
+        res['_source']['summary'],
+        res['_source']['authors'],
+        res['_source']['institutions'],
+        res['_source']['keywords'],
+        "empty",
+        res['_source']['references']
+    )
+    
+    article.set_id(res['_id'])
+    article.set_url(APP_URL+"/api/pdf/"+res['_id'])
+    article.set_approved(True)
+    
+    
+    return article.toJSON()
