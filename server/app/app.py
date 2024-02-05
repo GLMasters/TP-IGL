@@ -188,7 +188,9 @@ def viewPdf(id):
 # @token_moderator
 def downloadPdf(id):
     return send_file(UPLOADS_FOLDER+f"{id}.pdf",as_attachment=True)
-    
+
+
+@app.route("")
 
 #repeating tasks
 def removeExpiredTokens():
