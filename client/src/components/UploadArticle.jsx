@@ -11,7 +11,7 @@ function UploadArticle() {
   const [link, setLink] = useState("") ;
 
   const dispatch = useDispatch() ;
-  const {loading, success, articles,error} = useSelector(state=>state.articleReducer) ;
+  const {loading, success,error} = useSelector(state=>state.articleReducer) ;
   const [selectedFileName, setSelectedFileName] = useState(null);
   const articleUploadRef=useRef()
   const uploadArticle=()=>{
@@ -33,14 +33,11 @@ function UploadArticle() {
 
     } else if (link){
 
-      console.log(link) ;
       dispatch(addArticle(link,true)) ;
 
     } else {
       dispatch(addArticle(articleUploadRef.current.files[0], false))
-      console.log("file selected") ;
     }
-
   }
 
   return (

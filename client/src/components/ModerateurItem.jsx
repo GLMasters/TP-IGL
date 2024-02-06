@@ -10,6 +10,8 @@ function ModerateurItem({
     checkedMods,
     setCheckedMods,
     setPop,
+    isEdit,
+    setIsEdit,
     setMod_id
 }) {
 
@@ -17,6 +19,7 @@ function ModerateurItem({
 
   const editModerateur=()=>{
     setPop(prev => !prev)
+    setIsEdit(true)
     setMod_id(moderatorId)
   }
   useEffect(()=>{

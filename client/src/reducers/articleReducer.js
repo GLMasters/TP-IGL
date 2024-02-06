@@ -16,14 +16,14 @@ const initialState={
     approvedArticles:[],
     nonApprovedArticles:[],
     favoriteArticles:localStorage.getItem("favorites") ? JSON.parse(localStorage.getItem("favorites")) : [],
-    error:false,
+    error:"",
     articleDetailInfo:{},
     success:false
 }
 export const articleReducer=(state=initialState,action)=>{
     switch (action.type) {
         case ARTICLE_LOADING:
-            return {...state,loading:true,success:false, error: false}
+            return {...state,loading:true,success:false, error: ""}
         case GET_ARTICLES:
             return {
                 ...state,success:true,nonApprovedArticles:action.payload,
@@ -42,13 +42,12 @@ export const articleReducer=(state=initialState,action)=>{
                 articleDetailInfo:action.payload
             }
         case ADD_ARTICLE:
-            state.articles.push(action.payload)
             return {
+                ...state,
                 loading:false,
-                articles:state.articles,
-                error: false,
                 success:true
             }
+            
         case EDIT_ARTICLE_BY_MODERATOR:
             state.nonApprovedArticles=state.nonApprovedArticles.map(article =>{
                 if(article._id == action.payload.article_id){
@@ -59,7 +58,7 @@ export const articleReducer=(state=initialState,action)=>{
             return {...state,loading:false,error:action.payload,success:false}
         case ARTICLE_ERROR:
             return {
-                ...state,loading:false,success:false,error:true
+                ...state,loading:false,success:false,error:action.payload
             }
         case DELETE_ARTICLES:
             //state.articles=state.articles.filter(art => art._id != action.payload.articleId)
