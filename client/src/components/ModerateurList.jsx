@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import ModerateurItem from "./ModerateurItem"
 import AddModeratorPopUp from "./AddModeratorPopUp"
 import { useSelector, useDispatch } from "react-redux"
-import { getModerators } from "../actions/admin"
+import { deleteModerator, deleteModerators, getModerators } from "../actions/admin"
 import Spinner from "./Spinner"
 
 
@@ -18,6 +18,11 @@ function ModerateurList() {
     
   },[])
 
+  const delMods = ()=>{
+    console.log(checkedMods);
+    dispatch(deleteModerators(checkedMods)) ;
+  }
+
 
   return (
     <div className='container w-full mx-auto px-5 my-5'>
@@ -27,7 +32,7 @@ function ModerateurList() {
             <h3 className="text-black">Liste de modérateurs :</h3>
             <div className='flex gap-2'>
                 <button className='rounded-md bg-primaryColor px-5 py-3 text-white' onClick={()=>setPopUp(true)}>Ajouter</button>
-                <button className='bg-gray rounded-md px-5 py-3 border' disabled={!checkedMods.length}>Supprimer</button>
+                <button className='bg-gray rounded-md px-5 py-3 border' disabled={!checkedMods.length} onClick={delMods}>Supprimer</button>
             </div>
         </div>
         {/* listing moderators */}

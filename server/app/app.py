@@ -195,6 +195,15 @@ def downloadPdf(id):
 def searchAll():
     return general_search(request)
 
+@app.route("/api/admin/deletemods", methods=['POST'])
+def deleteMods():
+    # return general_search(request)
+    return deleteModerators(request)
+
+@app.route("/api/admin/editmod", methods=['POST'])
+def modfiy():
+    return modifyMod(request)
+
 #repeating tasks
 def removeExpiredTokens():
     with app.app_context():

@@ -16,8 +16,8 @@ function ModerateurItem({
   const [isChecked,setIsChecked]=useState(false)
 
   const editModerateur=()=>{
-    setPop(prev => !prev)
-    setMod_id(moderatorId)
+    setPop(prev => !prev);
+    setMod_id(moderatorId);
   }
   useEffect(()=>{
       if(isChecked && !checkedMods.includes(moderatorId)) setCheckedMods(prev => [...prev,moderatorId])

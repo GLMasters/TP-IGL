@@ -216,7 +216,6 @@ def reset_password(request):
     
 def addmoderator(request):
     try: 
-        print(request.json, file=sys.stderr)
         in_email = request.json['email']
         name = request.json['name']
         phone = request.json['phone']

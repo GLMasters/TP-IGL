@@ -95,17 +95,26 @@ const editModerator=(newModeratorData,mod_id)=>async(dispatch)=>{
     }
 }
 
-const deleteModerator=(mod_id)=>async(dispatch)=>{
+const deleteModerators=(mods_list)=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ADMIN_LOADING
         })
 
-        const res=await url.delete("/api/admin/...")
-        if(res.data?.result){
+        const res=await url.post("/api/admin/deletemods",JSON.stringify({
+            "mods": mods_list
+        }),{
+            headers:{
+                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                "Content-Type": "application/json"
+            }
+        })
+
+        console.log(res) ;
+        if(res.data.result){
             return dispatch({
                 type:DELETE_MODERATORS,
-                payload:{mod_id}
+                payload:res.data.data.mods
             })
         }
         dispatch({
@@ -113,6 +122,7 @@ const deleteModerator=(mod_id)=>async(dispatch)=>{
             payload:res.data.message
         })
     } catch (error) {
+        console.log(error);
         dispatch({
             type:ADMIN_FAIL_ACTION,
             payload:error.message
@@ -154,6 +164,6 @@ export {
     getModerators,
     addModerator,
     editModerator,
-    deleteModerator,
+    deleteModerators,
     uploadArticle
 }
