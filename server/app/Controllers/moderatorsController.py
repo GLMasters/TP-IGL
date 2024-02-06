@@ -29,29 +29,44 @@ def deleteModerators(request):
     
     try:
         
-        results = db.session.query(Moderator).filter(Moderator.user_id in mods).all()
+        # mods = db.session.query(Moderator).filter(Moderator.id in mods).all()
+        moderators = db.session.query(Moderator).all()
         
-        for mod in results:
-            db.session.delete(mod)
+        print(mods,file=sys.stderr)
+        for md in mods:
+            if (md.id in moderators):
+                user = db.session.query(User).filter_by(id=md.user_id).first()
+                
+                db.session.delete(md)
+                db.session.commit()
+                
+                db.session.delete(user)
+                db.session.commit()
+
+        
         
         return getmoderators()
         
     except Exception as e:
+        print(e,file=sys.stderr)
         return error(INTERNAL_ERROR)
 
 def modifyMod(request):
-    name = request.json['name']
-    phone = request.json['phone']
-    address = request.json['address']
     
-    id = decode_token(extract_token(request))['user']['id']
-    
-    
-    if (not name ) and (not phone) and (not address):
-        return error(EMPTY_FIELD)
     
     try:
-        mod = db.session.query(Moderator).filter_by(user_id=id).first()
+        name = request.json['name']
+        id = request.json['id']
+        
+        phone = request.json['phone']
+        address = request.json['address']
+    
+        if ((not name ) and (not phone) and (not address)):
+            return error(EMPTY_FIELD)
+        
+        mod = db.session.query(Moderator).filter_by(id=id).first()
+        
+        print(mod.toJSON(),file=sys.stderr)
         
         if (not mod):
             return error(RESSOURCE_DOESNT_EXIST)
@@ -67,4 +82,5 @@ def modifyMod(request):
             data=mod.toJSON()
         )
     except Exception as e:
+        print(e,file=sys.stderr)
         return error(INTERNAL_ERROR)

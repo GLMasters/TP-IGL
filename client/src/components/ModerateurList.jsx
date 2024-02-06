@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import ModerateurItem from "./ModerateurItem"
 import AddModeratorPopUp from "./AddModeratorPopUp"
 import { useSelector, useDispatch } from "react-redux"
-import { deleteModerator, deleteModerators, getModerators } from "../actions/admin"
+import {deleteModerators, getModerators } from "../actions/admin"
 import Spinner from "./Spinner"
 
 
