@@ -38,7 +38,7 @@ const getArticles=(approved)=>async(dispatch,getState)=>{
     } catch (error) {
         dispatch({
             type:ARTICLE_ERROR,
-            payload:error.message
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
         })
     }
 }
@@ -74,41 +74,28 @@ const addArticle=(article_data,byLink)=>async(dispatch,getState)=>{
 
 
         }
-        console.log(res)
-        if(res.data.result){
-            dispatch({
+        console.log(res.data)
+        if(res.data?.result){
+            return dispatch({
                 type:ADD_ARTICLE,
                 payload:res.data.data
             })
         }else{
             return dispatch({
                 type:ARTICLE_ERROR,
+                payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
             })
         }
     } catch (error) {
+        console.log("called ppppp")
         dispatch({
-            type:ARTICLE_ERROR
+            type:ARTICLE_ERROR,
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
         })
     }
 }
 
-const editArticle=(article_id,newArticleData)=>(dispatch)=>{
-    try {
-            dispatch({
-                type:ARTICLE_LOADING
-            })
-            //const res=await url.put
-            dispatch({
-                type:EDIT_ARTICLE_BY_MODERATOR,
-                payload:{newArticleData,article_id}
-            })
-    } catch (error) {
-        dispatch({
-            type:ARTICLE_ERROR,
-            payload:error.message
-        })
-    }
-}
+
 
 const deleteArticle=(article_id_list)=>async(dispatch,getState)=>{
     console.log(article_id_list)
@@ -139,7 +126,7 @@ const deleteArticle=(article_id_list)=>async(dispatch,getState)=>{
     } catch (error) {
         dispatch({
             type:ARTICLE_ERROR,
-            payload:error.message
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
         })
     }
 }
@@ -170,19 +157,18 @@ const approveArticles=(articles_id_list)=>async(dispatch,getState)=>{
         }
         return dispatch({
             type:ARTICLE_ERROR,
-            payload:res.data.status
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
         })
     } catch (error) {
 
         dispatch({
             type:ARTICLE_ERROR,
-            payload:error.message
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
         })
     }
 }
 
 const getArticleDetails=(article_id)=>async(dispatch,getState)=>{
-    console.log("called")
     try {
         dispatch({
             type:ARTICLE_LOADING
@@ -202,13 +188,13 @@ const getArticleDetails=(article_id)=>async(dispatch,getState)=>{
         }else{
             dispatch({
                 type:ARTICLE_ERROR,
-                payload:"error"
+                payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
             })
         }
     } catch (error) {
         dispatch({
             type:ARTICLE_ERROR,
-            payload:error.message
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
         })
     }
 }
@@ -233,13 +219,13 @@ const getFavoritsArticles=()=>async(dispatch,getState)=>{
             }else{
                 dispatch({
                     type:ARTICLE_ERROR,
-                    payload:"erreur survenue"
+                    payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
                 })
             }
     } catch (error) {
         dispatch({
             type:ARTICLE_ERROR,
-            payload:"serveur erreur"
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement. "
         })
     }
 }
@@ -264,13 +250,13 @@ const addArticleToFavoris=(articleId)=>async(dispatch,getState)=>{
         }else{
             dispatch({
                 type:ARTICLE_ERROR,
-                payload:"erreur servenu"
+                payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement. "
             })
         }
     } catch (error) {
         dispatch({
             type:ARTICLE_ERROR,
-            payload:"erreur"
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement. "
         })
     }
 }
@@ -302,6 +288,37 @@ const deleteFavoriteArticle=(articleId)=>async(dispatch,getState)=>{
         dispatch({
             type:ARTICLE_ERROR,
             payload:"erreur"
+        })
+    }
+}
+const editArticle=(article_id,newArticleData)=>async(dispatch,getState)=>{
+    try {
+            dispatch({
+                type:ARTICLE_LOADING
+            })
+            const res=await url.put("/api/article/edit",JSON.stringify({
+                data:newArticleData
+            }),{
+                headers:{
+                    "Content-Type":"application/json",
+                    "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+                }
+            })
+            if(res.data?.result){
+                dispatch({
+                    type:EDIT_ARTICLE_BY_MODERATOR,
+                    payload:{newArticleData,article_id}
+                })
+            }else{
+                dispatch({
+                    type:ARTICLE_ERROR,
+                    payload:"erreur"
+                })
+            }
+    } catch (error) {
+        dispatch({
+            type:ARTICLE_ERROR,
+            payload:"Une erreur est survenue lors du traitement de votre demande. Réessayez ultérieurement."
         })
     }
 }

@@ -44,10 +44,6 @@ function FilterBar({visible,setVisible}) {
 
     const validateFilter = ()=>{
         let result = [];
-        console.log(motsC);
-        console.log(resultedArticles);
-        console.log(auts);
-
 
         resultedArticles.forEach(element => {
             if (institutions.length){ 

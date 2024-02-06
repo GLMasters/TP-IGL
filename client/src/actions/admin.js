@@ -70,13 +70,22 @@ const addModerator=(moderatorData)=>async(dispatch,getState)=>{
     }
 }
 
-const editModerator=(newModeratorData,mod_id)=>async(dispatch)=>{
+const editModerator=(newModeratorData)=>async(dispatch,getState)=>{
     try {
         dispatch({
             type:ADMIN_LOADING
         })
 
-        const res=await url.post("/api/article/delete")
+        const res=await url.post("/api/admin/editmod",JSON.stringify({
+
+        }),{
+            headers:{
+                "Content-Type":"application/json",
+                "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
+            }
+        })
+
+        console.log(res.data)
         if(res.data?.result){
             return dispatch({
                 type:EDIT_MODERATOR,

@@ -68,10 +68,11 @@ function AddModeratorPopUp({
             className="rounded-full py-4 px-4 outline-none text-black"
           />
         </div>
-        <div className="inputGroup my-4 text-white flex gap-5 items-center">
-          <label>Email</label>
-          <input  onChange={mutateInputs} name="email" type="text" placeholder="Email" className="rounded-full py-4 px-4 outline-none text-black" />
-        </div>
+        {!isEdit &&  <div className="inputGroup my-4 text-white flex gap-5 items-center">
+        <label>Email</label>
+        <input  onChange={mutateInputs} name="email" type="text" placeholder="Email" className="rounded-full py-4 px-4 outline-none text-black" />
+      </div>}
+       
         <div className="inputGroup my-4 text-white flex gap-5 items-center">
           <label>Téléphone</label>
           <input type="text" onChange={mutateInputs} name="phone" placeholder="Téléphone" className="rounded-full py-4 px-4 outline-none text-black" />
