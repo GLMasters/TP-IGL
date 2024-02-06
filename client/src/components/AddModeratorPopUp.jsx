@@ -9,11 +9,12 @@ function AddModeratorPopUp({
 }) {
   const dispatch=useDispatch()
   const {success,error}=useSelector(state => state.adminReducer)
-
+  const {moderators}=useSelector(state => state.adminReducer)
+   const modToChange= isEdit && moderators.find(mod => mod.id == mod_id)
   const [formData,setFormData]=useState({
-    nomComplet:"",
-    adr:"",
-    phone:"",
+    name:modToChange.name || "",
+    address:modToChange.address || "",
+    phone:modToChange.phone || "",
     email:""
   })
 
@@ -35,14 +36,14 @@ function AddModeratorPopUp({
       case "adr":
         setFormData({
           ...formData,
-          adr:e.target.value
+          address:e.target.value
         })
         break;
 
       case "nom":
         setFormData({
           ...formData,
-          nomComplet:e.target.value
+          name:e.target.value
         })
         break;
     }
@@ -64,6 +65,7 @@ function AddModeratorPopUp({
             onChange={mutateInputs}
             name="nom"
             type="text"
+            value={formData.name}
             placeholder="Nom complet"
             className="rounded-full py-4 px-4 outline-none text-black"
           />
@@ -75,11 +77,12 @@ function AddModeratorPopUp({
        
         <div className="inputGroup my-4 text-white flex gap-5 items-center">
           <label>Téléphone</label>
-          <input type="text" onChange={mutateInputs} name="phone" placeholder="Téléphone" className="rounded-full py-4 px-4 outline-none text-black" />
+          <input type="text" value={formData.phone} onChange={mutateInputs} name="phone" placeholder="Téléphone" className="rounded-full py-4 px-4 outline-none text-black" />
         </div>
         <div className="inputGroup my-4 text-white flex gap-5 items-center">
           <label>Address</label>
           <input
+            value={formData.address}
             onChange={mutateInputs}
             name="adr"
             type="text"

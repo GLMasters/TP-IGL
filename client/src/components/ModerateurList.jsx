@@ -2,7 +2,7 @@ import { useEffect, useState } from "react"
 import ModerateurItem from "./ModerateurItem"
 import AddModeratorPopUp from "./AddModeratorPopUp"
 import { useSelector, useDispatch } from "react-redux"
-import { deleteModerator, deleteModerators, getModerators } from "../actions/admin"
+import {deleteModerators, getModerators } from "../actions/admin"
 import Spinner from "./Spinner"
 
 
@@ -20,7 +20,6 @@ function ModerateurList() {
   },[])
 
   const delMods = ()=>{
-    console.log(checkedMods);
     dispatch(deleteModerators(checkedMods)) ;
   }
 
@@ -55,7 +54,7 @@ function ModerateurList() {
           {/* <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"1"} isPop={popUp} setPop={setPopUp} setMod_id={setMod_id} />
           <ModerateurItem setCheckedMods={setCheckedMods} checkedMods={checkedMods} moderatorName={"Baitache Sami"} moderatorAdr={"Boumerdas ,Adrar"} moderatorEmail={"b_sami@esi.dz"} moderatorPhone={"21366784532"} moderatorId={"2"} isPop={popUp} setPop={setPopUp} setMod_id={setMod_id} /> */}
         </div>
-         : <p>no modérateurs pour le moments</p> }
+         : <p className="text-center">no modérateurs pour le moments</p> }
     </div>
   )
 }

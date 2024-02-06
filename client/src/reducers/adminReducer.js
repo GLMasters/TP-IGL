@@ -36,8 +36,8 @@ export const adminReducer=(state=initialState,action)=>{
             return {...state,loading:false,moderators:action.payload,success:false}
         case EDIT_MODERATOR:
             state.moderators=state.moderators.map(mod => {
-                if(mod._id == action.payload.mod_id) {
-                    mod=newModeratorInfo
+                if(mod.id == action.payload.mod_id) {
+                    mod=action.payload.data
                 }
                 return mod
             })

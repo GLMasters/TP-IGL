@@ -1,10 +1,11 @@
 import ArticleDetailedEditItem from "../components/ArticleDetailedEditItem"
 import {useSelector,useDispatch} from "react-redux"
-import { editArticle, getArticleDetails } from "../actions/article"
+import { getArticleDetails } from "../actions/article"
+
 import {useEffect} from "react"
-import {useLocation} from "react-router-dom"
+import {useLocation,useNavigate} from "react-router-dom"
 function EditArticleModeratorPage() {
-  const {loading,articleDetailInfo,success}=useSelector(state => state.articleReducer)
+  const {articleDetailInfo}=useSelector(state => state.articleReducer)
   const dispatch=useDispatch()
  const {state}=useLocation()
 const [formData,setFormData]=useState({
@@ -15,19 +16,20 @@ const [formData,setFormData]=useState({
   summary:""
 })
 
-
+const navigate=useNavigate()
 
 const modifyArticle=()=>{
-  dispatch(editArticle(state,formData))
+  //dispatch(editArticle(state,formData))
+  navigate(-1)
 }
  
   useEffect(()=>{ 
     dispatch(getArticleDetails(state))
   },[])
 
-  useEffect(()=>{
+  /*useEffect(()=>{
       if(success) navigate(-1)
-  },[success])
+  },[success])*/
   return (
     <div className="container p-4 w-full mx-auto mt-10 flex flex-col gap-4">
     {/* attr */}

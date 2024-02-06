@@ -70,14 +70,17 @@ const addModerator=(moderatorData)=>async(dispatch,getState)=>{
     }
 }
 
-const editModerator=(newModeratorData)=>async(dispatch,getState)=>{
+const editModerator=(newModeratorData,mod_id)=>async(dispatch,getState)=>{
     try {
+
         dispatch({
             type:ADMIN_LOADING
         })
 
-        const res=await url.post("/api/admin/editmod",JSON.stringify({
 
+        const res=await url.post("/api/admin/editmod",JSON.stringify({
+                ...newModeratorData,
+                id:mod_id
         }),{
             headers:{
                 "Content-Type":"application/json",
@@ -85,11 +88,10 @@ const editModerator=(newModeratorData)=>async(dispatch,getState)=>{
             }
         })
 
-        console.log(res.data)
         if(res.data?.result){
             return dispatch({
                 type:EDIT_MODERATOR,
-                payload:{newModeratorData,mod_id}
+                payload:{data : res.data?.data,mod_id}
             })
         }
         dispatch({
