@@ -2,14 +2,13 @@ import ModeratorArticle from "../components/ModeratorArticle"
 import Footer from '../components/Footer';
 import {useSelector, useDispatch} from "react-redux"
 import Spinner from "../components/Spinner"
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 import { approveArticles, deleteArticle, getArticles } from "../actions/article";
 
 function ModerateurPage() {
   const dispatch = useDispatch() ;
-  const {loading, articles, success, error,nonApprovedArticles} = useSelector(state=>state.articleReducer) ;
+  const {loading, nonApprovedArticles, success, error} = useSelector(state=>state.articleReducer) ;
   const [checkedArticles, setCheckedArticles] = useState([]) ;
-
   useEffect(()=>{
     dispatch(getArticles(false))
   }, [])

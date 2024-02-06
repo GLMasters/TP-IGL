@@ -11,26 +11,34 @@ import {addArticleToFavoris, deleteFavoriteArticle} from "../actions/article"
 function ArticleItem({
     title,authors,institutions,index,id
 }) {
+    const [firstRender,setFirstRender]=useState(true)
 
     const {favoriteArticles}=useSelector(state => state.articleReducer)
-    console.log(favoriteArticles)
     const isIncluded=favoriteArticles.find(ar => ar.id == id)
     console.log(isIncluded)
     const [favorit,setIsFavorit]=useState(isIncluded)
     const changeFavorit=()=>{
-            setIsFavorit(!favorit)
+     setIsFavorit(!favorit)
     }
 
     const dispatch=useDispatch()
 
+   
     useEffect(()=>{
-        const waitTime=500;
-        const timeOut=setTimeout(()=>{
-             favorit ? dispatch(addArticleToFavoris(id)) : dispatch(deleteFavoriteArticle(id))
-        },waitTime)
-
-        return ()=>clearTimeout(timeOut)
+        const waitTime=200;
+        let timeOut;
+        if(!firstRender){
+            timeOut=setTimeout(()=>{
+                favorit ? dispatch(addArticleToFavoris(id)) : dispatch(deleteFavoriteArticle(id))
+           },waitTime)
+        }
+       return ()=>clearTimeout(timeOut)
     },[favorit])
+
+    useEffect(()=>{
+        setFirstRender(false)
+    })
+    
   return (
     
     <div className={`lg:ml-16 lg:mr-16 ${index % 2 == 0 ? "bg-seconadryColor text-white" : "bg-white text-black" } rounded-2xl shadow-lg px-6 py-9 my-6 relative`}>

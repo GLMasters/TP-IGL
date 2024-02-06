@@ -10,7 +10,7 @@ function ModeratorArticle({
     checkedArticles, 
     setCheckedArticles
 }) {
-    const articleData={}
+    
     const [checked,setChecked]=useState(false)
 
     useEffect(()=>{
@@ -40,7 +40,7 @@ function ModeratorArticle({
         </div>
     }
     {/* view details button */}
-    <Link to={`/moderator/editArticle`} state={articleData} className="bg-seconadryColor px-8 py-3 mt-2  lg:ml-60 rounded-md w-fit h-fit text-white">view Details</Link>
+    <Link to={`/moderator/editArticle`} state={articleId} className="bg-seconadryColor px-8 py-3 mt-2  lg:ml-60 rounded-md w-fit h-fit text-white">view Details</Link>
     </div>
   )
 }
