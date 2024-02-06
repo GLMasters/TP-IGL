@@ -1,4 +1,4 @@
-import { useLocation, useParams } from 'react-router-dom';
+import { useParams } from 'react-router-dom';
 import ArticleDetailedItem from '../components/ArticleDetailedItem';
 import { useEffect } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
@@ -6,11 +6,10 @@ import { getArticleDetails } from '../actions/article';
 import Spinner from '../components/Spinner';
 function ArticlesScreen() {
   const dispatch=useDispatch()
-  const {success,loading,articleDetailInfo}=useSelector(state => state.articleReducer)
+  const {loading,articleDetailInfo}=useSelector(state => state.articleReducer)
   const {articleId}=useParams()
-  console.log(articleDetailInfo)
+
   useEffect(()=>{ 
-    console.log("acalll")
     dispatch(getArticleDetails(articleId))
   },[])
   return (

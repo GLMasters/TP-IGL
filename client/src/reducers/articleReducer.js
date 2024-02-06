@@ -76,9 +76,12 @@ export const articleReducer=(state=initialState,action)=>{
                 favoriteArticles:action.payload
             }
         case REMOVE_FAVORITE_ARTICLE:
+            const newArtcs=state.favoriteArticles.filter(fa => fa.id != action.payload);
+            //setLocalStorage
+            localStorage.setItem("favorites",JSON.stringify(newArtcs))
             return {
                 ...state,
-                favoriteArticles:state.favoriteArticles.filter(fa => fa.id != action.payload)
+                favoriteArticles:newArtcs
             }
         case ADD_ARTICLE_TO_FAVORIS:
             state.favoriteArticles.push(action.payload);

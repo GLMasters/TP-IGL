@@ -24,7 +24,6 @@ const getArticles=(approved)=>async(dispatch,getState)=>{
                 }
             });
         }
-        console.log(res.data)
         if(res.data.result){
                 dispatch({
                     type:approved ? GET_APPROVED_ARTICLES : GET_ARTICLES,
@@ -224,7 +223,7 @@ const getFavoritsArticles=()=>async(dispatch,getState)=>{
                     "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
                 }
             });
-           
+            console.log(res.data.data.favorits)
             if(res.data?.result){
                 localStorage.setItem("favorites",JSON.stringify(res.data.data.favorits))
                 dispatch({
@@ -255,7 +254,6 @@ const addArticleToFavoris=(articleId)=>async(dispatch,getState)=>{
                 "Authorization":`Bearer ${getState().userReducer.userInfo.token}`
             }
         })
-        console.log(res.data)
         if(res?.data?.result){
             const approvedArtcs=getState().articleReducer.approvedArticles;
             const favoriteArticle=approvedArtcs.find(art => art.id == articleId)

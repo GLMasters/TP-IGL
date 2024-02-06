@@ -269,16 +269,12 @@ const verifyToken = (generated_token) => async (dispatch) => {
   }
 };
 
-const logout = () => async (dispatch) => {
+const logout = () => async (dispatch,getState) => {
   try {
     //get token from localStorage
-    const token = localStorage.getItem('user')
-      ? JSON.parse(localStorage.getItem('user')).token
-      : null;
+    const token = getState().userReducer.userInfo.token
 
     if (!token) return;
-
-    console.log(token);
     const res = await url.post(
       `/api/auth/logout`,
       {},
@@ -288,6 +284,7 @@ const logout = () => async (dispatch) => {
         },
       }
     );
+    console.log(res.data)
     if (res.data.result) {
       //clear localStorage
       localStorage.removeItem('user');

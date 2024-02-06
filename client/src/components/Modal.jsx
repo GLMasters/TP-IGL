@@ -10,17 +10,13 @@ export default function Modal() {
 
   
   const dispatch = useDispatch() ;
-  const navigate = useNavigate() ;
-
   const {userInfo} = useSelector(state=>state.userReducer) ;
   
   const logoutFunction = ()=>{
-
-    dispatch(logout()) ;
+    dispatch(logout());
   }
 
   useEffect(()=>{
-  
       switch(userInfo.role_id){
         case 1:
           setIsAdmin(false) ;
