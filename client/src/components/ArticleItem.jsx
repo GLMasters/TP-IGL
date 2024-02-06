@@ -42,18 +42,18 @@ function ArticleItem({
           
         <Link to={`/article/${id}`} state={{title,authors,institutions,id}}><h3 className='ml-8 col-span-2 w-4/5 text-4xl mb-4 font-bold'>{title}</h3></Link>
         <div className="flex gap-4 items-center">
-        <h3 className="ml-8 font-semibold">Auteurs : </h3>
+        <h3 className="ml-8 font-semibold">Auteurs :</h3>
         <ul className="flex gap-2">
         {
-            authors.map(a => (<li className="text-xl">{a}</li>))
+            authors.map((a,index) => (<li className="text-xl">{a}{index<authors.length-1 && " , "}</li>))
         }
-        </ul>
+        </ul>   
         </div>
         <div className="flex gap-4 items-center">
-        <h3 className="ml-8 font-semibold">Institutions: </h3>
+        <h3 className="ml-8 font-semibold">Institutions :</h3>
         <ul className="flex gap-2 flex-wrap">
         {
-            institutions.map(i => (<li className="text-xl">{i}</li>))
+            institutions.map((i,index) => (<li className="text-xl">{i}{index<institutions.length-1&&" , "}</li>))
         }
         </ul>
         </div>

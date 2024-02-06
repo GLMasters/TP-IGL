@@ -260,9 +260,12 @@ def fitArticles(es_articles):
         obj = {
             "id": i['_id'],
             "title": i['_source']['title'],
+            "keywords": i['_source']['keywords'],
             "authors": i['_source']['authors'],
             "institutions": i['_source']['institutions'],
-            "approved": i['_source']['approved']
+            "approved": i['_source']['approved'],
+            "content": i['_source']['content'],
+            "summary": i['_source']['summary']
         }
         local_es_articles.append(obj)
     

@@ -1,4 +1,4 @@
-import {SEARCH_BY_TITLE,SEARCH_BY_AUTHOR,SEARCH_LOADING,SEARCH_ERROR} from "../constants/searchActions.js" 
+import {SEARCH_BY_TITLE,SEARCH_BY_AUTHOR,SEARCH_LOADING,SEARCH_ERROR,GENERAL_SEARCH} from "../constants/searchActions.js" 
 import { url } from "./user.js"
 
 
@@ -24,25 +24,33 @@ const searchByTitle=(query)=>async(dispatch,getState)=>{
 
 
 
-const generalSearch=(query)=>async(dispatch,getState)=>{
+const generalSearch=(keywords)=>async(dispatch,getState)=>{
     try {
-        const approvedArticles=getState().articleReducer.approvedArticles
+        // const approvedArticles=getState().articleReducer.approvedArticles
         dispatch({
             type:SEARCH_LOADING
         })
 
-        const res = url.get("/api/search", {
+        const res = await url.post("/api/search", JSON.stringify({
+            "keywords": keywords
+        }),{
             headers:{
-                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`
+                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`,
+                "Content-Type": "application/json"
             }
         })
-        
 
-        dispatch({
-            type:SEARCH_BY_TITLE,
-            payload:newArtcls
-        })
+        console.log(res)
+
+        if (res.data.result){
+            dispatch({
+                type:GENERAL_SEARCH,
+                payload:res.data.data.articles
+            })
+        }
+
     } catch (error) {
+        console.log(error);
         dispatch({
             type:SEARCH_ERROR,
             payload:"something went wrong"
@@ -50,4 +58,4 @@ const generalSearch=(query)=>async(dispatch,getState)=>{
     }
 }
 
-export {searchByTitle}
+export {searchByTitle,generalSearch}

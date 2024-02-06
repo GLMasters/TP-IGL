@@ -191,7 +191,7 @@ def viewPdf(id):
 def downloadPdf(id):
     return send_file(UPLOADS_FOLDER+f"{id}.pdf",as_attachment=True)
 
-@app.route("/api/search")
+@app.route("/api/search", methods=['POST'])
 def searchAll():
     return general_search(request)
 

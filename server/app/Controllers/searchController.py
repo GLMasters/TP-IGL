@@ -12,16 +12,19 @@ def general_search(request):
         
         "query": {
             "bool": {
-                "should": arr
+                "should": arr,
             }
         }
     }
-
-    res = searchDocs("articles",body)
+    try:
+        res = searchDocs("articles",body)
+        
+        return response(
+            OK,
+            data={
+                "articles": fitArticles(res['hits']['hits'])
+            }
+        )
     
-    return response(
-        OK,
-        data={
-            "articles": fitArticles(res['hits']['hits'])
-        }
-    )
+    except:
+        return error(INTERNAL_ERROR)

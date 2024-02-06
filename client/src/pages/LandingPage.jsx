@@ -12,6 +12,9 @@ export default function LandingPage() {
   const [filterMode, setFilterMode] = useState(false);
   const dispatch=useDispatch()
   const {approvedArticles,success,error,loading,nonApprovedArticles}=useSelector(state => state.articleReducer);
+
+  const searchState=useSelector(state => state.searchReducer);
+  
   useEffect(()=>{
     dispatch(getArticles(true))
   },[])
@@ -50,9 +53,14 @@ export default function LandingPage() {
 
         {/* our list articles */}
         <div className="flex flex-col gap-4 lg:max-h-[75vh] lg:overflow-x-hidden lg:overflow-y-scroll scrollbar1 px-3">
-          {approvedArticles.map((artcl, index) => (
+
+          {!searchState.success ? approvedArticles.map((artcl, index) => (
             <ArticleItem index={index} {...artcl} key={artcl.id} />
-          ))}
+          ))
+        : searchState.resultedArticles.map((artcl, index) => (
+          <ArticleItem index={index} {...artcl} key={artcl.id} />
+        ))
+        }
         </div>
         {/* see more button */}
         <div className="flex justify-center">

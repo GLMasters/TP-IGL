@@ -3,6 +3,7 @@ import addSvg from "../assets/addSvg.svg"
 import searchOutline from "../assets/SearchOutline.svg"
 import SearchItem from "./SearchItem"
 import {useSelector, useDispatch} from "react-redux"
+import { generalSearch } from "../actions/search"
 
 function SearchBar({setFilter}) {
 
@@ -23,7 +24,7 @@ function SearchBar({setFilter}) {
   }
 
   const search = ()=>{
-    dispatch(searchArticles(items)) ;
+    dispatch(generalSearch(items)) ;
   }
 
   useEffect(()=>{

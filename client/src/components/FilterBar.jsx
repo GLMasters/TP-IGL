@@ -1,14 +1,19 @@
 import { useRef, useState } from "react"
 import AddSvg from "../assets/addSvg.svg"
 import DateInput from "./DateInput"
+import {useSelector , useDispatch} from "react-redux"
+import { FILTER_SEARCH } from "../constants/searchActions"
+
 
 function FilterBar({visible,setVisible}) {
     const [auts,setAuts]=useState([])
     const [institutions,setInstitutions]=useState([])
+    const {resultedArticles} = useSelector(state=>state.searchReducer);
     const [motsC,setMotsC]=useState([])
     const autRef=useRef()
     const motCleRef=useRef()
     const instRef=useRef()
+    const dispatch = useDispatch();
     const add=(e)=>{
         
         switch (e.target.alt){
@@ -35,6 +40,45 @@ function FilterBar({visible,setVisible}) {
 
     const handleShowFilterBar=()=>{
         setVisible(!visible)
+    }
+
+    const validateFilter = ()=>{
+        let result = [];
+        console.log(motsC);
+        console.log(resultedArticles);
+        console.log(auts);
+
+
+        resultedArticles.forEach(element => {
+            if (institutions.length){ 
+                institutions.forEach(inst=>{
+                    if (element.institutions.includes(inst.trim())&& !result.includes(element)){
+                        result.push(element);
+                    }
+                })
+            }
+            if (auts.length){ 
+                auts.forEach(auth=>{
+                    if (element.authors.includes(auth.trim())&& !result.includes(element)){
+                        result.push(element);
+                    }
+                })
+            }
+            if (motsC.length){ 
+                motsC.forEach(motsc=>{
+                    if (element.keywords.includes(motsc.trim())&& !result.includes(element)){
+                        result.push(element);
+                    }
+                })
+            }
+        });
+        console.log(result);
+        dispatch({
+            type:FILTER_SEARCH, 
+            payload:result,
+        }); 
+        setVisible(!visible);   
+        
     }
   return (
     <div className={`fixed bg-primaryColor bottom-0 top-28 -mt-4 z-20 max-w-lg md:max-w-md w-full shadow-xl px-4 py-10 flex flex-col text-white ${!visible && "-translate-x-[100%]"} transition-all .6s ease-in-out h-screen overflow-y-scroll scrollbar2`} >
@@ -75,7 +119,7 @@ function FilterBar({visible,setVisible}) {
             <img alt="institutions" onClick={add} src={AddSvg} className="w-8 h-8 absolute right-2" />
             </div>
         </div>
-
+        5
         {/* période */}
         <div className="flex flex-col gap-4 my-5">
             <h3 className="text-white font-bold">Période</h3>
@@ -89,7 +133,7 @@ function FilterBar({visible,setVisible}) {
         {/* buttons */}
         <div className="flex justify-around mb-28 mt-10">
             <button className="btn2 bg-white text-black pl-8 pr-5 py-3" onClick={handleShowFilterBar}>Annuler</button>
-            <button className="btn1 bg-white text-black pl-5 pr-8 py-3">Valider</button>
+            <button className="btn1 bg-white text-black pl-5 pr-8 py-3" onClick={validateFilter}>Valider</button>
         </div>
     </div>   
 
