@@ -31,8 +31,13 @@ const generalSearch=(query)=>async(dispatch,getState)=>{
             type:SEARCH_LOADING
         })
 
+        const res = url.get("/api/search", {
+            headers:{
+                "Authorization": `Bearer ${getState().userReducer.userInfo.token}`
+            }
+        })
         
-        
+
         dispatch({
             type:SEARCH_BY_TITLE,
             payload:newArtcls
