@@ -197,7 +197,6 @@ def searchAll():
 
 @app.route("/api/admin/deletemods", methods=['POST'])
 def deleteMods():
-    # return general_search(request)
     return deleteModerators(request)
 
 @app.route("/api/admin/editmod", methods=['POST'])
