@@ -1,6 +1,26 @@
 version: "2.2"
 
 services:
+  nginx:
+    container_name: reverse_proxy
+    build: ./nginx/
+    ports:
+      - "3000:80"
+    networks:
+      - app
+    restart: always
+  
+  client:
+    container_name: client
+    build: ./client/
+    ports:
+      - "5000:5000"
+    
+    networks:
+      - app
+
+    restart: always
+    
   server:
     container_name: server
     build: ./server/
@@ -15,6 +35,7 @@ services:
       - ./certs:/certs
     
     networks:
+      - app
       - mysql_network
       - es
     depends_on:
@@ -38,6 +59,7 @@ services:
       - ./data/db/mysql_data:/var/lib/mysql
     
     networks:
+      - app
       - mysql_network
 
     restart: always
@@ -105,6 +127,7 @@ services:
       - ${ES_PORT}:9200
     
     networks:
+      - app
       - es
 
     environment:
@@ -173,6 +196,7 @@ services:
   #     retries: 120
 
 networks:
+  app:
   mysql_network:
   es:
-    driver: bridge   
+    driver: bridge

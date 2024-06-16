@@ -2,7 +2,6 @@ FROM python:latest
 
 RUN apt update -y && apt upgrade -y
 
-
 COPY app/requirements.txt /app/requirements.txt
 
 WORKDIR /app

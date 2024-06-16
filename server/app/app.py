@@ -14,7 +14,7 @@ from Controllers.searchController import *
 from apscheduler.schedulers.background import BackgroundScheduler
 from flask_swagger_ui import get_swaggerui_blueprint
 
-
+    
 #init flask app
 app = Flask(__name__)
 
@@ -58,26 +58,30 @@ app.register_blueprint(get_blueprint())
 #Routes and api
 @app.after_request
 def after_request(response):
-  response.headers.set('Access-Control-Allow-Origin', '*')
-  response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
-  response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
-  response.headers.add('Access-Control-Allow-Credentials', 'true')
-  return response
+    response.headers.set('Access-Control-Allow-Origin', '*')
+    response.headers.add('Access-Control-Allow-Headers', 'Content-Type,Authorization')
+    response.headers.add('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE,OPTIONS')
+    # response.headers.add('Access-Control-Allow-Credentials', 'true')
+    return response
 
-   
-@app.route('/api/auth/register', methods=['POST'])
+@app.route("/hi",methods=['GET'])
+# @cross_origin(supports_credentials=True)
+def test():
+    return "HAAAAAAAAAAAAAAAA"
+
+@app.route('/api/auth/register', methods=['POST','OPTIONS'])
 @cross_origin(supports_credentials=True)
 def register():
     return registerFunction(request)
 
 @app.route('/api/auth/confirm', methods=['POST'])
-@cross_origin(supports_credentials=True)
+# @cross_origin(supports_credentials=True)
 def confirm():
     return confirmEmail(request)
 
 
 @app.route('/api/auth/login', methods=['POST'])
-@cross_origin(supports_credentials=True)
+# @cross_origin(supports_credentials=True)
 def login():
     return loginFunction(request)
 
